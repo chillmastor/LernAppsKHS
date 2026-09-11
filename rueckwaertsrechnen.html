@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="version" content="1.2.0">
+  <title>Rückwärtsrechnen | Mathe Klasse 6 | LernApps KHS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js für Schulsounds -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Schulfreundliche Schriftarten: Fredoka & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Fredoka', 'Inter', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .font-sans-ui {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-math {
+      font-family: 'Inter', monospace;
+    }
+    #smartboard-header {
+      transition: all 0.25s ease-in-out;
+    }
+    @keyframes pulse-highlight {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .pulse-attention {
+      animation: pulse-highlight 1.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col selection:bg-indigo-200">
+
+  <!-- ============================================================== -->
+  <!-- KOMPAKTER & EINKLAPPBARER SMARTBOARD-HEADER                    -->
+  <!-- ============================================================== -->
+  <header id="smartboard-header" class="bg-white/95 backdrop-blur border-b-2 border-slate-200 sticky top-0 z-50 shadow-sm transition-all duration-200">
+    
+    <!-- Obere Zeile (Schlank & Platzsparend) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-2 sm:gap-4">
+      
+      <!-- Linke Seite: Dashboard-Link & App-Titel -->
+      <div class="flex items-center gap-2.5">
+        <a href="index.html" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl text-slate-700 font-bold flex items-center gap-1.5 transition text-sm sm:text-base" title="Zurück zum LernApps Dashboard">
+          <span>←</span>
+          <span class="hidden md:inline">Dashboard</span>
+        </a>
+
+        <div class="w-9 h-9 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-sm border border-purple-400 shrink-0">
+          ⏪
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-2xl font-extrabold text-slate-900 leading-tight">
+            Rückwärtsrechnen
+          </h1>
+          <p class="text-xs text-slate-500 font-sans-ui font-semibold hidden sm:block">
+            Mathe Klasse 6 • Textaufgaben rückwärts lösen
+          </p>
+        </div>
+      </div>
+
+      <!-- Rechte Seite: Timer, Punkte & Einklapp-Schalter -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Timer Widget -->
+        <div class="flex items-center bg-slate-50 border-2 border-slate-200 rounded-xl px-2.5 py-1 gap-1.5 shadow-inner">
+          <span class="text-base sm:text-lg">⏱️</span>
+          <div id="smartboard-timer-display" class="font-sans-ui font-black text-slate-800 text-lg sm:text-xl min-w-[58px] text-center tracking-wider">
+            05:00
+          </div>
+          
+          <!-- Schnellauswahl -->
+          <div id="header-timer-presets" class="flex items-center gap-1 border-l border-slate-200 pl-1.5">
+            <button onclick="setTimerDuration(180)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="3 Minuten">3m</button>
+            <button onclick="setTimerDuration(300)" class="timer-btn text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 px-1.5 py-0.5 rounded transition" title="5 Minuten">5m</button>
+            <button onclick="setTimerDuration(600)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="10 Minuten">10m</button>
+          </div>
+
+          <!-- Controls -->
+          <button id="timer-toggle-btn" onclick="toggleSmartboardTimer()" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm">
+            Start
+          </button>
+          <button onclick="resetSmartboardTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-1.5 py-1 rounded-lg transition" title="Zurücksetzen">
+            ↺
+          </button>
+        </div>
+
+        <!-- Punkteanzeige -->
+        <div class="bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm text-amber-900 font-bold text-xs sm:text-sm">
+          <span>⭐</span>
+          <span id="score-display">0 Punkte</span>
+        </div>
+
+        <!-- Audio Toggle Button -->
+        <button id="audio-btn" onclick="toggleAudio()" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl border border-slate-300 text-slate-700 text-base transition" title="Ton ein/aus">
+          <span id="audio-icon">🔊</span>
+        </button>
+
+        <!-- Einklapp-Button fürs Smartboard -->
+        <button onclick="toggleHeaderCollapse()" id="header-collapse-btn" class="flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-200 text-indigo-700 font-bold px-3 py-1 rounded-xl transition text-xs sm:text-sm" title="Header einklappen für maximalen Platz am Smartboard">
+          <span id="collapse-icon">▲</span>
+          <span id="collapse-text" class="hidden sm:inline">Schrumpfen</span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Phasen-Navigation für den Frontalunterricht am Smartboard -->
+    <div id="header-phase-nav" class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-2 border-t border-slate-100 overflow-x-auto py-2 transition-all">
+      <button onclick="switchPhase('einstieg')" id="nav-phase-einstieg" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-indigo-600 text-white shadow flex items-center gap-2 whitespace-nowrap">
+        <span>🎬</span> 1. Filmstreifen-Einstieg
+      </button>
+      <button onclick="switchPhase('schritte')" id="nav-phase-schritte" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🧭</span> 2. Die 4 goldenen Schritte
+      </button>
+      <button onclick="switchPhase('maschine')" id="nav-phase-maschine" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🔄</span> 3. Interaktive Wendemaschine
+      </button>
+      <button onclick="switchPhase('tafel')" id="nav-phase-tafel" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🚚</span> 4. Tafelaufgabe: Kleintransporter
+      </button>
+      <button onclick="switchPhase('training')" id="nav-phase-training" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🎯</span> 5. Trainingsfälle (3 Aufgaben)
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- HAUPTINHALT: DIE 5 UNTERRICHTS-PHASEN                          -->
+  <!-- ============================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+    <!-- ============================================================ -->
+    <!-- PHASE 1: EINSTIEG & FILMSTREIFEN                             -->
+    <!-- ============================================================ -->
+    <section id="phase-einstieg" class="phase-container space-y-8">
+      
+      <!-- Einstiegs-Banner mit Filmstreifen-Motto -->
+      <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-800 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-4 text-center md:text-left">
+          <span class="inline-block bg-white/20 text-white text-sm font-black px-4 py-1.5 rounded-full uppercase tracking-wider">
+            Detektiv-Methode Klasse 6
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight">
+            Wir drücken auf die Rückspultaste! ⏪
+          </h2>
+          <p class="text-purple-100 text-xl sm:text-2xl font-sans-ui max-w-3xl leading-relaxed">
+            Manchmal wissen wir genau, wie die Geschichte <strong>endet</strong> – aber nicht, wie sie <strong>angefangen</strong> hat!
+          </p>
+        </div>
+        <div class="text-7xl sm:text-8xl p-6 bg-white/10 rounded-3xl backdrop-blur shrink-0">
+          🎞️
+        </div>
+      </div>
+
+      <!-- Kernaussage groß visually hervorgehoben -->
+      <div class="bg-amber-100 border-4 border-amber-400 p-6 sm:p-8 rounded-3xl shadow-md text-center space-y-3">
+        <div class="text-sm font-black uppercase tracking-widest text-amber-900">Das goldene Geheimnis</div>
+        <div class="text-2xl sm:text-4xl font-extrabold text-amber-950 leading-tight">
+          „Wir kennen das <span class="bg-yellow-300 px-3 py-1 rounded-xl text-yellow-950">ENDE</span> und suchen den <span class="bg-purple-300 px-3 py-1 rounded-xl text-purple-950">ANFANG</span> ➔ Wir spulen den Film rückwärts ab!“
+        </div>
+      </div>
+
+      <!-- Alltags-Beispiel: Das Geldbeutel-Rätsel nach dem Schulfest -->
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-md space-y-6">
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-3">
+          <span>👛</span> Das Geldbeutel-Rätsel: Was geschah auf dem Schulfest?
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- Schritt 1 Vorwärts -->
+          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
+            <span class="text-3xl">❓</span>
+            <div class="text-sm font-bold text-slate-400 uppercase">1. Am Anfang:</div>
+            <div class="text-2xl font-black text-purple-700">Start-Geld</div>
+            <div class="text-base text-slate-600">Unbekannt!</div>
+          </div>
+
+          <!-- Schritt 2 Vorwärts -->
+          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
+            <span class="text-3xl">🍕</span>
+            <div class="text-sm font-bold text-slate-400 uppercase">2. Pizza gegessen:</div>
+            <div class="text-2xl font-black text-rose-600">− 5 Euro</div>
+            <div class="text-base text-slate-600">Geld ausgegeben</div>
+          </div>
+
+          <!-- Schritt 3 Vorwärts -->
+          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
+            <span class="text-3xl">🥤</span>
+            <div class="text-sm font-bold text-slate-400 uppercase">3. Limo getrunken:</div>
+            <div class="text-2xl font-black text-rose-600">− 2 Euro</div>
+            <div class="text-base text-slate-600">Geld ausgegeben</div>
+          </div>
+
+          <!-- Schritt 4 Vorwärts -->
+          <div class="bg-amber-50 p-5 rounded-2xl border-4 border-amber-300 space-y-2 text-center">
+            <span class="text-3xl">💶</span>
+            <div class="text-sm font-bold text-amber-800 uppercase">4. Am Ende im Geldbeutel:</div>
+            <div class="font-math text-3xl font-black text-amber-950">13 Euro</div>
+            <div class="text-base font-bold text-emerald-700">Das ist bekannt!</div>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 border-2 border-indigo-200 p-6 rounded-2xl text-center space-y-3">
+          <div class="text-xl sm:text-2xl font-bold text-indigo-950">
+            Wie finden wir das Start-Geld heraus? Wir kehren die Schritte um: <br>
+            <span class="font-math font-black text-indigo-700 text-3xl">13 € + 2 € + 5 € = 20 € Startgeld!</span>
+          </div>
+          <button onclick="switchPhase('schritte')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-lg transition transform active:scale-95 inline-flex items-center gap-3">
+            <span>Zu den 4 goldenen Schritten</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 2: DIE 4 GOLDENEN SCHRITTE (KLICK-AUFDECKEN)           -->
+    <!-- ============================================================ -->
+    <section id="phase-schritte" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-md space-y-6">
+        
+        <div class="border-b-2 border-slate-200 pb-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="bg-indigo-100 text-indigo-800 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Regelerarbeitung per Klick
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              🧭 Die 4 goldenen Schritte beim Rückwärtsrechnen
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Tippe auf die 4 Karten am Smartboard, um die Schritte nacheinander zu besprechen:
+            </p>
+          </div>
+
+          <button onclick="revealAllSteps()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition">
+            Alle aufdecken
+          </button>
+        </div>
+
+        <!-- 4 Große Klick-Karten -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Karte 1 -->
+          <div onclick="toggleStepCard(1)" id="step-card-1" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-purple-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between min-h-[320px] group">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="w-12 h-12 rounded-2xl bg-purple-600 text-white font-black flex items-center justify-center text-2xl shadow">1</span>
+                <span class="text-3xl">🔍</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-slate-900">Gegeben & Gesucht</h3>
+              <p class="text-lg text-slate-600 font-sans-ui">
+                Kläre genau: Wo ist der <strong>Endstand</strong>? Und wo der <strong>Anfang</strong>?
+              </p>
+              <div id="step-content-1" class="hidden space-y-2 pt-2">
+                <div class="bg-purple-100 text-purple-950 p-3 rounded-xl border border-purple-300 font-bold text-base">
+                  🟢 <strong>Endwert</strong> ist im Text genannt.
+                </div>
+                <div class="bg-amber-100 text-amber-950 p-3 rounded-xl border border-amber-300 font-bold text-base">
+                  ❓ <strong>Startwert</strong> wird gesucht!
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-purple-700 group-hover:underline">
+              <span id="step-label-1">Klicken zum Aufdecken ▾</span>
+            </div>
+          </div>
+
+          <!-- Karte 2 -->
+          <div onclick="toggleStepCard(2)" id="step-card-2" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-blue-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between min-h-[320px] group">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-black flex items-center justify-center text-2xl shadow">2</span>
+                <span class="text-3xl">➡️</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-slate-900">Vorwärts-Weg</h3>
+              <p class="text-lg text-slate-600 font-sans-ui">
+                Was ist der Reihe nach im Text passiert?
+              </p>
+              <div id="step-content-2" class="hidden space-y-2 pt-2">
+                <div class="bg-blue-100 text-blue-950 p-3 rounded-xl border border-blue-300 font-bold text-base">
+                  Schreibe die Rechenkette <strong>von vorne nach hinten</strong> auf (z. B. Start ➔ − 5 € ➔ − 2 € ➔ 13 €).
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-blue-700 group-hover:underline">
+              <span id="step-label-2">Klicken zum Aufdecken ▾</span>
+            </div>
+          </div>
+
+          <!-- Karte 3 (Die Hauptregel) -->
+          <div onclick="toggleStepCard(3)" id="step-card-3" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-amber-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between min-h-[320px] group">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="w-12 h-12 rounded-2xl bg-amber-500 text-white font-black flex items-center justify-center text-2xl shadow">3</span>
+                <span class="text-3xl">🔄</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-slate-900">Zeichen umkehren!</h3>
+              <p class="text-lg text-slate-600 font-sans-ui">
+                Beginne beim Ende und kehre JEDE Rechenart um:
+              </p>
+              <div id="step-content-3" class="hidden space-y-1.5 pt-2 text-base font-bold font-math">
+                <div class="bg-emerald-100 text-emerald-950 p-2 rounded-lg border border-emerald-300">
+                  Aus <strong>Plus (+)</strong> wird <strong>Minus (−)</strong>
+                </div>
+                <div class="bg-emerald-100 text-emerald-950 p-2 rounded-lg border border-emerald-300">
+                  Aus <strong>Minus (−)</strong> wird <strong>Plus (+)</strong>
+                </div>
+                <div class="bg-emerald-100 text-emerald-950 p-2 rounded-lg border border-emerald-300">
+                  Aus <strong>Mal (·)</strong> wird <strong>Geteilt (:)</strong>
+                </div>
+                <div class="bg-emerald-100 text-emerald-950 p-2 rounded-lg border border-emerald-300">
+                  Aus <strong>Geteilt (:)</strong> wird <strong>Mal (·)</strong>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-amber-700 group-hover:underline">
+              <span id="step-label-3">Klicken zum Aufdecken ▾</span>
+            </div>
+          </div>
+
+          <!-- Karte 4 -->
+          <div onclick="toggleStepCard(4)" id="step-card-4" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-emerald-400 shadow-sm hover:shadow-xl transition flex flex-col justify-between min-h-[320px] group">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-black flex items-center justify-center text-2xl shadow">4</span>
+                <span class="text-3xl">✅</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-slate-900">Probe & Antwort</h3>
+              <p class="text-lg text-slate-600 font-sans-ui">
+                Sicherheitscheck und ganzer Satz:
+              </p>
+              <div id="step-content-4" class="hidden space-y-2 pt-2">
+                <div class="bg-emerald-100 text-emerald-950 p-3 rounded-xl border border-emerald-300 font-bold text-base">
+                  Rechne die Aufgabe mit deinem Ergebnis <strong>einmal vorwärts</strong> durch! Stimmt das Ende?
+                </div>
+                <div class="bg-slate-100 text-slate-800 p-2.5 rounded-xl border border-slate-300 font-bold text-base">
+                  Ganzer Antwortsatz mit richtiger Einheit!
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-emerald-700 group-hover:underline">
+              <span id="step-label-4">Klicken zum Aufdecken ▾</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="text-center pt-4">
+          <button onclick="switchPhase('maschine')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
+            <span>Weiter zur interaktiven Wendemaschine</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 3: INTERAKTIVE WENDEMASCHINE (WERKZEUG)                -->
+    <!-- ============================================================ -->
+    <section id="phase-maschine" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8">
+        
+        <div class="border-b-2 border-slate-200 pb-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="bg-indigo-100 text-indigo-800 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Visualisierungs-Werkzeug
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              🔄 Die interaktive Wendemaschine
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Trage Zahlen ein oder wähle ein Beispiel. Klicke dann auf <strong>„Film rückwärts spulen“</strong>!
+            </p>
+          </div>
+
+          <!-- Schnellauswahl Beispiele für Lehrkraft -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="loadMachinePreset(1)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl font-bold text-base">Beispiel 1 (+ / −)</button>
+            <button onclick="loadMachinePreset(2)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl font-bold text-base">Beispiel 2 (· / :)</button>
+            <button onclick="loadMachinePreset(3)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl font-bold text-base">Beispiel 3 (Gemischt)</button>
+          </div>
+        </div>
+
+        <!-- 1. VORWÄRTS-KETTE (VON LINKS NACH RECHTS) -->
+        <div class="bg-blue-50/70 p-6 sm:p-8 rounded-3xl border-4 border-blue-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-black text-blue-900 uppercase tracking-wide flex items-center gap-2">
+              <span>▶️</span> 1. Vorwärts-Ablauf (Wie die Geschichte passiert ist):
+            </span>
+            <span class="text-sm font-bold text-blue-600 font-sans-ui">Von links nach rechts ➔</span>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-math">
+            <!-- Startwert -->
+            <div class="bg-white p-4 rounded-2xl border-4 border-purple-400 text-center shadow-sm min-w-[120px]">
+              <div class="text-xs font-bold text-slate-400 font-sans-ui">START</div>
+              <input type="text" id="m-start" value="?" readonly class="w-24 text-center font-black text-2xl text-purple-700 bg-transparent outline-none cursor-not-allowed">
+            </div>
+
+            <span class="text-3xl text-blue-500 font-bold">➔</span>
+
+            <!-- Operation 1 -->
+            <div class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
+              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 1</div>
+              <div class="flex items-center gap-1">
+                <select id="m-op1" class="font-black text-2xl text-blue-700 bg-transparent outline-none">
+                  <option value="-">− (Minus)</option>
+                  <option value="+">+ (Plus)</option>
+                  <option value="*">· (Mal)</option>
+                  <option value="/">: (Geteilt)</option>
+                </select>
+                <input type="number" id="m-val1" value="5" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
+              </div>
+            </div>
+
+            <span class="text-3xl text-blue-500 font-bold">➔</span>
+
+            <!-- Operation 2 -->
+            <div class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
+              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 2</div>
+              <div class="flex items-center gap-1">
+                <select id="m-op2" class="font-black text-2xl text-blue-700 bg-transparent outline-none">
+                  <option value="-">− (Minus)</option>
+                  <option value="+">+ (Plus)</option>
+                  <option value="*">· (Mal)</option>
+                  <option value="/">: (Geteilt)</option>
+                </select>
+                <input type="number" id="m-val2" value="2" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
+              </div>
+            </div>
+
+            <span class="text-3xl text-blue-500 font-bold">➔</span>
+
+            <!-- Endwert -->
+            <div class="bg-white p-4 rounded-2xl border-4 border-amber-400 text-center shadow-sm min-w-[120px]">
+              <div class="text-xs font-bold text-amber-800 font-sans-ui">ENDE</div>
+              <input type="number" id="m-end" value="13" class="w-24 text-center font-black text-2xl text-amber-950 bg-amber-50 border border-amber-200 rounded-lg outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- REWIND BUTTON (INTERAKTIVER AUSLÖSER) -->
+        <div class="text-center">
+          <button onclick="runReverseMachine()" id="rewind-btn" class="px-8 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-2xl sm:text-3xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3 pulse-attention">
+            <span>⏪ Film rückwärts spulen</span>
+            <span>(Rechnen!)</span>
+          </button>
+        </div>
+
+        <!-- 2. RÜCKWÄRTS-KETTE (VON RECHTS NACH LINKS) -->
+        <div id="reverse-chain-container" class="hidden bg-emerald-50/80 p-6 sm:p-8 rounded-3xl border-4 border-emerald-300 space-y-4 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-black text-emerald-950 uppercase tracking-wide flex items-center gap-2">
+              <span>⏪</span> 2. Rückwärts-Rechnung (Von hinten nach vorne auflösen):
+            </span>
+            <span class="text-sm font-bold text-emerald-700 font-sans-ui">◀ Von rechts nach links</span>
+          </div>
+
+          <!-- Kette von rechts nach links -->
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-math" id="reverse-chain-boxes">
+            <!-- Dynamisch befüllt -->
+          </div>
+
+          <div id="reverse-result-box" class="p-5 bg-white border-2 border-emerald-400 rounded-2xl text-xl sm:text-2xl font-extrabold text-emerald-950 text-center">
+            <!-- Ergebnis-Erklärung -->
+          </div>
+        </div>
+
+        <div class="text-center pt-2">
+          <button onclick="switchPhase('tafel')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
+            <span>Weiter zur gemeinsamen Tafelaufgabe</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 4: GEMEINSAME TAFELAUFGABE (KLEINTRANSPORTER)          -->
+    <!-- ============================================================ -->
+    <section id="phase-tafel" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8 max-w-5xl mx-auto">
+        
+        <div class="border-b-2 border-slate-200 pb-4">
+          <span class="bg-purple-100 text-purple-900 border border-purple-300 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+            Gemeinsam am Smartboard erarbeiten
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+            🚚 Fallakte: Der Kleintransporter
+          </h2>
+          <p class="text-xl text-slate-600 font-sans-ui mt-1">
+            Lest die Aufgabe gemeinsam laut vor. Klickt dann schrittweise auf <strong>„Nächster Schritt“</strong>!
+          </p>
+        </div>
+
+        <!-- Aufgabentext (Fernlesbar min. 24px) -->
+        <div class="p-6 sm:p-8 bg-purple-50/60 rounded-3xl border-4 border-purple-200 leading-relaxed text-2xl sm:text-3xl font-medium text-slate-900">
+          „Ein Kleintransporter darf mit <strong>950 kg</strong> beladen werden. Zwei schwere Kisten (<strong>120 kg</strong> und <strong>110 kg</strong>) stehen schon auf der Ladefläche. Wie viele weitere Kisten zu je <strong>80 kg</strong> passen noch hinein?“
+        </div>
+
+        <!-- Schrittweises Enthüllen der Rechenkette -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xl font-black text-slate-800">Rechenplan Rückwärts:</span>
+            <button onclick="revealNextTruckStep()" id="truck-step-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-2xl shadow transition transform active:scale-95">
+              Nächsten Rechenschritt enthüllen ➔
+            </button>
+          </div>
+
+          <!-- Stufen-Container -->
+          <div class="space-y-3 font-math" id="truck-steps-container">
+            
+            <div id="t-step-0" class="p-4 bg-slate-50 border-2 border-slate-300 rounded-2xl text-xl font-bold flex items-center justify-between">
+              <span>Maximales Gesamtgewicht (Ende):</span>
+              <span class="text-2xl font-black text-slate-900">950 kg</span>
+            </div>
+
+            <div id="t-step-1" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
+              <span>Schritt 1: Erste Kiste abziehen (950 kg − 110 kg):</span>
+              <span class="text-2xl font-black text-indigo-700">= 840 kg</span>
+            </div>
+
+            <div id="t-step-2" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
+              <span>Schritt 2: Zweite Kiste abziehen (840 kg − 120 kg):</span>
+              <span class="text-2xl font-black text-indigo-700">= 720 kg Rest</span>
+            </div>
+
+            <div id="t-step-3" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
+              <span>Schritt 3: Restgewicht auf 80-kg-Kisten aufteilen (720 kg : 80 kg):</span>
+              <span class="text-2xl font-black text-indigo-700">= 9 Kisten</span>
+            </div>
+
+          </div>
+
+          <!-- Großer grüner Antwortkasten -->
+          <div id="truck-answer-box" class="hidden p-6 bg-emerald-100 border-4 border-emerald-500 rounded-3xl text-2xl sm:text-3xl font-extrabold text-emerald-950 text-center shadow-lg transition-all">
+            🎉 Antwort: Es können noch genau <strong>9 Kisten</strong> zugeladen werden!
+          </div>
+        </div>
+
+        <div class="text-center pt-2">
+          <button onclick="switchPhase('training')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
+            <span>Zu den 3 Trainingsfällen</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 5: TRAININGSFÄLLE (SMARTBOARD-ABSTIMMUNG)              -->
+    <!-- ============================================================ -->
+    <section id="phase-training" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8 max-w-5xl mx-auto">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-4">
+          <div>
+            <span class="bg-amber-100 text-amber-900 border border-amber-300 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Plenums-Abstimmung
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              🎯 3 Trainingsfälle: Rückwärts denken!
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Stimmt gemeinsam in der Klasse ab. Kehrt die Rechenzeichen um!
+            </p>
+          </div>
+
+          <!-- Fall-Tabs -->
+          <div class="flex items-center gap-2">
+            <button onclick="loadQuizCase(0)" id="quiz-tab-0" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-indigo-600 text-white shadow">Aufgabe 1</button>
+            <button onclick="loadQuizCase(1)" id="quiz-tab-1" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Aufgabe 2</button>
+            <button onclick="loadQuizCase(2)" id="quiz-tab-2" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Aufgabe 3</button>
+          </div>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-content-container" class="space-y-6">
+          <!-- Dynamisch mit Aufgabe 1, 2 oder 3 befüllt -->
+        </div>
+
+        <!-- Footer Steuerung -->
+        <div class="flex items-center justify-between pt-6 border-t-2 border-slate-200">
+          <button onclick="prevQuizCase()" id="quiz-prev-btn" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition">
+            ← Vorherige Aufgabe
+          </button>
+          <button onclick="nextQuizCase()" id="quiz-next-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-2xl transition shadow-md">
+            Nächste Aufgabe ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================== -->
+  <footer class="bg-white border-t-2 border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-base font-sans-ui text-slate-500">
+      <div>
+        <strong class="text-slate-700">LernApps KHS</strong> • Mathematik Klasse 6 • Rückwärtsrechnen
+      </div>
+      <div>
+        Version <strong class="text-slate-700">v1.2.0</strong> • Optimiert für Smartboard & iPad
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT: LOGIK, AUDIO, WENDEMASCHINE & TRAINING             -->
+  <!-- ============================================================== -->
+  <script>
+    // -------------------------------------------------------------
+    // AUDIO-EFFEKTE (Tone.js)
+    // -------------------------------------------------------------
+    let audioEnabled = true;
+    let synth = null;
+
+    function initAudio() {
+      try {
+        if (!synth && window.Tone) {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -8;
+        }
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('audio-icon');
+      icon.textContent = audioEnabled ? '🔊' : '🔇';
+      if (audioEnabled) {
+        initAudio();
+        playSound('click');
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        if (type === 'correct' && synth) {
+          synth.triggerAttackRelease(['C5', 'E5', 'G5', 'C6'], '8n');
+        } else if (type === 'wrong' && synth) {
+          synth.triggerAttackRelease(['F4', 'D4'], '8n');
+        } else if (type === 'click' && synth) {
+          synth.triggerAttackRelease('C4', '16n');
+        } else if (type === 'rewind' && synth) {
+          // Kurzer absteigender Spul-Sound
+          synth.triggerAttackRelease('A5', '32n', '+0.0');
+          synth.triggerAttackRelease('E5', '32n', '+0.08');
+          synth.triggerAttackRelease('C5', '32n', '+0.16');
+          synth.triggerAttackRelease('G4', '16n', '+0.24');
+        } else if (type === 'gong' && synth) {
+          synth.triggerAttackRelease(['C4', 'G4'], '2n');
+        }
+      } catch(e) {}
+    }
+
+    // -------------------------------------------------------------
+    // SMARTBOARD-TIMER
+    // -------------------------------------------------------------
+    let timerDuration = 300;
+    let timerRemaining = 300;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimerUI() {
+      const display = document.getElementById('smartboard-timer-display');
+      display.textContent = formatTime(timerRemaining);
+
+      if (timerRemaining <= 30 && timerRunning) {
+        display.classList.add('text-red-600', 'animate-pulse');
+      } else {
+        display.classList.remove('text-red-600', 'animate-pulse');
+      }
+    }
+
+    function setTimerDuration(seconds) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerDuration = seconds;
+      timerRemaining = seconds;
+      const btn = document.getElementById('timer-toggle-btn');
+      btn.textContent = 'Start';
+      btn.className = 'text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+      updateTimerUI();
+    }
+
+    function toggleSmartboardTimer() {
+      const btn = document.getElementById('timer-toggle-btn');
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Weiter';
+        btn.className = 'text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+      } else {
+        if (timerRemaining <= 0) {
+          timerRemaining = timerDuration;
+        }
+        timerRunning = true;
+        btn.textContent = 'Pause';
+        btn.className = 'text-xs bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+        timerInterval = setInterval(() => {
+          if (timerRemaining > 0) {
+            timerRemaining--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            btn.textContent = 'Start';
+            btn.className = 'text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+            playSound('gong');
+            alert('⏱️ Die Zeit für diesen Input ist abgelaufen!');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetSmartboardTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = timerDuration;
+      const btn = document.getElementById('timer-toggle-btn');
+      btn.textContent = 'Start';
+      btn.className = 'text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+      updateTimerUI();
+    }
+
+    // -------------------------------------------------------------
+    // EINKLAPPBARER HEADER FÜR MAXIMALEN SMARTBOARD-PLATZ
+    // -------------------------------------------------------------
+    let headerCollapsed = false;
+
+    function toggleHeaderCollapse() {
+      headerCollapsed = !headerCollapsed;
+      const nav = document.getElementById('header-phase-nav');
+      const presets = document.getElementById('header-timer-presets');
+      const icon = document.getElementById('collapse-icon');
+      const text = document.getElementById('collapse-text');
+
+      if (headerCollapsed) {
+        nav.classList.add('hidden');
+        presets.classList.add('hidden');
+        icon.textContent = '▼';
+        text.textContent = 'Erweitern';
+        playSound('click');
+      } else {
+        nav.classList.remove('hidden');
+        presets.classList.remove('hidden');
+        icon.textContent = '▲';
+        text.textContent = 'Schrumpfen';
+        playSound('click');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PUNKTE-SYSTEM
+    // -------------------------------------------------------------
+    let score = 0;
+    function addScore(points) {
+      score += points;
+      document.getElementById('score-display').textContent = `${score} Punkte`;
+    }
+
+    // -------------------------------------------------------------
+    // PHASEN-NAVIGATION
+    // -------------------------------------------------------------
+    const phases = ['einstieg', 'schritte', 'maschine', 'tafel', 'training'];
+
+    function switchPhase(target) {
+      playSound('click');
+      phases.forEach(p => {
+        const sec = document.getElementById('phase-' + p);
+        const navBtn = document.getElementById('nav-phase-' + p);
+        if (p === target) {
+          sec.classList.remove('hidden');
+          navBtn.className = 'phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-indigo-600 text-white shadow flex items-center gap-2 whitespace-nowrap';
+        } else {
+          sec.classList.add('hidden');
+          navBtn.className = 'phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap';
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 2: DIE 4 SCHRITTE AUFDECKEN
+    // -------------------------------------------------------------
+    function toggleStepCard(num) {
+      playSound('click');
+      const content = document.getElementById('step-content-' + num);
+      const label = document.getElementById('step-label-' + num);
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        label.textContent = 'Aufgedeckt ✓';
+        addScore(10);
+      } else {
+        content.classList.add('hidden');
+        label.textContent = 'Klicken zum Aufdecken ▾';
+      }
+    }
+
+    function revealAllSteps() {
+      playSound('correct');
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step-content-' + i).classList.remove('hidden');
+        document.getElementById('step-label-' + i).textContent = 'Aufgedeckt ✓';
+      }
+      addScore(25);
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 3: INTERAKTIVE WENDEMASCHINE
+    // -------------------------------------------------------------
+    function loadMachinePreset(num) {
+      playSound('click');
+      if (num === 1) {
+        document.getElementById('m-op1').value = '-';
+        document.getElementById('m-val1').value = 5;
+        document.getElementById('m-op2').value = '-';
+        document.getElementById('m-val2').value = 2;
+        document.getElementById('m-end').value = 13;
+      } else if (num === 2) {
+        document.getElementById('m-op1').value = '*';
+        document.getElementById('m-val1').value = 3;
+        document.getElementById('m-op2').value = '/';
+        document.getElementById('m-val2').value = 2;
+        document.getElementById('m-end').value = 15;
+      } else if (num === 3) {
+        document.getElementById('m-op1').value = '*';
+        document.getElementById('m-val1').value = 2;
+        document.getElementById('m-op2').value = '+';
+        document.getElementById('m-val2').value = 12;
+        document.getElementById('m-end').value = 48;
+      }
+      document.getElementById('reverse-chain-container').classList.add('hidden');
+    }
+
+    function getInvertedOp(op) {
+      if (op === '+') return '-';
+      if (op === '-') return '+';
+      if (op === '*') return ':';
+      if (op === '/') return '·';
+      return op;
+    }
+
+    function calculateStep(current, op, val) {
+      if (op === '+') return current + val;
+      if (op === '-') return current - val;
+      if (op === '*') return current * val;
+      if (op === '/' || op === ':') return current / val;
+      if (op === '·') return current * val;
+      return current;
+    }
+
+    function runReverseMachine() {
+      playSound('rewind');
+      const op1 = document.getElementById('m-op1').value;
+      const val1 = parseFloat(document.getElementById('m-val1').value) || 0;
+      const op2 = document.getElementById('m-op2').value;
+      const val2 = parseFloat(document.getElementById('m-val2').value) || 0;
+      const endVal = parseFloat(document.getElementById('m-end').value) || 0;
+
+      // Umkehr-Operatoren
+      const invOp2 = getInvertedOp(op2);
+      const invOp1 = getInvertedOp(op1);
+
+      // Rückwärtsrechnung: Erst Schritt 2 umkehren, dann Schritt 1!
+      const step1Result = calculateStep(endVal, invOp2 === ':' ? '/' : (invOp2 === '·' ? '*' : invOp2), val2);
+      const finalStart = calculateStep(step1Result, invOp1 === ':' ? '/' : (invOp1 === '·' ? '*' : invOp1), val1);
+
+      const container = document.getElementById('reverse-chain-container');
+      const boxes = document.getElementById('reverse-chain-boxes');
+      const resultBox = document.getElementById('reverse-result-box');
+
+      // Boxen von rechts nach links aufbauen
+      boxes.innerHTML = `
+        <!-- Startwert (Ergebnis) ganz links -->
+        <div class="bg-white p-4 rounded-2xl border-4 border-purple-500 text-center shadow-md min-w-[120px] animate-pulse">
+          <div class="text-xs font-bold text-purple-700 font-sans-ui">GEFUNDENER ANFANG</div>
+          <div class="font-math text-3xl font-black text-purple-950">${finalStart}</div>
+        </div>
+
+        <span class="text-3xl text-emerald-600 font-bold">◀</span>
+
+        <!-- Schritt 1 Rückwärts (war Schritt 1 Vorwärts) -->
+        <div class="bg-white p-3 rounded-2xl border-2 border-emerald-400 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-400 font-sans-ui">Umkehrung Schritt 1</div>
+          <div class="font-math text-2xl font-black text-emerald-800">${invOp1} ${val1}</div>
+        </div>
+
+        <span class="text-3xl text-emerald-600 font-bold">◀</span>
+
+        <!-- Schritt 2 Rückwärts (war Schritt 2 Vorwärts) -->
+        <div class="bg-white p-3 rounded-2xl border-2 border-emerald-400 text-center shadow-sm">
+          <div class="text-xs font-bold text-slate-400 font-sans-ui">Umkehrung Schritt 2</div>
+          <div class="font-math text-2xl font-black text-emerald-800">${invOp2} ${val2}</div>
+        </div>
+
+        <span class="text-3xl text-emerald-600 font-bold">◀</span>
+
+        <!-- Ausgangspunkt Rückwärts (Endwert) ganz rechts -->
+        <div class="bg-white p-4 rounded-2xl border-4 border-amber-400 text-center shadow-sm min-w-[120px]">
+          <div class="text-xs font-bold text-amber-800 font-sans-ui">START DER RÜCKRECHNUNG</div>
+          <div class="font-math text-3xl font-black text-amber-950">${endVal}</div>
+        </div>
+      `;
+
+      resultBox.innerHTML = `
+        Rechnung: <strong>${endVal} ${invOp2} ${val2} = ${step1Result}</strong> &nbsp;➔&nbsp; 
+        <strong>${step1Result} ${invOp1} ${val1} = ${finalStart}</strong>.<br>
+        Der gesuchte Startwert war genau <strong>${finalStart}</strong>!
+      `;
+
+      container.classList.remove('hidden');
+      addScore(20);
+      confetti({ particleCount: 40, spread: 60 });
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 4: TAFELAUFGABE (KLEINTRANSPORTER)
+    // -------------------------------------------------------------
+    let truckStep = 0;
+
+    function revealNextTruckStep() {
+      truckStep++;
+      playSound('click');
+      if (truckStep === 1) {
+        document.getElementById('t-step-1').classList.remove('hidden');
+      } else if (truckStep === 2) {
+        document.getElementById('t-step-2').classList.remove('hidden');
+      } else if (truckStep === 3) {
+        document.getElementById('t-step-3').classList.remove('hidden');
+        document.getElementById('truck-answer-box').classList.remove('hidden');
+        document.getElementById('truck-step-btn').textContent = 'Fertig gelöst ✓';
+        document.getElementById('truck-step-btn').disabled = true;
+        document.getElementById('truck-step-btn').className = 'px-6 py-3 bg-slate-200 text-slate-400 font-bold text-lg rounded-2xl cursor-not-allowed';
+        playSound('correct');
+        addScore(30);
+        confetti({ particleCount: 70, spread: 70 });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 5: TRAININGSFÄLLE (MULTIPLE-CHOICE)
+    // -------------------------------------------------------------
+    const quizCases = [
+      {
+        title: 'Aufgabe 1: Laras Ausflugsgeld',
+        badge: 'Klasse 6 • Stufe 1',
+        story: 'Lara hat am Ende ihres Ausflugs noch genau <strong>36,50 €</strong> im Geldbeutel. Zuvor kaufte sie eine Eintrittskarte für <strong>12,00 €</strong> und ein Eis für <strong>7,50 €</strong>.',
+        question: 'Wie viel Geld hatte Lara ganz zu Beginn dabei?',
+        options: [
+          { text: 'A) 17,00 €', isCorrect: false, explanation: 'Achtung: Lara hatte am Anfang MEHR Geld als am Ende! Wenn Geld ausgegeben wurde (−), müssen wir es beim Rückwärtsrechnen wieder DAZURECHNEN (+).' },
+          { text: 'B) 56,00 €', isCorrect: true, explanation: 'Genau! 36,50 € + 7,50 € + 12,00 € = 56,00 €. Das ausgegebene Geld legen wir schrittweise wieder dazu.' },
+          { text: 'C) 44,00 €', isCorrect: false, explanation: 'Nicht ganz: 44,00 € entsteht, wenn man nur eine der beiden Ausgaben berücksichtigt hat.' }
+        ]
+      },
+      {
+        title: 'Aufgabe 2: Die Apfel-Obstkiste',
+        badge: 'Klasse 6 • Stufe 2',
+        story: 'Auf dem Wochenmarkt sind am Nachmittag in einer großen Holzkiste noch genau <strong>25 kg Äpfel</strong> übrig. Am Vormittag wurden zunächst <strong>4,5 kg</strong> und danach noch <strong>6,5 kg</strong> verkauft.',
+        question: 'Wie viel Kilogramm Äpfel waren zu Beginn in der vollen Kiste?',
+        options: [
+          { text: 'A) 36 kg', isCorrect: true, explanation: 'Richtig! Wir spulen zurück: 25 kg + 6,5 kg + 4,5 kg = 36 kg Äpfel am Anfang.' },
+          { text: 'B) 14 kg', isCorrect: false, explanation: 'Falsch: Die Kiste war zu Beginn voller, nicht leerer! Verkaufte Äpfel müssen zurück in die Kiste addiert werden.' },
+          { text: 'C) 29,5 kg', isCorrect: false, explanation: 'Fast: Du hast nur die 4,5 kg dazugerechnet, aber die 6,5 kg vergessen.' }
+        ]
+      },
+      {
+        title: 'Aufgabe 3: Max und sein Sparschwein',
+        badge: 'Klasse 6 • Stufe 3 (Knobeln)',
+        story: 'Max zählt am Ende stolze <strong>48 €</strong> in seiner Spardose. Zuvor hatte er sein Taschengeld verdoppelt (<strong>· 2</strong>) und danach noch ein Geburtstagsgeld von <strong>12 €</strong> dazugelegt (<strong>+ 12 €</strong>).',
+        question: 'Mit welchem Betrag hat Max ganz am Anfang gestartet?',
+        options: [
+          { text: 'A) 18 €', isCorrect: true, explanation: 'Klasse! Zuerst den letzten Schritt rückgängig machen: 48 € − 12 € = 36 €. Dann die Verdopplung umkehren: 36 € : 2 = 18 €!' },
+          { text: 'B) 12 €', isCorrect: false, explanation: 'Vorsicht bei der Reihenfolge! Wir müssen den letzten Schritt zuerst rückgängig machen: Erst − 12 € rechnen (= 36 €), danach : 2 (= 18 €).' },
+          { text: 'C) 108 €', isCorrect: false, explanation: 'Falsch: Max hatte am Anfang weniger als 48 €. Rechne nicht vorwärts weiter, sondern kehre die Rechenzeichen um!' }
+        ]
+      }
+    ];
+
+    let currentQuizIndex = 0;
+
+    function loadQuizCase(index) {
+      currentQuizIndex = index;
+      playSound('click');
+
+      for (let i = 0; i < 3; i++) {
+        const tab = document.getElementById('quiz-tab-' + i);
+        if (i === index) {
+          tab.className = 'quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-indigo-600 text-white shadow';
+        } else {
+          tab.className = 'quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300';
+        }
+      }
+
+      const q = quizCases[index];
+      const container = document.getElementById('quiz-content-container');
+
+      container.innerHTML = `
+        <div class="bg-slate-50 p-6 sm:p-8 rounded-3xl border-2 border-slate-200 space-y-6">
+          <div class="flex items-center justify-between">
+            <span class="bg-purple-100 text-purple-900 border border-purple-200 text-sm font-black uppercase px-3 py-1 rounded-full">
+              ${q.badge}
+            </span>
+            <span class="text-sm font-bold text-slate-400">Aufgabe ${index + 1} von 3</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-black text-slate-900">${q.title}</h3>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 text-xl sm:text-2xl text-slate-800 leading-relaxed font-sans-ui">
+            ${q.story}
+          </div>
+
+          <div class="bg-purple-100 text-purple-950 p-4 rounded-2xl border-2 border-purple-300 text-xl sm:text-2xl font-black">
+            ❓ Frage: ${q.question}
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <label class="block text-xl font-extrabold text-slate-900">
+              Welches Start-Ergebnis ist richtig?
+            </label>
+            <div class="space-y-3">
+              ${q.options.map((opt, oIdx) => `
+                <button onclick="handleQuizAnswer(${index}, ${oIdx}, this)" class="quiz-option-btn w-full text-left p-5 bg-white hover:bg-purple-50 border-4 border-slate-200 rounded-2xl text-xl font-math font-extrabold transition shadow-sm">
+                  ${opt.text}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div id="quiz-feedback-box" class="hidden text-xl font-bold p-5 rounded-2xl"></div>
+        </div>
+      `;
+
+      document.getElementById('quiz-prev-btn').disabled = index === 0;
+      document.getElementById('quiz-prev-btn').className = index === 0 ? 'px-6 py-3.5 bg-slate-100 text-slate-300 font-bold text-lg rounded-2xl border-2 border-slate-200 cursor-not-allowed' : 'px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition';
+      
+      const nextBtn = document.getElementById('quiz-next-btn');
+      if (index === 2) {
+        nextBtn.textContent = 'Rückwärts-Diplom 🏆';
+      } else {
+        nextBtn.textContent = 'Nächste Aufgabe ➔';
+      }
+    }
+
+    function handleQuizAnswer(caseIdx, optIdx, btn) {
+      const q = quizCases[caseIdx];
+      const opt = q.options[optIdx];
+      const feedback = document.getElementById('quiz-feedback-box');
+
+      document.querySelectorAll('.quiz-option-btn').forEach(b => {
+        b.className = 'quiz-option-btn w-full text-left p-5 bg-white border-4 border-slate-200 rounded-2xl text-xl font-math font-extrabold transition';
+      });
+
+      if (opt.isCorrect) {
+        btn.className = 'quiz-option-btn w-full text-left p-5 bg-emerald-100 border-4 border-emerald-500 rounded-2xl text-xl font-math font-extrabold text-emerald-950 shadow';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block';
+        feedback.innerHTML = `✓ ${opt.explanation}`;
+        playSound('correct');
+        addScore(30);
+        confetti({ particleCount: 60, spread: 70 });
+      } else {
+        btn.className = 'quiz-option-btn w-full text-left p-5 bg-red-100 border-4 border-red-500 rounded-2xl text-xl font-math font-extrabold text-red-950';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-red-100 text-red-900 border-2 border-red-300 block';
+        feedback.innerHTML = `❌ ${opt.explanation}`;
+        playSound('wrong');
+      }
+    }
+
+    function prevQuizCase() {
+      if (currentQuizIndex > 0) {
+        loadQuizCase(currentQuizIndex - 1);
+      }
+    }
+
+    function nextQuizCase() {
+      if (currentQuizIndex < 2) {
+        loadQuizCase(currentQuizIndex + 1);
+      } else {
+        playSound('correct');
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        alert(`🎉 Großartig! Die Klasse hat alle Rückwärtsrechen-Aufgaben gelöst und ${score} Punkte gesammelt! Ihr seid nun offizielle Rückspul-Profis! ⏪🕵️`);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // INITIALISIERUNG
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTimerUI();
+      loadQuizCase(0);
+    });
+  </script>
+</body>
+</html>
