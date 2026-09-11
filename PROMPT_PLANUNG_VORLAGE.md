@@ -14,8 +14,15 @@ Wir planen gemeinsam eine interaktive Mini-Lern-App für das Repository "chillma
 - UI-Anforderungen: Große Fernlesbarkeit (Headings text-3xl bis text-5xl, Fließtext text-xl bis text-2xl), Touch-Buttons min. p-4, einklappbarer & frei einstellbarer Smartboard-Timer oben, Zurück-Button zu index.html.
 - Didaktischer Grundsatz 1 (MANDATORY): **Maximale Kleinschrittigkeit & Zwischenschritt-Visualisierung!**  
   Keine großen Text- oder Zahlenblöcke auf einmal. Jeder Gedankengang und jede Rechnung muss in winzige Einzelschritte zerlegt werden (z. B. Teilschritte per Klick aufdecken, Zwischenergebnisse in leuchtenden Zwischenboxen anzeigen, visuelle Modelle wie Ladebalken, Mengendarstellungen oder Pfeilketten nutzen).
-- Didaktischer Grundsatz 2 (MANDATORY): **Muster-Heftaufschrieb für das Schülerheft!**  
-  Am Ende wird eine Beispielaufgabe komplett vorgerechnet und als **visuelle Heft-Ansicht (kariertes Papier, Schulheft-Optik)** dargestellt. Die Kinder sehen 1:1, wie Datum, Überschrift, Nebenrechnungen, Einheiten, saubere Lineal-Unterstreichungen und der Antwortsatz in ihr eigenes Mathe-Heft übertragen werden.
+- Didaktischer Grundsatz 2 (MANDATORY): **Muster-Heftaufschrieb für das Schülerheft (Pur & authentisch):**  
+  Am Ende wird eine Beispielaufgabe komplett vorgerechnet und als **visuelle Heft-Ansicht (kariertes Papier, Schulheft-Optik)** dargestellt.  
+  **ACHTUNG (STRIKTE VORGABE):** Im Heftaufschrieb dürfen **KEINE Meta-Erklärungen, didaktischen Kommentare, Zwischenerklärungen** (wie „1. Schritt: Eis zurücklegen“ oder „Zwischensumme“) und **keine Tipp-Banner** stehen! Es darf ausschließlich das dastehen, was von der Aufgabe gegeben ist und was die Schüler tatsächlich 1:1 mit Füller und Lineal in ihr Schulheft schreiben:
+  - Datum & Überschrift (mit Lineal unterstrichen)
+  - Gegeben & Gesucht (oder Frage)
+  - Saubere Rechenzeilen untereinander mit Einheiten
+  - Endergebnis mit Lineal doppelt unterstrichen
+  - Probe (reine Rechnung)
+  - Vollständiger Antwortsatz
 
 ---
 
@@ -35,14 +42,14 @@ Wir planen gemeinsam eine interaktive Mini-Lern-App für das Repository "chillma
    - Phase 4 (Gemeinsame Tafelaufgabe): Anschauliche Fallanalyse mit schrittweiser Enthüllung der Teilrechnungen und visueller Unterstützung (z. B. dynamische Füllbalken, Mengensymbole, Zwischensummen).
    - Phase 5 (Trainingsfälle & Muster-Heftaufschrieb):
      * 3–4 Trainingsfälle mit **Rechenschritte-Lupe** (Teilrechnungen auf Knopfdruck aufdecken) und sprachsensiblem Feedback.
-     * **Muster-Heftaufschrieb**: Eine Beispielaufgabe wird komplett gerechnet und in einer **digitalen Heft-Ansicht (kariertes Papier)** visualisiert, wie die Kinder es sauber in ihr Heft aufschreiben (Datum, Überschrift, Teilschritte, doppelter Unterstrich, Antwortsatz).
+     * **Muster-Heftaufschrieb**: Eine Beispielaufgabe wird komplett gerechnet und in einer **digitalen Heft-Ansicht (kariertes Papier)** visualisiert, wie die Kinder es sauber in ihr Heft aufschreiben. **Wichtig:** Keine Erklärtexte oder Zwischenkommentare im Aufschrieb – nur Datum, Überschrift, geg./ges., Rechnung, doppelt unterstrichenes Ergebnis, Probe und Antwortsatz!
 
 2. Sobald wir den Ablauf festgelegt haben, erstelle mir den finalen, lückenlosen ÜBERGABE-PROMPT FÜR ANTIGRAVITY.
    Der finale Prompt muss folgende Struktur haben:
    - Dateiname (z. B. brueche.html)
    - Neuer Versionsschritt (z. B. v1.3.0)
    - Konkrete Anweisung zur **extrem kleinschrittigen Umsetzung aller Rechenschritte und Zwischenstände**
-   - Konkrete Vorgabe für die **Muster-Heftseite (karierte Optik & saubere Heftführung)**
+   - Konkrete Vorlage für die **pure Muster-Heftseite (ohne Meta-Erklärungen, nur echte Schüler-Aufschriebe)**
    - Vollständiger Content aller Phasen (Texte, Zahlen, Optionen, Erklärungen)
    - Konkrete Anweisungen zur Verlinkung in index.html, Aktualisierung von README.md/package.json und Git-Push.
 ```

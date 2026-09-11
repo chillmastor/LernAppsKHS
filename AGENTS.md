@@ -60,7 +60,7 @@ Jede App muss ganz oben in der Kopfzeile einen sichtbaren Timer besitzen:
 * **Muster-Heftaufschrieb für das Schülerheft (MANDATORY):**  
   Jede App muss am Ende eine visualisierte **Heft-Ansicht (kariertes Papier im Schulheft-Stil)** enthalten:
   - Zeigt eine Beispielaufgabe vollständig durchgerechnet.
-  - Demonstriert saubere Heftführung: Datum, Überschrift, geg./ges., sauber untereinander stehende Rechenschritte, Einheiten, doppelter Unterstrich mit Lineal und ein vollständiger Antwortsatz.
+  - **Strikt ohne Meta-Erklärungen oder didaktische Kommentare:** Keine Schritt-Beschreibungen (wie „Schritt 1: Eis zurücklegen“ oder „Zwischensumme“) und keine Tipp-Kästchen im Heft! Es steht wirklich nur das drin, was von der Aufgabe gegeben ist und was die Schüler tatsächlich mit Füller/Bleistift und Lineal ins Heft schreiben: Datum, Überschrift, geg./ges., sauber untereinander stehende Rechenschritte mit Einheiten, doppelter Unterstrich mit Lineal, Probe und ein vollständiger Antwortsatz.
 * **Präsentationscharakter in 4 bis 5 Phasen:**
   1. **Aktivierung / Einstieg:** Anschaulicher Impuls oder Alltagsbezug ("Keine Angst vor Textaufgaben!"), schrittweise als Film/Szene aufdeckbar.
   2. **Regelerarbeitung (Klick-Aufdecken):** Regeln dürfen nicht sofort als Textblock da stehen, sondern müssen schrittweise per Klick aufgedeckt werden, um die Aufmerksamkeit der Klasse zu lenken.

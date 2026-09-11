@@ -840,82 +840,64 @@
             </span>
           </div>
 
-          <!-- KARIERTES HEFT-BLATT (CSS GRID) -->
-          <div class="relative bg-white rounded-3xl border-4 border-slate-300 shadow-2xl p-6 sm:p-10 font-math text-slate-900 text-xl sm:text-2xl leading-relaxed" style="background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px); background-size: 26px 26px;">
+          <!-- KARIERTES HEFT-BLATT (REIN & AUTHENTISCH WIE IM SCHÜLERHEFT) -->
+          <div class="relative bg-white rounded-3xl border-4 border-slate-300 shadow-2xl p-6 sm:p-12 font-math text-slate-900 text-xl sm:text-2xl leading-relaxed" style="background-image: linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px); background-size: 26px 26px;">
             
             <!-- Roter Rand links wie im echten Schulheft -->
-            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-rose-300 pointer-events-none hidden sm:block"></div>
+            <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-rose-400 pointer-events-none hidden sm:block"></div>
 
-            <div class="sm:pl-8 space-y-6">
+            <div class="sm:pl-10 space-y-6 text-blue-950 font-bold tracking-wide">
               
-              <!-- Datum & Fach -->
-              <div class="flex items-center justify-between border-b-2 border-slate-300 pb-2">
-                <span class="font-sans-ui text-base sm:text-lg font-bold text-slate-500">Mathematik • Klasse 6</span>
-                <span class="font-sans-ui text-base sm:text-lg font-bold text-slate-500">Datum: <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+              <!-- Datum & Fach (Kopfzeile) -->
+              <div class="flex items-center justify-between pb-2 border-b border-slate-400/60">
+                <span class="font-sans-ui text-lg text-slate-700">Mathematik</span>
+                <span class="font-sans-ui text-lg text-slate-700">12.09.2026</span>
               </div>
 
               <!-- Überschrift (mit Lineal unterstrichen) -->
               <div>
-                <h5 class="text-2xl sm:text-3xl font-black text-indigo-950 inline-block border-b-4 border-indigo-600 pb-1">
-                  Textaufgaben: Rückwärtsrechnen (Probe & Umkehrung)
-                </h5>
+                <span class="text-2xl sm:text-3xl font-black text-blue-950 border-b-2 border-blue-950 pb-0.5 inline-block">
+                  Textaufgaben: Rückwärtsrechnen
+                </span>
               </div>
 
-              <!-- Beispielaufgabe -->
-              <div class="bg-white/90 p-4 rounded-xl border-2 border-slate-300 shadow-sm space-y-2">
-                <div class="font-bold text-purple-900 font-sans-ui text-lg">Aufgabe 1 (Laras Ausflugsgeld):</div>
-                <div class="font-sans-ui text-lg sm:text-xl text-slate-700 italic">
-                  „Lara hat am Ende 36,50 € im Geldbeutel. Zuvor kaufte sie ein Eis für 7,50 € und eine Eintrittskarte für 12,00 €. Wie viel Geld hatte sie am Anfang?“
+              <!-- Aufgabe & Gegeben / Gesucht -->
+              <div class="space-y-2">
+                <div class="text-xl sm:text-2xl font-black text-blue-950">Aufgabe 1:</div>
+                <div class="space-y-1 pl-2 sm:pl-4 text-xl sm:text-2xl">
+                  <div><u>Gegeben:</u></div>
+                  <div class="pl-6 space-y-0.5">
+                    <div>Endbetrag = 36,50 €</div>
+                    <div>Eis = 7,50 €</div>
+                    <div>Eintrittskarte = 12,00 €</div>
+                  </div>
+                  <div class="pt-1"><u>Gesucht:</u> Startbetrag</div>
                 </div>
               </div>
 
-              <!-- Gegeben & Gesucht Block -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white/90 p-4 rounded-xl border border-slate-200">
-                <div>
-                  <strong class="text-indigo-800">Gegeben:</strong><br>
-                  • Endbetrag = 36,50 €<br>
-                  • Eis = 7,50 €<br>
-                  • Eintrittskarte = 12,00 €
-                </div>
-                <div>
-                  <strong class="text-purple-800">Gesucht:</strong><br>
-                  • Startbetrag zu Beginn
+              <!-- Rechnung (reine Zahlenzeilen, sauber untereinander) -->
+              <div class="space-y-2">
+                <div><u>Rechnung:</u></div>
+                <div class="pl-6 space-y-1 text-2xl sm:text-3xl font-black tracking-wider">
+                  <div>36,50 € + &nbsp;7,50 € = 44,00 €</div>
+                  <div>44,00 € + 12,00 € = <span class="border-b-4 border-double border-blue-950 px-1">56,00 €</span></div>
                 </div>
               </div>
 
-              <!-- Rechnung mit Zwischenschritten -->
-              <div class="bg-white/90 p-5 rounded-2xl border-2 border-slate-300 space-y-3">
-                <div class="font-bold text-slate-800 underline">Rechnung (Rückwärts):</div>
-                <div class="space-y-1.5 pl-2 sm:pl-4 font-black">
-                  <div>1. Schritt (Eis zurücklegen): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;36,50 € + 7,50 € = 44,00 € <span class="text-sm font-sans-ui text-slate-500 font-normal">(Zwischensumme)</span></div>
-                  <div>2. Schritt (Eintritt zurückholen): &nbsp;&nbsp;44,00 € + 12,00 € = <span class="inline-block border-b-4 border-double border-emerald-600 text-emerald-800 px-1">56,00 €</span></div>
-                </div>
-              </div>
-
-              <!-- Vorwärts-Probe -->
-              <div class="bg-white/90 p-5 rounded-2xl border-2 border-slate-300 space-y-2">
-                <div class="font-bold text-slate-800 underline">Probe (Vorwärts):</div>
-                <div class="pl-2 sm:pl-4 font-black text-indigo-900">
-                  56,00 € − 12,00 € − 7,50 € = <strong>36,50 €</strong> &nbsp;<span class="text-emerald-600 font-bold">✓ (Stimmt genau mit dem Text überein!)</span>
+              <!-- Probe (reine Rechnung) -->
+              <div class="space-y-2">
+                <div><u>Probe:</u></div>
+                <div class="pl-6 text-2xl sm:text-3xl font-black tracking-wider">
+                  56,00 € − 12,00 € − 7,50 € = 36,50 €
                 </div>
               </div>
 
               <!-- Antwortsatz -->
-              <div class="bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-400 font-sans-ui text-xl sm:text-2xl font-extrabold text-emerald-950">
-                <u>Antwort:</u> Lara hatte zu Beginn ihres Ausflugs genau <strong>56,00 Euro</strong> in ihrem Geldbeutel.
-              </div>
-
-              <!-- Heft-Tipps am Rand -->
-              <div class="flex flex-wrap gap-4 pt-2 text-sm font-sans-ui font-bold text-slate-600">
-                <span class="flex items-center gap-1.5 bg-amber-100 px-3 py-1.5 rounded-lg border border-amber-300 text-amber-900">
-                  <span>📏</span> Immer mit Lineal unterstreichen!
-                </span>
-                <span class="flex items-center gap-1.5 bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-300 text-blue-900">
-                  <span>💶</span> Einheiten (€, kg, m) nie vergessen!
-                </span>
-                <span class="flex items-center gap-1.5 bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-300 text-emerald-900">
-                  <span>═</span> Endergebnis immer doppelt unterstreichen!
-                </span>
+              <div class="space-y-1 pt-2">
+                <div><u>Antwort:</u></div>
+                <div class="pl-6 text-xl sm:text-2xl font-bold font-sans-ui text-blue-950 leading-relaxed">
+                  Lara hatte am Anfang genau 56,00 € in ihrem Geldbeutel.
+                </div>
               </div>
 
             </div>
