@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="version" content="1.0.0">
+  <title>Textaufgaben-Detektive | Mathe Klasse 6 | LernApps KHS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js für Soundeffekte -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <!-- Canvas Confetti für Belohnungseffekte -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Schulfreundliche Schriftarten: Fredoka & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Fredoka', 'Inter', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .font-sans-ui {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-math {
+      font-family: 'Inter', monospace;
+    }
+    /* Interaktive Textmarker Styles mit hohem Kontrast für Smartboard */
+    .hl-number {
+      background-color: #fef08a !important; /* Kräftiges Gelb */
+      border-bottom: 4px solid #ca8a04 !important;
+      border-radius: 6px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .hl-signal {
+      background-color: #bbf7d0 !important; /* Helles Smaragdgrün */
+      border-bottom: 4px solid #16a34a !important;
+      border-radius: 6px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .hl-question {
+      background-color: #e9d5ff !important; /* Lila */
+      border-bottom: 4px solid #9333ea !important;
+      border-radius: 6px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .interactive-word {
+      transition: all 0.15s ease-in-out;
+      display: inline-block;
+      margin: 1px 2px;
+      border-radius: 6px;
+      padding: 2px 4px;
+    }
+    .interactive-word:hover {
+      background-color: rgba(99, 102, 241, 0.15);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col selection:bg-indigo-200">
+
+  <!-- ============================================================== -->
+  <!-- SMARTBOARD-HEADER MIT TIMER & NAVIGATION                       -->
+  <!-- ============================================================== -->
+  <header class="bg-white/95 backdrop-blur border-b-2 border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Zurück zur Übersicht & App-Titel -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="p-2.5 sm:px-4 sm:py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-2xl text-slate-700 font-bold flex items-center gap-2 transition text-base" title="Zurück zum LernApps Dashboard">
+          <span>←</span>
+          <span class="hidden md:inline">Dashboard</span>
+        </a>
+
+        <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center font-bold text-2xl shadow-md border-2 border-indigo-400">
+          🔍
+        </div>
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+            Textaufgaben-Detektive
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-500 font-sans-ui font-semibold">
+            Mathe Klasse 6 • Die 4-Schritte-Methode
+          </p>
+        </div>
+      </div>
+
+      <!-- Smartboard-Timer (Pflichtelement mit Schnellauswahl 3/5/10 Min) & Punkte -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        
+        <!-- Timer-Container -->
+        <div class="flex items-center bg-slate-50 border-2 border-slate-200 rounded-2xl p-1.5 sm:px-3 gap-2 shadow-inner">
+          <span class="text-xl">⏱️</span>
+          <div id="smartboard-timer-display" class="font-sans-ui font-black text-slate-800 text-xl sm:text-2xl min-w-[72px] text-center tracking-wider">
+            05:00
+          </div>
+          
+          <!-- Schnellauswahl -->
+          <div class="flex items-center gap-1 border-l-2 border-slate-200 pl-2">
+            <button onclick="setTimerDuration(180)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition" title="3 Minuten">3m</button>
+            <button onclick="setTimerDuration(300)" class="timer-btn text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 px-2 py-1 rounded-lg transition" title="5 Minuten">5m</button>
+            <button onclick="setTimerDuration(600)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition" title="10 Minuten">10m</button>
+          </div>
+
+          <!-- Controls -->
+          <button id="timer-toggle-btn" onclick="toggleSmartboardTimer()" class="text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition">
+            Start
+          </button>
+          <button onclick="resetSmartboardTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2 py-1.5 rounded-xl transition" title="Zurücksetzen">
+            ↺
+          </button>
+        </div>
+
+        <!-- Punkteanzeige / Detektiv-Punkte -->
+        <div class="bg-amber-100 border-2 border-amber-300 px-3 py-1.5 rounded-2xl flex items-center gap-2 shadow-sm text-amber-900 font-bold text-sm sm:text-base">
+          <span class="text-lg">⭐</span>
+          <span id="score-display">0 Punkte</span>
+        </div>
+
+        <!-- Audio Toggle Button -->
+        <button id="audio-btn" onclick="toggleAudio()" class="bg-slate-100 hover:bg-slate-200 p-2.5 rounded-2xl border-2 border-slate-300 text-slate-700 text-lg transition" title="Ton ein/aus">
+          <span id="audio-icon">🔊</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Phasen-Navigation für den Frontalunterricht am Smartboard -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-2 border-t-2 border-slate-100 overflow-x-auto py-2.5">
+      <button onclick="switchPhase('einstieg')" id="nav-phase-einstieg" class="phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-indigo-600 text-white shadow flex items-center gap-2 whitespace-nowrap">
+        <span>🧭</span> 1. Der 4-Schritte-Fahrplan
+      </button>
+      <button onclick="switchPhase('radar')" id="nav-phase-radar" class="phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border-2 border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>📡</span> 2. Signalwort-Radar
+      </button>
+      <button onclick="switchPhase('marker')" id="nav-phase-marker" class="phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border-2 border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🕵️</span> 3. Fallakte & Textmarker
+      </button>
+      <button onclick="switchPhase('rechnen')" id="nav-phase-rechnen" class="phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border-2 border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🧩</span> 4. Rechenplan & Antwort
+      </button>
+      <button onclick="switchPhase('uebungen')" id="nav-phase-uebungen" class="phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border-2 border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🎯</span> 5. Detektiv-Prüfung (3 Fälle)
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- HAUPTINHALT: DIE 5 UNTERRICHTS-PHASEN                          -->
+  <!-- ============================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+    <!-- ============================================================ -->
+    <!-- PHASE 1: AKTIVIERUNG & DER 4-SCHRITTE-FAHRPLAN               -->
+    <!-- ============================================================ -->
+    <section id="phase-einstieg" class="phase-container space-y-8">
+      
+      <!-- Einstiegs-Banner (Fernlesbare Typografie) -->
+      <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-4 text-center md:text-left">
+          <span class="inline-block bg-white/20 text-white text-sm font-black px-4 py-1.5 rounded-full uppercase tracking-wider">
+            Detektiv-Ausbildung Klasse 6
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight">
+            Keine Angst vor langen Texten!
+          </h2>
+          <p class="text-blue-100 text-xl sm:text-2xl font-sans-ui max-w-3xl leading-relaxed">
+            Eine Textaufgabe ist wie ein <strong>Kriminalfall</strong>: Im Text verstecken sich wichtige Zeugen (Zahlen), verdächtige Spuren (Signalwörter) und die Hauptfrage.
+          </p>
+        </div>
+        <div class="text-7xl sm:text-8xl p-6 bg-white/10 rounded-3xl backdrop-blur shrink-0">
+          🕵️‍♂️
+        </div>
+      </div>
+
+      <!-- Anweisung zum Aufdecken -->
+      <div class="flex items-center justify-between bg-indigo-50 border-2 border-indigo-200 p-4 rounded-2xl">
+        <div class="text-lg sm:text-xl font-bold text-indigo-950 flex items-center gap-3">
+          <span>👆</span> Tippe auf die 4 Detektiv-Karten, um die Schritte schrittweise aufzudecken!
+        </div>
+        <button onclick="revealAllSteps()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition">
+          Alle aufdecken
+        </button>
+      </div>
+
+      <!-- Die 4 interaktiven Schritte (Aufdeckkarten) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Schritt 1 -->
+        <div id="step-card-1" onclick="toggleStep(1)" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-yellow-400 shadow-md hover:shadow-xl transition flex flex-col justify-between group min-h-[320px]">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-2xl bg-yellow-400 text-yellow-950 font-black flex items-center justify-center text-2xl shadow">1</span>
+              <span class="text-3xl">🖍️</span>
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-2xl">Lesen & Markieren</h3>
+            <p class="text-lg text-slate-600 font-sans-ui">
+              Lies den Text <strong>zweimal</strong> in Ruhe durch. Schnapp dir deine Stifte:
+            </p>
+            <div id="step-details-1" class="hidden space-y-2 pt-2">
+              <div class="bg-yellow-100 text-yellow-950 p-3 rounded-xl border border-yellow-300 font-bold text-base">
+                🟡 <strong>Zahlen & Einheiten</strong> (z. B. 24 Schüler, 5 €)
+              </div>
+              <div class="bg-emerald-100 text-emerald-950 p-3 rounded-xl border border-emerald-300 font-bold text-base">
+                🟢 <strong>Signalwörter</strong> (z. B. insgesamt, je, verteilt)
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-indigo-600 group-hover:underline">
+            <span id="step-toggle-label-1">Klicken zum Aufdecken ▾</span>
+          </div>
+        </div>
+
+        <!-- Schritt 2 -->
+        <div id="step-card-2" onclick="toggleStep(2)" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-purple-400 shadow-md hover:shadow-xl transition flex flex-col justify-between group min-h-[320px]">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-2xl bg-purple-500 text-white font-black flex items-center justify-center text-2xl shadow">2</span>
+              <span class="text-3xl">❓</span>
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-2xl">Die Frage finden</h3>
+            <p class="text-lg text-slate-600 font-sans-ui">
+              Was will die Aufgabe überhaupt von uns wissen?
+            </p>
+            <div id="step-details-2" class="hidden space-y-2 pt-2">
+              <div class="bg-purple-100 text-purple-950 p-3 rounded-xl border border-purple-300 font-bold text-base">
+                🟣 <strong>Fragesatz markieren</strong> (endet mit „?“)
+              </div>
+              <div class="bg-slate-100 text-slate-800 p-3 rounded-xl border border-slate-300 font-bold text-base">
+                Kläre: Was ist <strong>Gegeben</strong>? Was ist <strong>Gesucht</strong>?
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-indigo-600 group-hover:underline">
+            <span id="step-toggle-label-2">Klicken zum Aufdecken ▾</span>
+          </div>
+        </div>
+
+        <!-- Schritt 3 -->
+        <div id="step-card-3" onclick="toggleStep(3)" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-blue-400 shadow-md hover:shadow-xl transition flex flex-col justify-between group min-h-[320px]">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-black flex items-center justify-center text-2xl shadow">3</span>
+              <span class="text-3xl">➕</span>
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-2xl">Rechenplan erstellen</h3>
+            <p class="text-lg text-slate-600 font-sans-ui">
+              Übersetze die Signalwörter in die Mathe-Sprache:
+            </p>
+            <div id="step-details-3" class="hidden space-y-2 pt-2">
+              <div class="bg-blue-100 text-blue-950 p-2.5 rounded-xl border border-blue-300 font-bold text-base">
+                „dazukommen“ ➔ <strong>Plus (+)</strong>
+              </div>
+              <div class="bg-blue-100 text-blue-950 p-2.5 rounded-xl border border-blue-300 font-bold text-base">
+                „Rest / übrig“ ➔ <strong>Minus (−)</strong>
+              </div>
+              <div class="bg-blue-100 text-blue-950 p-2.5 rounded-xl border border-blue-300 font-bold text-base">
+                „jeweils / pro“ ➔ <strong>Mal (·) oder Geteilt (:)</strong>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-indigo-600 group-hover:underline">
+            <span id="step-toggle-label-3">Klicken zum Aufdecken ▾</span>
+          </div>
+        </div>
+
+        <!-- Schritt 4 -->
+        <div id="step-card-4" onclick="toggleStep(4)" class="cursor-pointer bg-white p-6 rounded-3xl border-4 border-emerald-400 shadow-md hover:shadow-xl transition flex flex-col justify-between group min-h-[320px]">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-black flex items-center justify-center text-2xl shadow">4</span>
+              <span class="text-3xl">📝</span>
+            </div>
+            <h3 class="font-extrabold text-slate-900 text-2xl">Antwort & Sinn-Check</h3>
+            <p class="text-lg text-slate-600 font-sans-ui">
+              Jede Frage verdient einen ganzen Antwortsatz!
+            </p>
+            <div id="step-details-4" class="hidden space-y-2 pt-2">
+              <div class="bg-emerald-100 text-emerald-950 p-3 rounded-xl border border-emerald-300 font-bold text-base">
+                ✍️ Ganzer Satz mit richtiger <strong>Einheit</strong>!
+              </div>
+              <div class="bg-amber-100 text-amber-950 p-3 rounded-xl border border-amber-300 font-bold text-base">
+                🧠 <strong>Sinn-Check:</strong> Kann das Ergebnis in echt stimmen?
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t-2 border-slate-100 text-center text-sm font-bold text-indigo-600 group-hover:underline">
+            <span id="step-toggle-label-4">Klicken zum Aufdecken ▾</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Weiter-Button zur nächsten Phase -->
+      <div class="text-center pt-4">
+        <button onclick="switchPhase('radar')" class="px-8 py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
+          <span>Weiter zum Signalwort-Radar</span>
+          <span class="text-3xl">➔</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 2: SIGNALWORT-RADAR                                    -->
+    <!-- ============================================================ -->
+    <section id="phase-radar" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-md space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-4">
+          <div>
+            <span class="bg-indigo-100 text-indigo-800 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Didaktischer Werkzeugkasten
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              📡 Der Signalwort-Radar
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Wähle eine Rechenart aus, um die typischen Signalwörter am Smartboard zu besprechen:
+            </p>
+          </div>
+
+          <!-- Filter-Knöpfe -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="filterRadar('all')" id="radar-filter-all" class="radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-indigo-600 text-white shadow">Alle</button>
+            <button onclick="filterRadar('plus')" id="radar-filter-plus" class="radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Plus (+)</button>
+            <button onclick="filterRadar('minus')" id="radar-filter-minus" class="radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Minus (−)</button>
+            <button onclick="filterRadar('mal')" id="radar-filter-mal" class="radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Mal (·)</button>
+            <button onclick="filterRadar('geteilt')" id="radar-filter-geteilt" class="radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Geteilt (:)</button>
+          </div>
+        </div>
+
+        <!-- Signalwort-Karten Grid (Große Schrift) -->
+        <div id="radar-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Dynamisch generiert -->
+        </div>
+
+        <div class="text-center pt-6">
+          <button onclick="switchPhase('marker')" class="px-8 py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
+            <span>Weiter zu Phase 3: Textmarker-Fallakte</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 3: INTERAKTIVER TEXTMARKER (FALLAKTE KLETTERWALD)      -->
+    <!-- ============================================================ -->
+    <section id="phase-marker" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-lg space-y-6">
+        
+        <!-- Header & Steuerung für die Lehrkraft -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-4">
+          <div>
+            <span class="bg-indigo-100 text-indigo-800 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Gemeinsam am Smartboard
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              Fallakte #1: Der Kletterwald-Ausflug
+            </h2>
+            <p class="text-lg sm:text-xl text-slate-600 font-sans-ui mt-1">
+              Wähle unten ein Detektiv-Werkzeug und tippe auf die passenden Wörter im Text!
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="resetHighlighter()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-base rounded-2xl border-2 border-slate-300 transition">
+              Zurücksetzen ↺
+            </button>
+            <button onclick="solveHighlighterAuto()" class="px-4 py-3 bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-base rounded-2xl border-2 border-amber-300 transition">
+              Musterlösung 💡
+            </button>
+          </div>
+        </div>
+
+        <!-- Aktives Werkzeug (Große Touch-Buttons) -->
+        <div class="bg-slate-50 p-4 sm:p-6 rounded-3xl border-2 border-slate-200 flex flex-wrap items-center justify-center gap-4">
+          <span class="text-base font-bold text-slate-500 uppercase tracking-wider">Aktiver Stift:</span>
+          
+          <button id="tool-yellow" onclick="setActiveTool('number')" class="tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-yellow-300 text-yellow-950 shadow-lg border-4 border-yellow-500 flex items-center gap-3 transition transform active:scale-95">
+            <span class="text-2xl">🟡</span>
+            <span>1. Zahlen & Einheiten</span>
+          </button>
+
+          <button id="tool-green" onclick="setActiveTool('signal')" class="tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-white text-emerald-900 border-4 border-emerald-300 hover:bg-emerald-50 flex items-center gap-3 transition transform active:scale-95">
+            <span class="text-2xl">🟢</span>
+            <span>2. Signalwörter</span>
+          </button>
+
+          <button id="tool-purple" onclick="setActiveTool('question')" class="tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-white text-purple-900 border-4 border-purple-300 hover:bg-purple-50 flex items-center gap-3 transition transform active:scale-95">
+            <span class="text-2xl">🟣</span>
+            <span>3. Die Frage</span>
+          </button>
+        </div>
+
+        <!-- Interaktiver Textbereich (Großschrift min. 24px) -->
+        <div class="p-8 sm:p-12 bg-amber-50/50 rounded-3xl border-4 border-amber-200 shadow-inner leading-loose text-2xl sm:text-3xl font-medium text-slate-900" id="case-text-container">
+          <!-- Dynamisch mit klickbaren Wort-Spans gefüllt -->
+        </div>
+
+        <!-- Detektiv-Protokoll: Übersicht der gefundenen Spuren -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Gegebene Zahlen -->
+          <div class="bg-yellow-50 p-6 rounded-3xl border-2 border-yellow-300 space-y-3 shadow-sm">
+            <h4 class="font-extrabold text-yellow-950 text-xl flex items-center gap-2">
+              <span>🟡</span> Gegeben (Zahlen mit Einheit):
+            </h4>
+            <div id="found-numbers-list" class="text-lg font-bold text-yellow-950 space-y-2 min-h-[60px]">
+              <span class="text-slate-400 italic">Noch keine Zahlen markiert...</span>
+            </div>
+          </div>
+
+          <!-- Signalwörter -->
+          <div class="bg-emerald-50 p-6 rounded-3xl border-2 border-emerald-300 space-y-3 shadow-sm">
+            <h4 class="font-extrabold text-emerald-950 text-xl flex items-center gap-2">
+              <span>🟢</span> Entdeckte Signalwörter:
+            </h4>
+            <div id="found-signals-list" class="text-lg font-bold text-emerald-950 space-y-2 min-h-[60px]">
+              <span class="text-slate-400 italic">Noch keine Signalwörter markiert...</span>
+            </div>
+          </div>
+
+          <!-- Gesuchte Frage -->
+          <div class="bg-purple-50 p-6 rounded-3xl border-2 border-purple-300 space-y-3 shadow-sm">
+            <h4 class="font-extrabold text-purple-950 text-xl flex items-center gap-2">
+              <span>🟣</span> Gesucht (Die Frage):
+            </h4>
+            <div id="found-question-box" class="text-lg font-bold text-purple-950 min-h-[60px]">
+              <span class="text-slate-400 italic">Tippe auf den Fragesatz...</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Status & Weiter-Button -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-slate-200">
+          <div id="marker-status-message" class="text-lg sm:text-xl font-bold text-slate-600">
+            Finde alle 3 Zahlengruppen, die Signalwörter („pro Kind“, „zusätzlich“, „insgesamt“) und den Fragesatz!
+          </div>
+          <button onclick="switchPhase('rechnen')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xl rounded-2xl transition shadow-lg">
+            Weiter zur Rechnung (Phase 4) ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 4: RECHENPLAN & ANTWORT-BAUKASTEN                      -->
+    <!-- ============================================================ -->
+    <section id="phase-rechnen" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-lg space-y-8 max-w-5xl mx-auto">
+        
+        <div class="border-b-2 border-slate-200 pb-4">
+          <span class="bg-blue-100 text-blue-800 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+            Vom Text zur Mathematik
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+            Schritt 3 & 4: Der Rechen- und Antwortplan
+          </h2>
+          <p class="text-xl text-slate-600 font-sans-ui mt-1">
+            <strong>Kletterwald:</strong> 24 Kinder, je 8 € Eintritt, plus 36 € Klettergurte.
+          </p>
+        </div>
+
+        <!-- Stufe 1: Rechenplan auswählen -->
+        <div class="space-y-4 bg-slate-50 p-6 sm:p-8 rounded-3xl border-2 border-slate-200">
+          <label class="block text-2xl font-extrabold text-slate-900">
+            Aufgabe 1: Welcher Rechenterm passt genau zum Text?
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="plan-selection-grid">
+            <button onclick="checkMathPlan(1, this)" class="plan-option-btn p-5 bg-white border-4 border-slate-200 rounded-3xl text-center font-math font-extrabold text-2xl hover:border-indigo-400 hover:bg-indigo-50 transition shadow-sm">
+              24 + 8 + 36
+            </button>
+            <button onclick="checkMathPlan(2, this)" class="plan-option-btn p-5 bg-white border-4 border-slate-200 rounded-3xl text-center font-math font-extrabold text-2xl hover:border-indigo-400 hover:bg-indigo-50 transition shadow-sm">
+              (24 · 8) + 36
+            </button>
+            <button onclick="checkMathPlan(3, this)" class="plan-option-btn p-5 bg-white border-4 border-slate-200 rounded-3xl text-center font-math font-extrabold text-2xl hover:border-indigo-400 hover:bg-indigo-50 transition shadow-sm">
+              (24 · 36) + 8
+            </button>
+          </div>
+          <div id="plan-feedback" class="hidden text-xl font-bold p-4 rounded-2xl"></div>
+        </div>
+
+        <!-- Stufe 2: Schrittweise Rechnung -->
+        <div class="space-y-6 bg-indigo-50/60 p-6 sm:p-8 rounded-3xl border-2 border-indigo-200">
+          <h3 class="text-xl font-black text-indigo-950 uppercase tracking-wide">
+            Aufgabe 2: Schrittweise im Plenum ausrechnen
+          </h3>
+          
+          <!-- Teilschritt 1 -->
+          <div class="flex flex-wrap items-center gap-4 bg-white p-5 rounded-2xl border-2 border-indigo-200 font-math">
+            <span class="text-xl font-bold text-slate-600 font-sans-ui">1. Eintritt alle Kinder:</span>
+            <span class="text-2xl sm:text-3xl font-black text-slate-900">24 · 8 € =</span>
+            <input type="number" id="step1-input" placeholder="Ergebnis?" class="w-40 px-4 py-3 bg-slate-50 border-4 border-indigo-200 rounded-2xl text-center font-black text-2xl text-indigo-700 outline-none focus:border-indigo-500">
+            <button onclick="checkStep1()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-2xl transition">
+              Prüfen ✓
+            </button>
+            <span id="step1-check-icon" class="text-3xl"></span>
+          </div>
+
+          <!-- Teilschritt 2 -->
+          <div id="step2-container" class="opacity-50 pointer-events-none flex flex-wrap items-center gap-4 bg-white p-5 rounded-2xl border-2 border-indigo-200 font-math transition-all">
+            <span class="text-xl font-bold text-slate-600 font-sans-ui">2. Gesamtkosten (+ Gurte):</span>
+            <span id="step2-prefix" class="text-2xl sm:text-3xl font-black text-slate-900">192 € + 36 € =</span>
+            <input type="number" id="step2-input" placeholder="Gesamt?" class="w-40 px-4 py-3 bg-slate-50 border-4 border-indigo-200 rounded-2xl text-center font-black text-2xl text-indigo-700 outline-none focus:border-indigo-500">
+            <button onclick="checkStep2()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-2xl transition">
+              Prüfen ✓
+            </button>
+            <span id="step2-check-icon" class="text-3xl"></span>
+          </div>
+        </div>
+
+        <!-- Stufe 3: Vollständigen Antwortsatz auswählen -->
+        <div class="space-y-4 bg-emerald-50/60 p-6 sm:p-8 rounded-3xl border-2 border-emerald-200">
+          <label class="block text-2xl font-extrabold text-emerald-950">
+            Aufgabe 3: Welcher Antwortsatz ist vollständig und richtig?
+          </label>
+          <div class="space-y-3" id="answer-choices-container">
+            <button onclick="checkAnswerChoice(1, this)" class="w-full text-left p-5 bg-white hover:bg-emerald-50 border-4 border-slate-200 rounded-2xl text-xl font-bold transition">
+              A) 228.
+            </button>
+            <button onclick="checkAnswerChoice(2, this)" class="w-full text-left p-5 bg-white hover:bg-emerald-50 border-4 border-slate-200 rounded-2xl text-xl font-bold transition">
+              B) Die Klasse muss insgesamt 228 Euro bezahlen.
+            </button>
+            <button onclick="checkAnswerChoice(3, this)" class="w-full text-left p-5 bg-white hover:bg-emerald-50 border-4 border-slate-200 rounded-2xl text-xl font-bold transition">
+              C) Die Klasse hat 24 Schüler.
+            </button>
+          </div>
+          <div id="answer-sentence-feedback" class="hidden text-xl font-bold p-4 rounded-2xl"></div>
+        </div>
+
+        <div class="text-center pt-4">
+          <button onclick="switchPhase('uebungen')" class="px-8 py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-3xl transition shadow-xl inline-flex items-center gap-3">
+            <span>Zur Detektiv-Prüfung (3 Übungen)</span>
+            <span class="text-3xl">➔</span>
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 5: GEMEINSAME ANWENDUNGSÜBUNGEN (3 INTERAKTIVE FÄLLE)  -->
+    <!-- ============================================================ -->
+    <section id="phase-uebungen" class="phase-container hidden space-y-8">
+      
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8 max-w-5xl mx-auto">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-4">
+          <div>
+            <span class="bg-amber-100 text-amber-900 border border-amber-300 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Gemeinsames Training
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              🎯 Die Detektiv-Prüfung: 3 interaktive Fälle
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Löst die Fälle nacheinander an der Tafel. Besprecht die Signalwörter vor dem Klick!
+            </p>
+          </div>
+
+          <!-- Fall-Wahlschalter -->
+          <div class="flex items-center gap-2">
+            <button onclick="loadQuizCase(0)" id="quiz-tab-0" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-indigo-600 text-white shadow">Fall 1</button>
+            <button onclick="loadQuizCase(1)" id="quiz-tab-1" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Fall 2</button>
+            <button onclick="loadQuizCase(2)" id="quiz-tab-2" class="quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300">Fall 3</button>
+          </div>
+        </div>
+
+        <!-- Quiz Card Container -->
+        <div id="quiz-container" class="space-y-6">
+          <!-- Dynamisch mit Fall 1, 2 oder 3 befüllt -->
+        </div>
+
+        <!-- Navigations-Footer für Quiz -->
+        <div class="flex items-center justify-between pt-6 border-t-2 border-slate-200">
+          <button onclick="prevQuizCase()" id="quiz-prev-btn" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition">
+            ← Vorheriger Fall
+          </button>
+          <button onclick="nextQuizCase()" id="quiz-next-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-2xl transition shadow-md">
+            Nächster Fall ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================== -->
+  <footer class="bg-white border-t-2 border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-base font-sans-ui text-slate-500">
+      <div>
+        <strong class="text-slate-700">LernApps KHS</strong> • Mathematik Klasse 6 • Textaufgaben-Detektive
+      </div>
+      <div>
+        Version <strong class="text-slate-700">v1.0.0</strong> • Optimiert für Smartboard & iPad
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT: LOGIK, SOUND, TEXTMARKER & QUIZ                    -->
+  <!-- ============================================================== -->
+  <script>
+    // -------------------------------------------------------------
+    // AUDIO-EFFEKTE (Tone.js Fallback)
+    // -------------------------------------------------------------
+    let audioEnabled = true;
+    let synth = null;
+
+    function initAudio() {
+      try {
+        if (!synth && window.Tone) {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -8;
+        }
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('audio-icon');
+      icon.textContent = audioEnabled ? '🔊' : '🔇';
+      if (audioEnabled) {
+        initAudio();
+        playSound('click');
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        if (type === 'correct' && synth) {
+          synth.triggerAttackRelease(['C5', 'E5', 'G5', 'C6'], '8n');
+        } else if (type === 'wrong' && synth) {
+          synth.triggerAttackRelease(['F4', 'D4'], '8n');
+        } else if (type === 'click' && synth) {
+          synth.triggerAttackRelease('C4', '16n');
+        } else if (type === 'gong' && synth) {
+          synth.triggerAttackRelease(['C4', 'G4'], '2n');
+        }
+      } catch(e) {}
+    }
+
+    // -------------------------------------------------------------
+    // SMARTBOARD-TIMER (3, 5, 10 Min Presets)
+    // -------------------------------------------------------------
+    let timerDuration = 300;
+    let timerRemaining = 300;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimerUI() {
+      const display = document.getElementById('smartboard-timer-display');
+      display.textContent = formatTime(timerRemaining);
+
+      if (timerRemaining <= 30 && timerRunning) {
+        display.classList.add('text-red-600', 'animate-pulse');
+      } else {
+        display.classList.remove('text-red-600', 'animate-pulse');
+      }
+    }
+
+    function setTimerDuration(seconds) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerDuration = seconds;
+      timerRemaining = seconds;
+      const btn = document.getElementById('timer-toggle-btn');
+      btn.textContent = 'Start';
+      btn.className = 'text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition';
+      
+      // Update quick button styles
+      document.querySelectorAll('.timer-btn').forEach(b => {
+        b.className = 'timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition';
+      });
+      event.target.className = 'timer-btn text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 px-2 py-1 rounded-lg transition';
+
+      updateTimerUI();
+    }
+
+    function toggleSmartboardTimer() {
+      const btn = document.getElementById('timer-toggle-btn');
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Weiter';
+        btn.className = 'text-xs sm:text-sm bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition';
+      } else {
+        if (timerRemaining <= 0) {
+          timerRemaining = timerDuration;
+        }
+        timerRunning = true;
+        btn.textContent = 'Pause';
+        btn.className = 'text-xs sm:text-sm bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition';
+        timerInterval = setInterval(() => {
+          if (timerRemaining > 0) {
+            timerRemaining--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            btn.textContent = 'Start';
+            btn.className = 'text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition';
+            playSound('gong');
+            alert('⏱️ Die Zeit für diesen Input ist abgelaufen!');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetSmartboardTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = timerDuration;
+      const btn = document.getElementById('timer-toggle-btn');
+      btn.textContent = 'Start';
+      btn.className = 'text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition';
+      updateTimerUI();
+    }
+
+    // -------------------------------------------------------------
+    // PUNKTE-SYSTEM
+    // -------------------------------------------------------------
+    let score = 0;
+    function addScore(points) {
+      score += points;
+      document.getElementById('score-display').textContent = `${score} Punkte`;
+    }
+
+    // -------------------------------------------------------------
+    // PHASEN-NAVIGATION
+    // -------------------------------------------------------------
+    const phases = ['einstieg', 'radar', 'marker', 'rechnen', 'uebungen'];
+
+    function switchPhase(targetPhase) {
+      playSound('click');
+      phases.forEach(p => {
+        const sec = document.getElementById('phase-' + p);
+        const navBtn = document.getElementById('nav-phase-' + p);
+        if (p === targetPhase) {
+          sec.classList.remove('hidden');
+          navBtn.className = 'phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-indigo-600 text-white shadow flex items-center gap-2 whitespace-nowrap';
+        } else {
+          sec.classList.add('hidden');
+          navBtn.className = 'phase-nav-btn px-4 py-2.5 rounded-2xl text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border-2 border-slate-200 flex items-center gap-2 whitespace-nowrap';
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 1: AUFDECK-SCHRITTE
+    // -------------------------------------------------------------
+    function toggleStep(num) {
+      playSound('click');
+      const details = document.getElementById('step-details-' + num);
+      const label = document.getElementById('step-toggle-label-' + num);
+      if (details.classList.contains('hidden')) {
+        details.classList.remove('hidden');
+        label.textContent = 'Schritt eingeklappt ▴';
+        addScore(10);
+      } else {
+        details.classList.add('hidden');
+        label.textContent = 'Klicken zum Aufdecken ▾';
+      }
+    }
+
+    function revealAllSteps() {
+      playSound('correct');
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('step-details-' + i).classList.remove('hidden');
+        document.getElementById('step-toggle-label-' + i).textContent = 'Aufgedeckt ✓';
+      }
+      addScore(20);
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 2: SIGNALWORT-RADAR
+    // -------------------------------------------------------------
+    const radarData = [
+      {
+        type: 'plus',
+        badge: 'Plus (+)',
+        badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
+        title: 'Addieren / Zusammen',
+        signals: ['insgesamt', 'zusammen', 'hinzukommen', 'erhöhen', 'zusätzlich', 'mehr als'],
+        example: '„Sie kauft 3 Äpfel und zusätzlich 2 Birnen.“'
+      },
+      {
+        type: 'minus',
+        badge: 'Minus (−)',
+        badgeColor: 'bg-rose-100 text-rose-900 border-rose-300',
+        title: 'Subtrahieren / Wegnehmen',
+        signals: ['Rest / übrig', 'Unterschied', 'abziehen', 'weniger als', 'verlieren', 'ausgeben'],
+        example: '„Er hat 20 € und gibt 6 € aus. Wie viel bleibt übrig?“'
+      },
+      {
+        type: 'mal',
+        badge: 'Mal (·)',
+        badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+        title: 'Multiplizieren / Vervielfachen',
+        signals: ['je / jeweils', 'pro Stück / pro Kind', 'das Doppelte', 'mal so viele', 'in jeder Gruppe'],
+        example: '„Jedes der 4 Kinder bekommt 5 Bonbons.“'
+      },
+      {
+        type: 'geteilt',
+        badge: 'Geteilt (:)',
+        badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+        title: 'Dividieren / Aufteilen',
+        signals: ['aufteilen', 'gleichmäßig verteilen', 'die Hälfte', 'je Kind erhalten', 'wie viele Gruppen'],
+        example: '„24 Schüler werden gleichmäßig auf 6 Tische verteilt.“'
+      }
+    ];
+
+    function renderRadarCards(filter = 'all') {
+      const container = document.getElementById('radar-grid');
+      container.innerHTML = '';
+
+      const items = filter === 'all' ? radarData : radarData.filter(d => d.type === filter);
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-3xl border-4 border-slate-200 shadow-sm space-y-4 hover:shadow-md transition';
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black uppercase px-3 py-1 rounded-full border ${item.badgeColor}">
+              ${item.badge}
+            </span>
+            <span class="text-2xl">${item.type === 'plus' ? '➕' : item.type === 'minus' ? '➖' : item.type === 'mal' ? '✖️' : '➗'}</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900">${item.title}</h3>
+          
+          <div class="space-y-2">
+            <div class="text-sm font-bold text-slate-500 uppercase tracking-wider">Signalwörter im Text:</div>
+            <div class="flex flex-wrap gap-1.5">
+              ${item.signals.map(s => `<span class="bg-slate-100 text-slate-800 border border-slate-300 px-3 py-1 rounded-xl text-base font-bold">${s}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="bg-indigo-50/70 p-3 rounded-2xl border border-indigo-200 text-base font-sans-ui text-indigo-950">
+            <strong>Beispiel:</strong> ${item.example}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterRadar(type) {
+      playSound('click');
+      document.querySelectorAll('.radar-btn').forEach(btn => {
+        btn.className = 'radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300';
+      });
+      document.getElementById('radar-filter-' + type).className = 'radar-btn px-5 py-3 rounded-2xl text-lg font-bold bg-indigo-600 text-white shadow';
+      renderRadarCards(type);
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 3: INTERAKTIVER TEXTMARKER (FALLAKTE KLETTERWALD)
+    // -------------------------------------------------------------
+    let activeTool = 'number'; // 'number', 'signal', 'question'
+
+    // Die Rohwörter des Falls mit ihren Metadaten
+    const caseTokens = [
+      { text: "Die", type: null },
+      { text: "Klasse", type: null },
+      { text: "6b", type: null },
+      { text: "macht", type: null },
+      { text: "einen", type: null },
+      { text: "Ausflug", type: null },
+      { text: "in", type: null },
+      { text: "den", type: null },
+      { text: "Kletterwald.", type: null },
+      { text: "Es", type: null },
+      { text: "fahren", type: null },
+      { text: "24 Schüler", type: "number", label: "24 Schüler", id: "num1" },
+      { text: "mit.", type: null },
+      { text: "Der", type: null },
+      { text: "Eintritt", type: null },
+      { text: "kostet", type: null },
+      { text: "8 Euro", type: "number", label: "8 Euro", id: "num2" },
+      { text: "pro Kind.", type: "signal", label: "pro Kind (·)", id: "sig1" },
+      { text: "Für", type: null },
+      { text: "die", type: null },
+      { text: "Klettergurte", type: null },
+      { text: "bezahlt", type: null },
+      { text: "die", type: null },
+      { text: "Klasse", type: null },
+      { text: "zusätzlich", type: "signal", label: "zusätzlich (+)", id: "sig2" },
+      { text: "36 Euro.", type: "number", label: "36 Euro", id: "num3" },
+      { text: "Wie viel Euro muss die Klasse insgesamt bezahlen?", type: "question", label: "Wie viel Euro muss die Klasse insgesamt bezahlen?", id: "q1" }
+    ];
+
+    let highlightedTokens = {};
+
+    function setActiveTool(tool) {
+      playSound('click');
+      activeTool = tool;
+
+      const yellowBtn = document.getElementById('tool-yellow');
+      const greenBtn = document.getElementById('tool-green');
+      const purpleBtn = document.getElementById('tool-purple');
+
+      yellowBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-white text-yellow-900 border-4 border-yellow-300 hover:bg-yellow-50 flex items-center gap-3 transition transform active:scale-95';
+      greenBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-white text-emerald-900 border-4 border-emerald-300 hover:bg-emerald-50 flex items-center gap-3 transition transform active:scale-95';
+      purpleBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-white text-purple-900 border-4 border-purple-300 hover:bg-purple-50 flex items-center gap-3 transition transform active:scale-95';
+
+      if (tool === 'number') {
+        yellowBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-yellow-300 text-yellow-950 shadow-lg border-4 border-yellow-500 flex items-center gap-3 transition transform active:scale-95';
+      } else if (tool === 'signal') {
+        greenBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-emerald-400 text-emerald-950 shadow-lg border-4 border-emerald-600 flex items-center gap-3 transition transform active:scale-95';
+      } else if (tool === 'question') {
+        purpleBtn.className = 'tool-btn px-6 py-4 rounded-2xl text-xl font-bold bg-purple-400 text-white shadow-lg border-4 border-purple-600 flex items-center gap-3 transition transform active:scale-95';
+      }
+    }
+
+    function renderCaseText() {
+      const container = document.getElementById('case-text-container');
+      container.innerHTML = '';
+
+      caseTokens.forEach((token, index) => {
+        const span = document.createElement('span');
+        span.className = 'interactive-word';
+        span.textContent = token.text + ' ';
+        span.id = `token-${index}`;
+
+        // Check if currently highlighted
+        if (highlightedTokens[index]) {
+          const appliedTool = highlightedTokens[index];
+          if (appliedTool === 'number') span.classList.add('hl-number');
+          if (appliedTool === 'signal') span.classList.add('hl-signal');
+          if (appliedTool === 'question') span.classList.add('hl-question');
+        }
+
+        span.onclick = () => handleTokenClick(index);
+        container.appendChild(span);
+      });
+
+      updateProtocolUI();
+    }
+
+    function handleTokenClick(index) {
+      const token = caseTokens[index];
+      
+      // If already highlighted with current tool, remove it
+      if (highlightedTokens[index] === activeTool) {
+        delete highlightedTokens[index];
+        playSound('click');
+      } else {
+        // Check if user clicked correct category
+        if (token.type === activeTool) {
+          highlightedTokens[index] = activeTool;
+          playSound('correct');
+          addScore(15);
+        } else if (token.type !== null) {
+          // Token is important but wrong tool selected!
+          playSound('wrong');
+          alert(`💡 Das gehört zu einem anderen Stift! Prüfe die Stifte: Gelb für Zahlen, Grün für Signalwörter, Lila für die Frage.`);
+          return;
+        } else {
+          // Standard text word
+          playSound('wrong');
+        }
+      }
+      renderCaseText();
+    }
+
+    function updateProtocolUI() {
+      const numList = document.getElementById('found-numbers-list');
+      const sigList = document.getElementById('found-signals-list');
+      const qBox = document.getElementById('found-question-box');
+
+      const foundNumbers = [];
+      const foundSignals = [];
+      let foundQuestion = null;
+
+      Object.keys(highlightedTokens).forEach(idx => {
+        const t = caseTokens[idx];
+        if (highlightedTokens[idx] === 'number') foundNumbers.push(t.label);
+        if (highlightedTokens[idx] === 'signal') foundSignals.push(t.label);
+        if (highlightedTokens[idx] === 'question') foundQuestion = t.label;
+      });
+
+      // Numbers
+      if (foundNumbers.length > 0) {
+        numList.innerHTML = foundNumbers.map(n => `<div class="bg-yellow-200/80 px-3 py-1.5 rounded-xl border border-yellow-400">✓ ${n}</div>`).join('');
+      } else {
+        numList.innerHTML = '<span class="text-slate-400 italic">Noch keine Zahlen markiert...</span>';
+      }
+
+      // Signals
+      if (foundSignals.length > 0) {
+        sigList.innerHTML = foundSignals.map(s => `<div class="bg-emerald-200/80 px-3 py-1.5 rounded-xl border border-emerald-400">✓ ${s}</div>`).join('');
+      } else {
+        sigList.innerHTML = '<span class="text-slate-400 italic">Noch keine Signalwörter markiert...</span>';
+      }
+
+      // Question
+      if (foundQuestion) {
+        qBox.innerHTML = `<div class="bg-purple-200/80 px-3 py-1.5 rounded-xl border border-purple-400">✓ ${foundQuestion}</div>`;
+      } else {
+        qBox.innerHTML = '<span class="text-slate-400 italic">Tippe auf den Fragesatz...</span>';
+      }
+
+      // Completion check
+      const statusMsg = document.getElementById('marker-status-message');
+      if (foundNumbers.length === 3 && foundSignals.length === 2 && foundQuestion) {
+        statusMsg.innerHTML = '<span class="text-emerald-700 font-extrabold text-2xl">🎉 Perfekt! Alle Spuren und Beweise gesichert! Weiter zur Rechnung!</span>';
+        confetti({ particleCount: 50, spread: 60 });
+      }
+    }
+
+    function resetHighlighter() {
+      highlightedTokens = {};
+      renderCaseText();
+      playSound('click');
+    }
+
+    function solveHighlighterAuto() {
+      caseTokens.forEach((token, index) => {
+        if (token.type) {
+          highlightedTokens[index] = token.type;
+        }
+      });
+      renderCaseText();
+      playSound('correct');
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 4: RECHENPLAN & ANTWORT-BAUKASTEN
+    // -------------------------------------------------------------
+    function checkMathPlan(choice, btn) {
+      const feedback = document.getElementById('plan-feedback');
+      document.querySelectorAll('.plan-option-btn').forEach(b => {
+        b.className = 'plan-option-btn p-5 bg-white border-4 border-slate-200 rounded-3xl text-center font-math font-extrabold text-2xl hover:border-indigo-400 hover:bg-indigo-50 transition shadow-sm';
+      });
+
+      if (choice === 2) {
+        btn.className = 'plan-option-btn p-5 bg-emerald-100 border-4 border-emerald-500 text-emerald-950 rounded-3xl text-center font-math font-extrabold text-2xl shadow-md';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block';
+        feedback.innerHTML = '✓ <strong>Richtig!</strong> Erst der Eintritt für alle Kinder: (24 · 8 €) und danach plus die Klettergurte (+ 36 €).';
+        playSound('correct');
+        addScore(25);
+      } else if (choice === 1) {
+        btn.className = 'plan-option-btn p-5 bg-rose-100 border-4 border-rose-400 text-rose-950 rounded-3xl text-center font-math font-extrabold text-2xl';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 block';
+        feedback.innerHTML = '❌ <strong>Nicht ganz:</strong> Wenn jedes der 24 Kinder 8 € bezahlt, müssen wir multiplizieren (24 · 8), nicht nur einfach plus rechnen!';
+        playSound('wrong');
+      } else {
+        btn.className = 'plan-option-btn p-5 bg-rose-100 border-4 border-rose-400 text-rose-950 rounded-3xl text-center font-math font-extrabold text-2xl';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 block';
+        feedback.innerHTML = '❌ <strong>Achtung Zahlendreher:</strong> 8 Euro ist der Eintritt pro Kind, nicht 36 Euro!';
+        playSound('wrong');
+      }
+    }
+
+    function checkStep1() {
+      const val = parseInt(document.getElementById('step1-input').value);
+      const icon = document.getElementById('step1-check-icon');
+      if (val === 192) {
+        icon.textContent = '✓';
+        icon.className = 'text-3xl text-emerald-600 font-extrabold';
+        playSound('correct');
+        addScore(20);
+        // Unlock Step 2
+        const step2 = document.getElementById('step2-container');
+        step2.classList.remove('opacity-50', 'pointer-events-none');
+        step2.classList.add('animate-pulse');
+        setTimeout(() => step2.classList.remove('animate-pulse'), 1000);
+      } else {
+        icon.textContent = '✗';
+        icon.className = 'text-3xl text-rose-600 font-extrabold';
+        playSound('wrong');
+        alert('Tipp: Rechne im Kopf 20 · 8 = 160 und 4 · 8 = 32. Zusammen ergibt das 192!');
+      }
+    }
+
+    function checkStep2() {
+      const val = parseInt(document.getElementById('step2-input').value);
+      const icon = document.getElementById('step2-check-icon');
+      if (val === 228) {
+        icon.textContent = '✓';
+        icon.className = 'text-3xl text-emerald-600 font-extrabold';
+        playSound('correct');
+        addScore(20);
+        confetti({ particleCount: 40, spread: 50 });
+      } else {
+        icon.textContent = '✗';
+        icon.className = 'text-3xl text-rose-600 font-extrabold';
+        playSound('wrong');
+        alert('Tipp: 192 + 36 = 192 + 30 = 222; 222 + 6 = 228!');
+      }
+    }
+
+    function checkAnswerChoice(choice, btn) {
+      const feedback = document.getElementById('answer-sentence-feedback');
+      document.querySelectorAll('#answer-choices-container button').forEach(b => {
+        b.className = 'w-full text-left p-5 bg-white hover:bg-emerald-50 border-4 border-slate-200 rounded-2xl text-xl font-bold transition';
+      });
+
+      if (choice === 2) {
+        btn.className = 'w-full text-left p-5 bg-emerald-100 border-4 border-emerald-500 rounded-2xl text-xl font-bold text-emerald-950';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block';
+        feedback.innerHTML = '✓ <strong>Ausgezeichnet!</strong> Das ist ein vollständiger Satz, der genau auf die Frage antwortet und die richtige Einheit (Euro) nennt.';
+        playSound('correct');
+        addScore(25);
+        confetti({ particleCount: 70, spread: 70 });
+      } else if (choice === 1) {
+        btn.className = 'w-full text-left p-5 bg-rose-100 border-4 border-rose-400 rounded-2xl text-xl font-bold text-rose-950';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 block';
+        feedback.innerHTML = '❌ <strong>Zu kurz:</strong> Nur eine Zahl ohne Satz und ohne Einheit (Euro) ist in Klassenarbeiten kein vollständiger Antwortsatz!';
+        playSound('wrong');
+      } else {
+        btn.className = 'w-full text-left p-5 bg-rose-100 border-4 border-rose-400 rounded-2xl text-xl font-bold text-rose-950';
+        feedback.className = 'text-xl font-bold p-4 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 block';
+        feedback.innerHTML = '❌ <strong>Falsche Frage beantwortet:</strong> Gefragt war nach den Kosten in Euro, nicht nach der Anzahl der Schüler!';
+        playSound('wrong');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 5: GEMEINSAME ANWENDUNGSÜBUNGEN (3 FÄLLE)
+    // -------------------------------------------------------------
+    const quizCases = [
+      {
+        title: 'Fall 1: Der Schulgarten (Karotten-Ernte)',
+        badge: 'Klasse 6 • Stufe Leicht',
+        story: 'Im Schulgarten der Hauptschule gibt es <strong>4 Beete</strong>. In jedem Beet wachsen genau <strong>15 Karotten</strong>. Die Garten-AG erntet heute <strong>20 Karotten</strong> für den Salat.',
+        question: 'Wie viele Karotten bleiben noch in den Beeten übrig?',
+        signals: 'Signalwörter: „je / in jedem“ (·) und „ernten / übrig“ (−)',
+        options: [
+          { text: '4 + 15 + 20', isCorrect: false, explanation: 'Falsch: In jedem der 4 Beete sind 15 Karotten. Man muss multiplizieren!' },
+          { text: '(4 · 15) − 20', isCorrect: true, explanation: 'Richtig! Erst alle Karotten (4 · 15 = 60), dann die geernteten abziehen (− 20 = 40 Karotten).' },
+          { text: '(15 − 4) · 20', isCorrect: false, explanation: 'Falsch: Die Beete dürfen nicht von den Karotten abgezogen werden.' }
+        ],
+        solution: 'Rechnung: 4 · 15 = 60 Karotten insgesamt. 60 − 20 = 40 Karotten übrig. Antwort: Es bleiben noch 40 Karotten in den Beeten.'
+      },
+      {
+        title: 'Fall 2: Der Schulkiosk (Taschengeld)',
+        badge: 'Klasse 6 • Stufe Mittel',
+        story: 'Ali kauft in der großen Pause <strong>3 Laugenbrezeln für je 2 Euro</strong> und <strong>1 Apfelsaft für 2 Euro</strong>. Er bezahlt mit einem <strong>10-Euro-Schein</strong>.',
+        question: 'Wie viel Wechselgeld bekommt Ali zurück?',
+        signals: 'Signalwörter: „je“ (·), „und“ (+), „Wechselgeld / Rest“ (−)',
+        options: [
+          { text: '10 − (3 · 2 + 2)', isCorrect: true, explanation: 'Richtig! Brezeln (3 · 2 = 6 €) plus Saft (+ 2 €) = 8 € Einkauf. 10 € − 8 € = 2 € Rückgeld!' },
+          { text: '(10 − 3) · 2', isCorrect: false, explanation: 'Falsch: Man zieht nicht die 3 Brezeln vom 10-Euro-Schein ab!' },
+          { text: '3 · 2 + 2 + 10', isCorrect: false, explanation: 'Falsch: Wer mit einem 10er zahlt, addiert den Schein nicht zu den Kosten!' }
+        ],
+        solution: 'Rechnung: 3 · 2 € = 6 € für Brezeln. 6 € + 2 € = 8 € Gesamtkosten. 10 € − 8 € = 2 € Wechselgeld. Antwort: Ali bekommt 2 Euro zurück.'
+      },
+      {
+        title: 'Fall 3: Die Klassenparty (Getränke aufteilen)',
+        badge: 'Klasse 6 • Stufe Knobeln',
+        story: 'Für das Schulfest haben die <strong>24 Schüler</strong> der Klasse 6a Durst. Jede Flasche Limonade reicht genau für <strong>4 Becher</strong> (also 4 Kinder).',
+        question: 'Wie viele Flaschen Limonade muss die Klasse öffnen, damit jedes Kind einen Becher bekommt?',
+        signals: 'Signalwörter: „reicht für jeweils 4“ ➔ Aufteilen / Geteilt durch (:)',
+        options: [
+          { text: '24 · 4', isCorrect: false, explanation: 'Falsch: Wenn man multipliziert, käme man auf 96 Flaschen – das wäre viel zu viel Limo!' },
+          { text: '24 + 4', isCorrect: false, explanation: 'Falsch: Plus rechnen ergibt hier keinen Sinn.' },
+          { text: '24 : 4', isCorrect: true, explanation: 'Genial! 24 Kinder aufgeteilt in 4er-Portionen: 24 : 4 = 6 Flaschen!' }
+        ],
+        solution: 'Rechnung: 24 : 4 = 6. Sinn-Check: 6 Flaschen · 4 Becher = 24 Becher für alle Kinder. Antwort: Die Klasse muss genau 6 Flaschen Limonade öffnen.'
+      }
+    ];
+
+    let currentQuizIndex = 0;
+
+    function loadQuizCase(index) {
+      currentQuizIndex = index;
+      playSound('click');
+
+      // Update Tabs
+      for (let i = 0; i < 3; i++) {
+        const tab = document.getElementById('quiz-tab-' + i);
+        if (i === index) {
+          tab.className = 'quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-indigo-600 text-white shadow';
+        } else {
+          tab.className = 'quiz-tab-btn px-5 py-3 rounded-2xl font-bold text-lg bg-slate-100 text-slate-700 hover:bg-slate-200 border-2 border-slate-300';
+        }
+      }
+
+      const q = quizCases[index];
+      const container = document.getElementById('quiz-container');
+
+      container.innerHTML = `
+        <div class="bg-slate-50 p-6 sm:p-8 rounded-3xl border-2 border-slate-200 space-y-6">
+          <div class="flex items-center justify-between gap-2">
+            <span class="bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs sm:text-sm font-black uppercase px-3 py-1 rounded-full">
+              ${q.badge}
+            </span>
+            <span class="text-sm font-bold text-slate-400">Fall ${index + 1} von 3</span>
+          </div>
+
+          <h3 class="text-2xl sm:text-3xl font-black text-slate-900">${q.title}</h3>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 text-xl sm:text-2xl text-slate-800 leading-relaxed font-sans-ui">
+            ${q.story}
+          </div>
+
+          <div class="bg-purple-100 text-purple-950 p-4 rounded-2xl border-2 border-purple-300 text-xl sm:text-2xl font-black">
+            ❓ Frage: ${q.question}
+          </div>
+
+          <div class="text-base font-bold text-slate-500 italic">
+            ${q.signals}
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <label class="block text-xl font-extrabold text-slate-900">
+              Welcher Rechenweg führt zur richtigen Lösung?
+            </label>
+            <div class="space-y-3">
+              ${q.options.map((opt, oIdx) => `
+                <button onclick="handleQuizAnswer(${index}, ${oIdx}, this)" class="quiz-option-btn w-full text-left p-5 bg-white hover:bg-indigo-50 border-4 border-slate-200 rounded-2xl text-xl font-math font-extrabold transition shadow-sm">
+                  ${String.fromCharCode(65 + oIdx)}) ${opt.text}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div id="quiz-feedback-box" class="hidden text-xl font-bold p-5 rounded-2xl"></div>
+
+          <div id="quiz-solution-box" class="hidden bg-emerald-50 border-2 border-emerald-300 p-5 rounded-2xl text-lg sm:text-xl text-emerald-950 font-sans-ui">
+            <strong>Musterlösung & Sinn-Check:</strong><br>
+            ${q.solution}
+          </div>
+        </div>
+      `;
+
+      // Update Prev / Next Buttons
+      document.getElementById('quiz-prev-btn').disabled = index === 0;
+      document.getElementById('quiz-prev-btn').className = index === 0 ? 'px-6 py-3.5 bg-slate-100 text-slate-300 font-bold text-lg rounded-2xl border-2 border-slate-200 cursor-not-allowed' : 'px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition';
+      
+      const nextBtn = document.getElementById('quiz-next-btn');
+      if (index === 2) {
+        nextBtn.textContent = 'Abschluss-Urkunde 🏆';
+      } else {
+        nextBtn.textContent = 'Nächster Fall ➔';
+      }
+    }
+
+    function handleQuizAnswer(caseIdx, optIdx, btn) {
+      const q = quizCases[caseIdx];
+      const opt = q.options[optIdx];
+      const feedback = document.getElementById('quiz-feedback-box');
+      const solution = document.getElementById('quiz-solution-box');
+
+      document.querySelectorAll('.quiz-option-btn').forEach(b => {
+        b.className = 'quiz-option-btn w-full text-left p-5 bg-white border-4 border-slate-200 rounded-2xl text-xl font-math font-extrabold transition';
+      });
+
+      if (opt.isCorrect) {
+        btn.className = 'quiz-option-btn w-full text-left p-5 bg-emerald-100 border-4 border-emerald-500 rounded-2xl text-xl font-math font-extrabold text-emerald-950 shadow';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block';
+        feedback.innerHTML = `✓ <strong>Ausgezeichnet gelöst!</strong> ${opt.explanation}`;
+        solution.classList.remove('hidden');
+        playSound('correct');
+        addScore(30);
+        confetti({ particleCount: 60, spread: 70 });
+      } else {
+        btn.className = 'quiz-option-btn w-full text-left p-5 bg-rose-100 border-4 border-rose-400 rounded-2xl text-xl font-math font-extrabold text-rose-950';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-rose-100 text-rose-900 border-2 border-rose-300 block';
+        feedback.innerHTML = `❌ ${opt.explanation}`;
+        playSound('wrong');
+      }
+    }
+
+    function prevQuizCase() {
+      if (currentQuizIndex > 0) {
+        loadQuizCase(currentQuizIndex - 1);
+      }
+    }
+
+    function nextQuizCase() {
+      if (currentQuizIndex < 2) {
+        loadQuizCase(currentQuizIndex + 1);
+      } else {
+        // Final celebration
+        playSound('correct');
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        alert(`🎉 Herzlichen Glückwunsch! Ihr habt alle 3 Detektiv-Fälle mit bravour gemeistert und insgesamt ${score} Detektiv-Punkte gesammelt! Ihr seid nun offizielle Textaufgaben-Meisterdetektive! 🕵️‍♀️🕵️‍♂️`);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // INITIALISIERUNG
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTimerUI();
+      renderRadarCards('all');
+      renderCaseText();
+      loadQuizCase(0);
+    });
+  </script>
+</body>
+</html>
