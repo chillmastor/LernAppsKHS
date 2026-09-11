@@ -1,6 +1,6 @@
 {
   "name": "lernapps-khs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Interaktive Mini-Lern-Apps für den Frontal- und Plenumsunterricht an einer Hauptschule (Smartboard & iPad optimiert)",
   "main": "index.html",
   "scripts": {

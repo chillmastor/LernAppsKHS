@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="version" content="1.2.0">
+  <meta name="version" content="1.2.1">
   <title>Rückwärtsrechnen | Mathe Klasse 6 | LernApps KHS</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -38,6 +38,14 @@
     .pulse-attention {
       animation: pulse-highlight 1.5s ease-in-out infinite;
     }
+    @keyframes pop-in {
+      0% { transform: scale(0.6); opacity: 0; }
+      70% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: pop-in 0.35s ease-out forwards;
+    }
   </style>
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col selection:bg-indigo-200">
@@ -65,7 +73,7 @@
             Rückwärtsrechnen
           </h1>
           <p class="text-xs text-slate-500 font-sans-ui font-semibold hidden sm:block">
-            Mathe Klasse 6 • Textaufgaben rückwärts lösen
+            Mathe Klasse 6 • Textaufgaben kleinschrittig rückwärts lösen
           </p>
         </div>
       </div>
@@ -143,7 +151,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
 
     <!-- ============================================================ -->
-    <!-- PHASE 1: EINSTIEG & FILMSTREIFEN                             -->
+    <!-- PHASE 1: EINSTIEG & INTERAKTIVER FILMSTREIFEN                -->
     <!-- ============================================================ -->
     <section id="phase-einstieg" class="phase-container space-y-8">
       
@@ -157,7 +165,7 @@
             Wir drücken auf die Rückspultaste! ⏪
           </h2>
           <p class="text-purple-100 text-xl sm:text-2xl font-sans-ui max-w-3xl leading-relaxed">
-            Manchmal wissen wir genau, wie die Geschichte <strong>endet</strong> – aber nicht, wie sie <strong>angefangen</strong> hat!
+            Manchmal kennen wir das <strong>Ende</strong> einer Geschichte ganz genau – aber wie viel war am <strong>Anfang</strong> da?
           </p>
         </div>
         <div class="text-7xl sm:text-8xl p-6 bg-white/10 rounded-3xl backdrop-blur shrink-0">
@@ -167,62 +175,160 @@
 
       <!-- Kernaussage groß visually hervorgehoben -->
       <div class="bg-amber-100 border-4 border-amber-400 p-6 sm:p-8 rounded-3xl shadow-md text-center space-y-3">
-        <div class="text-sm font-black uppercase tracking-widest text-amber-900">Das goldene Geheimnis</div>
+        <div class="text-sm font-black uppercase tracking-widest text-amber-900">Das goldene Prinzip</div>
         <div class="text-2xl sm:text-4xl font-extrabold text-amber-950 leading-tight">
-          „Wir kennen das <span class="bg-yellow-300 px-3 py-1 rounded-xl text-yellow-950">ENDE</span> und suchen den <span class="bg-purple-300 px-3 py-1 rounded-xl text-purple-950">ANFANG</span> ➔ Wir spulen den Film rückwärts ab!“
+          „Wir kennen das <span class="bg-yellow-300 px-3 py-1 rounded-xl text-yellow-950">ENDE</span> und suchen den <span class="bg-purple-300 px-3 py-1 rounded-xl text-purple-950">ANFANG</span> ➔ Wir spulen Szene für Szene rückwärts ab!“
         </div>
       </div>
 
-      <!-- Alltags-Beispiel: Das Geldbeutel-Rätsel nach dem Schulfest -->
-      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-md space-y-6">
-        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-3">
-          <span>👛</span> Das Geldbeutel-Rätsel: Was geschah auf dem Schulfest?
-        </h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <!-- Schritt 1 Vorwärts -->
-          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
-            <span class="text-3xl">❓</span>
-            <div class="text-sm font-bold text-slate-400 uppercase">1. Am Anfang:</div>
-            <div class="text-2xl font-black text-purple-700">Start-Geld</div>
-            <div class="text-base text-slate-600">Unbekannt!</div>
+      <!-- Interaktiver Filmstreifen-Player: Vorwärts & Rückspulen kleinschrittig -->
+      <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-4">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-3">
+              <span>👛</span> Das Geldbeutel-Rätsel: Schritt für Schritt am Smartboard
+            </h3>
+            <p class="text-lg sm:text-xl text-slate-600 font-sans-ui mt-1">
+              Erlebe zuerst die Geschichte vorwärts – spule sie dann mit einzelnen Rechenschritten zurück!
+            </p>
           </div>
 
-          <!-- Schritt 2 Vorwärts -->
-          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
-            <span class="text-3xl">🍕</span>
-            <div class="text-sm font-bold text-slate-400 uppercase">2. Pizza gegessen:</div>
-            <div class="text-2xl font-black text-rose-600">− 5 Euro</div>
-            <div class="text-base text-slate-600">Geld ausgegeben</div>
-          </div>
-
-          <!-- Schritt 3 Vorwärts -->
-          <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 space-y-2 text-center">
-            <span class="text-3xl">🥤</span>
-            <div class="text-sm font-bold text-slate-400 uppercase">3. Limo getrunken:</div>
-            <div class="text-2xl font-black text-rose-600">− 2 Euro</div>
-            <div class="text-base text-slate-600">Geld ausgegeben</div>
-          </div>
-
-          <!-- Schritt 4 Vorwärts -->
-          <div class="bg-amber-50 p-5 rounded-2xl border-4 border-amber-300 space-y-2 text-center">
-            <span class="text-3xl">💶</span>
-            <div class="text-sm font-bold text-amber-800 uppercase">4. Am Ende im Geldbeutel:</div>
-            <div class="font-math text-3xl font-black text-amber-950">13 Euro</div>
-            <div class="text-base font-bold text-emerald-700">Das ist bekannt!</div>
+          <!-- Modus-Taster für die Lehrkraft -->
+          <div class="flex items-center gap-2">
+            <button onclick="resetFilmstrip()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl font-bold text-base text-slate-700 transition">
+              ↺ Neustart
+            </button>
           </div>
         </div>
 
-        <div class="bg-indigo-50 border-2 border-indigo-200 p-6 rounded-2xl text-center space-y-3">
-          <div class="text-xl sm:text-2xl font-bold text-indigo-950">
-            Wie finden wir das Start-Geld heraus? Wir kehren die Schritte um: <br>
-            <span class="font-math font-black text-indigo-700 text-3xl">13 € + 2 € + 5 € = 20 € Startgeld!</span>
+        <!-- 1. VORWÄRTS-FILMSTREIFEN (DIE SZENEN) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+              <span class="text-blue-600">▶️ Teil 1:</span> Der Tag auf dem Schulfest (Vorwärts)
+            </div>
+            <button id="film-forward-btn" onclick="nextFilmSceneForward()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-base sm:text-lg rounded-xl shadow transition transform active:scale-95">
+              Nächste Szene abspielen ▶
+            </button>
           </div>
-          <button onclick="switchPhase('schritte')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-lg transition transform active:scale-95 inline-flex items-center gap-3">
+
+          <!-- 4 Szenen-Boxen (werden nacheinander aufgedeckt) -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-sans-ui">
+            
+            <!-- Szene 1: Anfang unbekannt -->
+            <div id="film-scene-1" class="p-5 rounded-2xl border-4 border-purple-300 bg-purple-50 text-center space-y-2 transition-all">
+              <span class="text-4xl">❓</span>
+              <div class="text-xs font-black text-purple-800 uppercase">Szene 1 • Start</div>
+              <div class="text-2xl font-black text-purple-950 font-math">Start-Geld</div>
+              <div class="text-base text-purple-700 font-semibold">Noch unbekannt!</div>
+            </div>
+
+            <!-- Szene 2: Pizza -->
+            <div id="film-scene-2" class="opacity-30 p-5 rounded-2xl border-2 border-slate-300 bg-slate-50 text-center space-y-2 transition-all">
+              <span class="text-4xl">🍕</span>
+              <div class="text-xs font-bold text-slate-500 uppercase">Szene 2 • Pizza</div>
+              <div class="text-2xl font-black text-rose-600 font-math">− 5 Euro</div>
+              <div class="text-base text-slate-600">Ausgabe am Stand</div>
+            </div>
+
+            <!-- Szene 3: Limo -->
+            <div id="film-scene-3" class="opacity-30 p-5 rounded-2xl border-2 border-slate-300 bg-slate-50 text-center space-y-2 transition-all">
+              <span class="text-4xl">🥤</span>
+              <div class="text-xs font-bold text-slate-500 uppercase">Szene 3 • Limo</div>
+              <div class="text-2xl font-black text-rose-600 font-math">− 2 Euro</div>
+              <div class="text-base text-slate-600">Ausgabe am Kiosk</div>
+            </div>
+
+            <!-- Szene 4: Endstand -->
+            <div id="film-scene-4" class="opacity-30 p-5 rounded-2xl border-4 border-amber-300 bg-amber-50 text-center space-y-2 transition-all">
+              <span class="text-4xl">💶</span>
+              <div class="text-xs font-black text-amber-800 uppercase">Szene 4 • Ende</div>
+              <div class="text-3xl font-black text-amber-950 font-math">13 Euro</div>
+              <div class="text-base font-bold text-emerald-700">Im Geldbeutel übrig!</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. RÜCKWÄRTS-RECHNEN (KLEINSCHRITTIG AUFDECKEN) -->
+        <div id="film-rewind-section" class="hidden p-6 sm:p-8 bg-purple-50/80 rounded-3xl border-4 border-purple-300 space-y-6 transition-all">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <span class="bg-purple-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full">
+                Detektiv-Ermittlung
+              </span>
+              <h4 class="text-2xl sm:text-3xl font-black text-purple-950 mt-1 flex items-center gap-2">
+                <span>⏪ Teil 2:</span> Wir spulen Szene für Szene zurück!
+              </h4>
+            </div>
+
+            <button id="film-rewind-step-btn" onclick="nextFilmRewindStep()" class="px-6 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-lg sm:text-xl rounded-2xl shadow-lg transition transform active:scale-95 pulse-attention">
+              Nächsten Rückspul-Schritt rechnen ⏪
+            </button>
+          </div>
+
+          <!-- Kleinschrittige Rechenleiste -->
+          <div class="space-y-4" id="film-rewind-steps-list">
+            
+            <!-- Stufe 0: Ausgangspunkt -->
+            <div id="rewind-substep-0" class="p-4 bg-white border-2 border-purple-200 rounded-2xl flex items-center justify-between text-xl font-bold shadow-sm">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-amber-400 text-amber-950 font-black flex items-center justify-center text-sm">0</span>
+                <span>Wir beginnen mit dem Endstand:</span>
+              </div>
+              <span class="font-math text-3xl font-black text-amber-900 bg-amber-100 px-4 py-1 rounded-xl">13 €</span>
+            </div>
+
+            <!-- Stufe 1: Limo zurück (+ 2 €) -->
+            <div id="rewind-substep-1" class="hidden p-5 bg-white border-4 border-indigo-300 rounded-2xl space-y-2 shadow-md animate-pop">
+              <div class="flex items-center justify-between text-xl font-bold">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-black flex items-center justify-center text-sm">1</span>
+                  <span>1. Rückschritt: Die Limo rückgängig machen (Aus − 2 € wird + 2 €):</span>
+                </div>
+                <span class="text-emerald-600 font-black text-2xl font-math">+ 2 €</span>
+              </div>
+              <div class="p-3 bg-indigo-50 rounded-xl border border-indigo-200 font-math text-2xl font-black text-indigo-950 flex items-center justify-between">
+                <span>Zwischensumme:</span>
+                <span>13 € + 2 € = <strong class="text-indigo-600 underline">15 €</strong></span>
+              </div>
+            </div>
+
+            <!-- Stufe 2: Pizza zurück (+ 5 €) -->
+            <div id="rewind-substep-2" class="hidden p-5 bg-white border-4 border-purple-300 rounded-2xl space-y-2 shadow-md animate-pop">
+              <div class="flex items-center justify-between text-xl font-bold">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-black flex items-center justify-center text-sm">2</span>
+                  <span>2. Rückschritt: Die Pizza rückgängig machen (Aus − 5 € wird + 5 €):</span>
+                </div>
+                <span class="text-emerald-600 font-black text-2xl font-math">+ 5 €</span>
+              </div>
+              <div class="p-3 bg-purple-50 rounded-xl border border-purple-200 font-math text-2xl font-black text-purple-950 flex items-center justify-between">
+                <span>Endrechnung:</span>
+                <span>15 € + 5 € = <strong class="text-purple-700 underline">20 €</strong></span>
+              </div>
+            </div>
+
+            <!-- Stufe 3: Ergebnis & Probe -->
+            <div id="rewind-substep-3" class="hidden p-6 bg-emerald-100 border-4 border-emerald-500 rounded-3xl text-center space-y-3 shadow-lg animate-pop">
+              <div class="text-3xl font-black text-emerald-950">
+                🎉 Gefunden! Am Anfang waren genau <span class="bg-white px-4 py-1 rounded-2xl text-emerald-800 shadow">20 Euro</span> im Geldbeutel!
+              </div>
+              <div class="text-xl font-sans-ui font-semibold text-emerald-900">
+                🔍 <strong>Die Vorwärts-Probe bestätigt:</strong> 20 € − 5 € (Pizza) = 15 € ➔ 15 € − 2 € (Limo) = <strong>13 € Rest</strong>. Perfekt!
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="text-center pt-2">
+          <button onclick="switchPhase('schritte')" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-2xl rounded-2xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3">
             <span>Zu den 4 goldenen Schritten</span>
             <span class="text-3xl">➔</span>
           </button>
         </div>
+
       </div>
 
     </section>
@@ -372,7 +478,7 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- PHASE 3: INTERAKTIVE WENDEMASCHINE (WERKZEUG)                -->
+    <!-- PHASE 3: INTERAKTIVE WENDEMASCHINE (EINZELSCHRITT-MODUS)    -->
     <!-- ============================================================ -->
     <section id="phase-maschine" class="phase-container hidden space-y-8">
       
@@ -387,7 +493,7 @@
               🔄 Die interaktive Wendemaschine
             </h2>
             <p class="text-xl text-slate-600 font-sans-ui mt-1">
-              Trage Zahlen ein oder wähle ein Beispiel. Klicke dann auf <strong>„Film rückwärts spulen“</strong>!
+              Trage Zahlen ein oder wähle ein Preset. Löse dann <strong>Schritt für Schritt</strong> rückwärts auf!
             </p>
           </div>
 
@@ -410,7 +516,7 @@
 
           <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-math">
             <!-- Startwert -->
-            <div class="bg-white p-4 rounded-2xl border-4 border-purple-400 text-center shadow-sm min-w-[120px]">
+            <div id="box-fwd-start" class="bg-white p-4 rounded-2xl border-4 border-purple-400 text-center shadow-sm min-w-[120px]">
               <div class="text-xs font-bold text-slate-400 font-sans-ui">START</div>
               <input type="text" id="m-start" value="?" readonly class="w-24 text-center font-black text-2xl text-purple-700 bg-transparent outline-none cursor-not-allowed">
             </div>
@@ -418,55 +524,63 @@
             <span class="text-3xl text-blue-500 font-bold">➔</span>
 
             <!-- Operation 1 -->
-            <div class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
-              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 1</div>
+            <div id="box-fwd-op1" class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
+              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 1 Vorwärts</div>
               <div class="flex items-center gap-1">
-                <select id="m-op1" class="font-black text-2xl text-blue-700 bg-transparent outline-none">
+                <select id="m-op1" onchange="resetMachineSteps()" class="font-black text-2xl text-blue-700 bg-transparent outline-none cursor-pointer">
                   <option value="-">− (Minus)</option>
                   <option value="+">+ (Plus)</option>
                   <option value="*">· (Mal)</option>
                   <option value="/">: (Geteilt)</option>
                 </select>
-                <input type="number" id="m-val1" value="5" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
+                <input type="number" id="m-val1" oninput="resetMachineSteps()" value="5" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
               </div>
             </div>
 
             <span class="text-3xl text-blue-500 font-bold">➔</span>
 
             <!-- Operation 2 -->
-            <div class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
-              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 2</div>
+            <div id="box-fwd-op2" class="bg-white p-3 rounded-2xl border-2 border-blue-300 text-center shadow-sm">
+              <div class="text-xs font-bold text-slate-400 font-sans-ui">Schritt 2 Vorwärts</div>
               <div class="flex items-center gap-1">
-                <select id="m-op2" class="font-black text-2xl text-blue-700 bg-transparent outline-none">
+                <select id="m-op2" onchange="resetMachineSteps()" class="font-black text-2xl text-blue-700 bg-transparent outline-none cursor-pointer">
                   <option value="-">− (Minus)</option>
                   <option value="+">+ (Plus)</option>
                   <option value="*">· (Mal)</option>
                   <option value="/">: (Geteilt)</option>
                 </select>
-                <input type="number" id="m-val2" value="2" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
+                <input type="number" id="m-val2" oninput="resetMachineSteps()" value="2" class="w-16 text-center font-black text-2xl text-blue-700 bg-slate-50 border border-slate-200 rounded-lg outline-none">
               </div>
             </div>
 
             <span class="text-3xl text-blue-500 font-bold">➔</span>
 
             <!-- Endwert -->
-            <div class="bg-white p-4 rounded-2xl border-4 border-amber-400 text-center shadow-sm min-w-[120px]">
-              <div class="text-xs font-bold text-amber-800 font-sans-ui">ENDE</div>
-              <input type="number" id="m-end" value="13" class="w-24 text-center font-black text-2xl text-amber-950 bg-amber-50 border border-amber-200 rounded-lg outline-none">
+            <div id="box-fwd-end" class="bg-white p-4 rounded-2xl border-4 border-amber-400 text-center shadow-sm min-w-[120px]">
+              <div class="text-xs font-bold text-amber-800 font-sans-ui">ENDE (Bekannt)</div>
+              <input type="number" id="m-end" oninput="resetMachineSteps()" value="13" class="w-24 text-center font-black text-2xl text-amber-950 bg-amber-50 border border-amber-200 rounded-lg outline-none">
             </div>
           </div>
         </div>
 
-        <!-- REWIND BUTTON (INTERAKTIVER AUSLÖSER) -->
-        <div class="text-center">
-          <button onclick="runReverseMachine()" id="rewind-btn" class="px-8 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-2xl sm:text-3xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3 pulse-attention">
-            <span>⏪ Film rückwärts spulen</span>
-            <span>(Rechnen!)</span>
+        <!-- STEUERUNG RÜCKWÄRTS: SCHRITT FÜR SCHRITT VS. ALLES AUFDECKEN -->
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <button onclick="advanceMachineSingleStep()" id="machine-step-btn" class="px-8 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-2xl sm:text-3xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3 pulse-attention">
+            <span id="machine-step-icon">⏪</span>
+            <span id="machine-step-text">Schritt 1: Rückrechnung starten</span>
+          </button>
+
+          <button onclick="revealAllMachineSteps()" class="px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition">
+            ⚡ Alles sofort auflösen
+          </button>
+
+          <button onclick="resetMachineSteps()" class="px-4 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition" title="Zurücksetzen">
+            ↺
           </button>
         </div>
 
-        <!-- 2. RÜCKWÄRTS-KETTE (VON RECHTS NACH LINKS) -->
-        <div id="reverse-chain-container" class="hidden bg-emerald-50/80 p-6 sm:p-8 rounded-3xl border-4 border-emerald-300 space-y-4 transition-all">
+        <!-- 2. RÜCKWÄRTS-KETTE (KLEINSCHRITTIG VON RECHTS NACH LINKS) -->
+        <div id="reverse-chain-container" class="hidden bg-emerald-50/90 p-6 sm:p-8 rounded-3xl border-4 border-emerald-400 space-y-6 transition-all">
           <div class="flex items-center justify-between">
             <span class="text-lg font-black text-emerald-950 uppercase tracking-wide flex items-center gap-2">
               <span>⏪</span> 2. Rückwärts-Rechnung (Von hinten nach vorne auflösen):
@@ -474,13 +588,52 @@
             <span class="text-sm font-bold text-emerald-700 font-sans-ui">◀ Von rechts nach links</span>
           </div>
 
-          <!-- Kette von rechts nach links -->
-          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-math" id="reverse-chain-boxes">
-            <!-- Dynamisch befüllt -->
+          <!-- Kette von rechts nach links mit Zwischenschritten -->
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-math">
+            
+            <!-- Box 1 ganz links: Der gefundene Anfang -->
+            <div id="rev-box-final" class="opacity-20 p-4 rounded-2xl border-4 border-purple-500 bg-white text-center shadow-md min-w-[130px] transition-all">
+              <div class="text-xs font-bold text-purple-700 font-sans-ui">GEFUNDENER ANFANG</div>
+              <div id="rev-val-final" class="font-math text-3xl font-black text-purple-950">?</div>
+            </div>
+
+            <span id="rev-arrow-1" class="opacity-20 text-3xl text-emerald-600 font-bold transition-all">◀</span>
+
+            <!-- Box 2: Umkehrung von Schritt 1 (Vorwärts) -->
+            <div id="rev-box-op1" class="opacity-20 p-4 rounded-2xl border-4 border-emerald-400 bg-white text-center shadow-sm min-w-[130px] transition-all">
+              <div class="text-xs font-bold text-slate-500 font-sans-ui">Umkehrung Schritt 1</div>
+              <div id="rev-val-op1" class="font-math text-2xl font-black text-emerald-800">+ 5</div>
+            </div>
+
+            <span id="rev-arrow-2" class="opacity-20 text-3xl text-emerald-600 font-bold transition-all">◀</span>
+
+            <!-- Box 3: Die visualisierte ZWISCHENSUMME! -->
+            <div id="rev-box-intermediate" class="opacity-20 p-4 rounded-2xl border-4 border-blue-400 bg-blue-50 text-center shadow-md min-w-[130px] transition-all">
+              <div class="text-xs font-bold text-blue-700 font-sans-ui">ZWISCHENSTAND</div>
+              <div id="rev-val-intermediate" class="font-math text-3xl font-black text-blue-950">?</div>
+            </div>
+
+            <span id="rev-arrow-3" class="opacity-20 text-3xl text-emerald-600 font-bold transition-all">◀</span>
+
+            <!-- Box 4: Umkehrung von Schritt 2 (Vorwärts) -->
+            <div id="rev-box-op2" class="opacity-20 p-4 rounded-2xl border-4 border-emerald-400 bg-white text-center shadow-sm min-w-[130px] transition-all">
+              <div class="text-xs font-bold text-slate-500 font-sans-ui">Umkehrung Schritt 2</div>
+              <div id="rev-val-op2" class="font-math text-2xl font-black text-emerald-800">+ 2</div>
+            </div>
+
+            <span id="rev-arrow-4" class="opacity-20 text-3xl text-emerald-600 font-bold transition-all">◀</span>
+
+            <!-- Box 5 ganz rechts: Ausgangspunkt der Rückrechnung (Endwert) -->
+            <div id="rev-box-start" class="opacity-20 p-4 rounded-2xl border-4 border-amber-400 bg-amber-50 text-center shadow-md min-w-[130px] transition-all">
+              <div class="text-xs font-bold text-amber-800 font-sans-ui">RÜCK-START (ENDE)</div>
+              <div id="rev-val-start" class="font-math text-3xl font-black text-amber-950">13</div>
+            </div>
+
           </div>
 
-          <div id="reverse-result-box" class="p-5 bg-white border-2 border-emerald-400 rounded-2xl text-xl sm:text-2xl font-extrabold text-emerald-950 text-center">
-            <!-- Ergebnis-Erklärung -->
+          <!-- Didaktische Erklärung des aktuellen Zwischenschritts -->
+          <div id="reverse-step-explanation" class="p-5 bg-white border-2 border-emerald-400 rounded-2xl text-xl sm:text-2xl font-extrabold text-emerald-950 text-center shadow-sm">
+            Klicke auf <strong>„Schritt 1: Rückrechnung starten“</strong>, um den Film von hinten aufzurollen!
           </div>
         </div>
 
@@ -496,35 +649,73 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- PHASE 4: GEMEINSAME TAFELAUFGABE (KLEINTRANSPORTER)          -->
+    <!-- PHASE 4: GEMEINSAME TAFELAUFGABE (VISUELLER TRANSPORTER)     -->
     <!-- ============================================================ -->
     <section id="phase-tafel" class="phase-container hidden space-y-8">
       
       <div class="bg-white p-6 sm:p-10 rounded-3xl border-2 border-slate-200 shadow-xl space-y-8 max-w-5xl mx-auto">
         
-        <div class="border-b-2 border-slate-200 pb-4">
-          <span class="bg-purple-100 text-purple-900 border border-purple-300 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
-            Gemeinsam am Smartboard erarbeiten
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
-            🚚 Fallakte: Der Kleintransporter
-          </h2>
-          <p class="text-xl text-slate-600 font-sans-ui mt-1">
-            Lest die Aufgabe gemeinsam laut vor. Klickt dann schrittweise auf <strong>„Nächster Schritt“</strong>!
-          </p>
+        <div class="border-b-2 border-slate-200 pb-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="bg-purple-100 text-purple-900 border border-purple-300 text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider">
+              Gemeinsam am Smartboard erarbeiten
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+              🚚 Fallakte: Der Kleintransporter
+            </h2>
+            <p class="text-xl text-slate-600 font-sans-ui mt-1">
+              Schrittweise Kisten entladen und Restgewicht visualisieren!
+            </p>
+          </div>
+
+          <button onclick="resetTruckDemo()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border-2 border-slate-300 rounded-xl font-bold text-base transition">
+            ↺ Aufgabe zurücksetzen
+          </button>
         </div>
 
         <!-- Aufgabentext (Fernlesbar min. 24px) -->
-        <div class="p-6 sm:p-8 bg-purple-50/60 rounded-3xl border-4 border-purple-200 leading-relaxed text-2xl sm:text-3xl font-medium text-slate-900">
-          „Ein Kleintransporter darf mit <strong>950 kg</strong> beladen werden. Zwei schwere Kisten (<strong>120 kg</strong> und <strong>110 kg</strong>) stehen schon auf der Ladefläche. Wie viele weitere Kisten zu je <strong>80 kg</strong> passen noch hinein?“
+        <div class="p-6 sm:p-8 bg-purple-50/70 rounded-3xl border-4 border-purple-200 leading-relaxed text-2xl sm:text-3xl font-medium text-slate-900">
+          „Ein Kleintransporter darf mit maximal <strong class="bg-yellow-200 px-2 py-0.5 rounded-lg text-yellow-950">950 kg</strong> beladen werden. Zwei schwere Maschinenkisten (<strong class="bg-blue-100 text-blue-900 px-2 py-0.5 rounded-lg">110 kg</strong> und <strong class="bg-blue-100 text-blue-900 px-2 py-0.5 rounded-lg">120 kg</strong>) stehen bereits auf der Ladefläche. Wie viele weitere Kisten zu je <strong class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded-lg">80 kg</strong> passen noch hinein?“
+        </div>
+
+        <!-- VISUELLER LADEBALKEN & GEWICHTSMESSER -->
+        <div class="p-6 bg-slate-50 border-4 border-slate-300 rounded-3xl space-y-4 shadow-inner">
+          <div class="flex items-center justify-between text-xl font-black text-slate-800">
+            <span class="flex items-center gap-2">
+              <span class="text-3xl">⚖️</span> Verbleibende Tragkraft (Freier Ladeplatz):
+            </span>
+            <span id="truck-kg-display" class="font-math text-3xl sm:text-4xl font-black text-indigo-700 bg-white border-2 border-indigo-200 px-4 py-1 rounded-2xl shadow-sm">
+              950 kg / 950 kg
+            </span>
+          </div>
+
+          <!-- Fortschrittsbalken -->
+          <div class="w-full h-8 bg-slate-200 rounded-2xl overflow-hidden border-2 border-slate-300 p-1">
+            <div id="truck-weight-bar" class="h-full bg-gradient-to-r from-emerald-500 via-blue-500 to-indigo-600 rounded-xl transition-all duration-500" style="width: 100%;"></div>
+          </div>
+
+          <!-- Visualisierung der Ladefläche mit Kisten -->
+          <div class="pt-2">
+            <div class="text-sm font-black uppercase text-slate-500 mb-2">Visuelle Ladefläche (Aufgeladene Kisten):</div>
+            <div id="truck-cargo-area" class="p-4 bg-white border-2 border-slate-300 rounded-2xl min-h-[90px] flex flex-wrap items-center gap-3">
+              <!-- Startkisten -->
+              <span id="cargo-box-1" class="px-4 py-2 bg-blue-100 border-2 border-blue-400 text-blue-950 font-black rounded-xl text-lg flex items-center gap-2 shadow-sm transition-all">
+                📦 Maschine 1 (110 kg)
+              </span>
+              <span id="cargo-box-2" class="px-4 py-2 bg-blue-100 border-2 border-blue-400 text-blue-950 font-black rounded-xl text-lg flex items-center gap-2 shadow-sm transition-all">
+                📦 Maschine 2 (120 kg)
+              </span>
+              <span id="cargo-target-boxes" class="contents"></span>
+            </div>
+          </div>
         </div>
 
         <!-- Schrittweises Enthüllen der Rechenkette -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xl font-black text-slate-800">Rechenplan Rückwärts:</span>
-            <button onclick="revealNextTruckStep()" id="truck-step-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-2xl shadow transition transform active:scale-95">
-              Nächsten Rechenschritt enthüllen ➔
+            <span class="text-xl font-black text-slate-800">Rechenplan Rückwärts (Schritt für Schritt):</span>
+            <button onclick="revealNextTruckStep()" id="truck-step-btn" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg sm:text-xl rounded-2xl shadow-lg transition transform active:scale-95 pulse-attention">
+              Schritt 1 rechnen ➔
             </button>
           </div>
 
@@ -532,30 +723,39 @@
           <div class="space-y-3 font-math" id="truck-steps-container">
             
             <div id="t-step-0" class="p-4 bg-slate-50 border-2 border-slate-300 rounded-2xl text-xl font-bold flex items-center justify-between">
-              <span>Maximales Gesamtgewicht (Ende):</span>
+              <span>Maximales Gesamtgewicht (Endstand):</span>
               <span class="text-2xl font-black text-slate-900">950 kg</span>
             </div>
 
-            <div id="t-step-1" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
-              <span>Schritt 1: Erste Kiste abziehen (950 kg − 110 kg):</span>
-              <span class="text-2xl font-black text-indigo-700">= 840 kg</span>
+            <div id="t-step-1" class="hidden p-5 bg-white border-4 border-indigo-200 rounded-2xl space-y-1 transition-all shadow-md animate-pop">
+              <div class="text-sm font-sans-ui font-black text-indigo-700 uppercase">1. Rechenschritt: Erste Maschine abziehen</div>
+              <div class="text-2xl font-black text-indigo-950 flex items-center justify-between">
+                <span>950 kg − 110 kg</span>
+                <span class="bg-indigo-100 px-4 py-1 rounded-xl text-indigo-800">= 840 kg noch frei</span>
+              </div>
             </div>
 
-            <div id="t-step-2" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
-              <span>Schritt 2: Zweite Kiste abziehen (840 kg − 120 kg):</span>
-              <span class="text-2xl font-black text-indigo-700">= 720 kg Rest</span>
+            <div id="t-step-2" class="hidden p-5 bg-white border-4 border-indigo-200 rounded-2xl space-y-1 transition-all shadow-md animate-pop">
+              <div class="text-sm font-sans-ui font-black text-indigo-700 uppercase">2. Rechenschritt: Zweite Maschine abziehen</div>
+              <div class="text-2xl font-black text-indigo-950 flex items-center justify-between">
+                <span>840 kg − 120 kg</span>
+                <span class="bg-indigo-100 px-4 py-1 rounded-xl text-indigo-800">= 720 kg Restgewicht</span>
+              </div>
             </div>
 
-            <div id="t-step-3" class="hidden p-4 bg-white border-2 border-indigo-200 rounded-2xl text-xl font-bold flex items-center justify-between transition-all">
-              <span>Schritt 3: Restgewicht auf 80-kg-Kisten aufteilen (720 kg : 80 kg):</span>
-              <span class="text-2xl font-black text-indigo-700">= 9 Kisten</span>
+            <div id="t-step-3" class="hidden p-5 bg-white border-4 border-purple-200 rounded-2xl space-y-1 transition-all shadow-md animate-pop">
+              <div class="text-sm font-sans-ui font-black text-purple-700 uppercase">3. Rechenschritt: Restgewicht auf 80-kg-Kisten aufteilen</div>
+              <div class="text-2xl font-black text-purple-950 flex items-center justify-between">
+                <span>720 kg : 80 kg</span>
+                <span class="bg-purple-100 px-4 py-1 rounded-xl text-purple-900">= genau 9 Kisten!</span>
+              </div>
             </div>
 
           </div>
 
           <!-- Großer grüner Antwortkasten -->
-          <div id="truck-answer-box" class="hidden p-6 bg-emerald-100 border-4 border-emerald-500 rounded-3xl text-2xl sm:text-3xl font-extrabold text-emerald-950 text-center shadow-lg transition-all">
-            🎉 Antwort: Es können noch genau <strong>9 Kisten</strong> zugeladen werden!
+          <div id="truck-answer-box" class="hidden p-6 bg-emerald-100 border-4 border-emerald-500 rounded-3xl text-2xl sm:text-3xl font-extrabold text-emerald-950 text-center shadow-lg transition-all animate-pop">
+            🎉 Antwortsatz: Es können noch genau <strong>9 weitere Kisten</strong> (zu je 80 kg) zugeladen werden!
           </div>
         </div>
 
@@ -571,7 +771,7 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- PHASE 5: TRAININGSFÄLLE (SMARTBOARD-ABSTIMMUNG)              -->
+    <!-- PHASE 5: TRAININGSFÄLLE MIT RECHENSCHRITTE-LUPE             -->
     <!-- ============================================================ -->
     <section id="phase-training" class="phase-container hidden space-y-8">
       
@@ -586,7 +786,7 @@
               🎯 3 Trainingsfälle: Rückwärts denken!
             </h2>
             <p class="text-xl text-slate-600 font-sans-ui mt-1">
-              Stimmt gemeinsam in der Klasse ab. Kehrt die Rechenzeichen um!
+              Stimmt gemeinsam in der Klasse ab. Nutzt bei Bedarf die <strong>Rechenschritte-Lupe</strong>!
             </p>
           </div>
 
@@ -628,7 +828,7 @@
         <strong class="text-slate-700">LernApps KHS</strong> • Mathematik Klasse 6 • Rückwärtsrechnen
       </div>
       <div>
-        Version <strong class="text-slate-700">v1.2.0</strong> • Optimiert für Smartboard & iPad
+        Version <strong class="text-slate-700">v1.2.1</strong> • Kleinschrittige Didaktik für Smartboard & iPad
       </div>
     </div>
   </footer>
@@ -672,12 +872,13 @@
           synth.triggerAttackRelease(['F4', 'D4'], '8n');
         } else if (type === 'click' && synth) {
           synth.triggerAttackRelease('C4', '16n');
+        } else if (type === 'step' && synth) {
+          synth.triggerAttackRelease(['E4', 'G4'], '16n');
         } else if (type === 'rewind' && synth) {
-          // Kurzer absteigender Spul-Sound
           synth.triggerAttackRelease('A5', '32n', '+0.0');
-          synth.triggerAttackRelease('E5', '32n', '+0.08');
-          synth.triggerAttackRelease('C5', '32n', '+0.16');
-          synth.triggerAttackRelease('G4', '16n', '+0.24');
+          synth.triggerAttackRelease('E5', '32n', '+0.07');
+          synth.triggerAttackRelease('C5', '32n', '+0.14');
+          synth.triggerAttackRelease('G4', '16n', '+0.21');
         } else if (type === 'gong' && synth) {
           synth.triggerAttackRelease(['C4', 'G4'], '2n');
         }
@@ -818,6 +1019,86 @@
     }
 
     // -------------------------------------------------------------
+    // PHASE 1: INTERAKTIVER FILMSTREIFEN (VORWÄRTS & RÜCKSPULEN)
+    // -------------------------------------------------------------
+    let filmForwardStep = 1;
+    let filmRewindSubstep = 0;
+
+    function nextFilmSceneForward() {
+      filmForwardStep++;
+      playSound('step');
+      if (filmForwardStep === 2) {
+        const s2 = document.getElementById('film-scene-2');
+        s2.classList.remove('opacity-30', 'border-slate-300', 'bg-slate-50');
+        s2.classList.add('border-rose-400', 'bg-rose-50', 'shadow-md', 'animate-pop');
+      } else if (filmForwardStep === 3) {
+        const s3 = document.getElementById('film-scene-3');
+        s3.classList.remove('opacity-30', 'border-slate-300', 'bg-slate-50');
+        s3.classList.add('border-rose-400', 'bg-rose-50', 'shadow-md', 'animate-pop');
+      } else if (filmForwardStep === 4) {
+        const s4 = document.getElementById('film-scene-4');
+        s4.classList.remove('opacity-30', 'border-slate-300', 'bg-slate-50');
+        s4.classList.add('border-amber-400', 'bg-amber-50', 'shadow-lg', 'animate-pop');
+
+        document.getElementById('film-forward-btn').textContent = 'Alle Szenen bekannt ✓';
+        document.getElementById('film-forward-btn').disabled = true;
+        document.getElementById('film-forward-btn').className = 'px-5 py-2.5 bg-slate-200 text-slate-400 font-bold text-base rounded-xl cursor-not-allowed';
+        
+        // Rückspul-Sektion einblenden
+        document.getElementById('film-rewind-section').classList.remove('hidden');
+        playSound('rewind');
+        addScore(15);
+      }
+    }
+
+    function nextFilmRewindStep() {
+      filmRewindSubstep++;
+      playSound('step');
+
+      if (filmRewindSubstep === 1) {
+        document.getElementById('rewind-substep-1').classList.remove('hidden');
+        document.getElementById('film-rewind-step-btn').textContent = 'Schritt 2: Pizza rückgängig machen ➔';
+      } else if (filmRewindSubstep === 2) {
+        document.getElementById('rewind-substep-2').classList.remove('hidden');
+        document.getElementById('film-rewind-step-btn').textContent = 'Ergebnis & Probe anzeigen ➔';
+      } else if (filmRewindSubstep === 3) {
+        document.getElementById('rewind-substep-3').classList.remove('hidden');
+        document.getElementById('film-rewind-step-btn').textContent = 'Film komplett gelöst ✓';
+        document.getElementById('film-rewind-step-btn').disabled = true;
+        document.getElementById('film-rewind-step-btn').className = 'px-6 py-3.5 bg-slate-200 text-slate-400 font-bold text-lg rounded-2xl cursor-not-allowed';
+        playSound('correct');
+        addScore(25);
+        confetti({ particleCount: 50, spread: 70 });
+      }
+    }
+
+    function resetFilmstrip() {
+      filmForwardStep = 1;
+      filmRewindSubstep = 0;
+      playSound('click');
+
+      ['film-scene-2', 'film-scene-3', 'film-scene-4'].forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'opacity-30 p-5 rounded-2xl border-2 border-slate-300 bg-slate-50 text-center space-y-2 transition-all';
+      });
+
+      const fBtn = document.getElementById('film-forward-btn');
+      fBtn.disabled = false;
+      fBtn.textContent = 'Nächste Szene abspielen ▶';
+      fBtn.className = 'px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-base sm:text-lg rounded-xl shadow transition transform active:scale-95';
+
+      document.getElementById('film-rewind-section').classList.add('hidden');
+      document.getElementById('rewind-substep-1').classList.add('hidden');
+      document.getElementById('rewind-substep-2').classList.add('hidden');
+      document.getElementById('rewind-substep-3').classList.add('hidden');
+
+      const rBtn = document.getElementById('film-rewind-step-btn');
+      rBtn.disabled = false;
+      rBtn.textContent = 'Nächsten Rückspul-Schritt rechnen ⏪';
+      rBtn.className = 'px-6 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-lg sm:text-xl rounded-2xl shadow-lg transition transform active:scale-95 pulse-attention';
+    }
+
+    // -------------------------------------------------------------
     // PHASE 2: DIE 4 SCHRITTE AUFDECKEN
     // -------------------------------------------------------------
     function toggleStepCard(num) {
@@ -844,8 +1125,45 @@
     }
 
     // -------------------------------------------------------------
-    // PHASE 3: INTERAKTIVE WENDEMASCHINE
+    // PHASE 3: INTERAKTIVE WENDEMASCHINE (EINZELSCHRITTE)
     // -------------------------------------------------------------
+    let machineSubstep = 0;
+
+    function getInvertedOp(op) {
+      if (op === '+') return '-';
+      if (op === '-') return '+';
+      if (op === '*') return ':';
+      if (op === '/' || op === ':') return '·';
+      return op;
+    }
+
+    function calculateStep(current, op, val) {
+      if (op === '+') return current + val;
+      if (op === '-') return current - val;
+      if (op === '*' || op === '·') return current * val;
+      if (op === '/' || op === ':') return current / val;
+      return current;
+    }
+
+    function resetMachineSteps() {
+      machineSubstep = 0;
+      document.getElementById('reverse-chain-container').classList.add('hidden');
+
+      const btn = document.getElementById('machine-step-btn');
+      btn.disabled = false;
+      btn.className = 'px-8 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-2xl sm:text-3xl rounded-3xl shadow-xl transition transform active:scale-95 inline-flex items-center gap-3 pulse-attention';
+      document.getElementById('machine-step-text').textContent = 'Schritt 1: Rückrechnung starten';
+
+      // Transparenz zurücksetzen
+      ['rev-box-start', 'rev-arrow-4', 'rev-box-op2', 'rev-arrow-3', 'rev-box-intermediate', 'rev-arrow-2', 'rev-box-op1', 'rev-arrow-1', 'rev-box-final'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.add('opacity-20');
+          el.classList.remove('shadow-lg', 'scale-105', 'bg-white', 'bg-emerald-100');
+        }
+      });
+    }
+
     function loadMachinePreset(num) {
       playSound('click');
       if (num === 1) {
@@ -867,134 +1185,217 @@
         document.getElementById('m-val2').value = 12;
         document.getElementById('m-end').value = 48;
       }
-      document.getElementById('reverse-chain-container').classList.add('hidden');
+      resetMachineSteps();
     }
 
-    function getInvertedOp(op) {
-      if (op === '+') return '-';
-      if (op === '-') return '+';
-      if (op === '*') return ':';
-      if (op === '/') return '·';
-      return op;
-    }
-
-    function calculateStep(current, op, val) {
-      if (op === '+') return current + val;
-      if (op === '-') return current - val;
-      if (op === '*') return current * val;
-      if (op === '/' || op === ':') return current / val;
-      if (op === '·') return current * val;
-      return current;
-    }
-
-    function runReverseMachine() {
-      playSound('rewind');
+    function advanceMachineSingleStep() {
       const op1 = document.getElementById('m-op1').value;
       const val1 = parseFloat(document.getElementById('m-val1').value) || 0;
       const op2 = document.getElementById('m-op2').value;
       const val2 = parseFloat(document.getElementById('m-val2').value) || 0;
       const endVal = parseFloat(document.getElementById('m-end').value) || 0;
 
-      // Umkehr-Operatoren
       const invOp2 = getInvertedOp(op2);
       const invOp1 = getInvertedOp(op1);
 
-      // Rückwärtsrechnung: Erst Schritt 2 umkehren, dann Schritt 1!
-      const step1Result = calculateStep(endVal, invOp2 === ':' ? '/' : (invOp2 === '·' ? '*' : invOp2), val2);
-      const finalStart = calculateStep(step1Result, invOp1 === ':' ? '/' : (invOp1 === '·' ? '*' : invOp1), val1);
+      const intermediate = calculateStep(endVal, invOp2 === ':' ? '/' : (invOp2 === '·' ? '*' : invOp2), val2);
+      const finalResult = calculateStep(intermediate, invOp1 === ':' ? '/' : (invOp1 === '·' ? '*' : invOp1), val1);
+
+      machineSubstep++;
 
       const container = document.getElementById('reverse-chain-container');
-      const boxes = document.getElementById('reverse-chain-boxes');
-      const resultBox = document.getElementById('reverse-result-box');
-
-      // Boxen von rechts nach links aufbauen
-      boxes.innerHTML = `
-        <!-- Startwert (Ergebnis) ganz links -->
-        <div class="bg-white p-4 rounded-2xl border-4 border-purple-500 text-center shadow-md min-w-[120px] animate-pulse">
-          <div class="text-xs font-bold text-purple-700 font-sans-ui">GEFUNDENER ANFANG</div>
-          <div class="font-math text-3xl font-black text-purple-950">${finalStart}</div>
-        </div>
-
-        <span class="text-3xl text-emerald-600 font-bold">◀</span>
-
-        <!-- Schritt 1 Rückwärts (war Schritt 1 Vorwärts) -->
-        <div class="bg-white p-3 rounded-2xl border-2 border-emerald-400 text-center shadow-sm">
-          <div class="text-xs font-bold text-slate-400 font-sans-ui">Umkehrung Schritt 1</div>
-          <div class="font-math text-2xl font-black text-emerald-800">${invOp1} ${val1}</div>
-        </div>
-
-        <span class="text-3xl text-emerald-600 font-bold">◀</span>
-
-        <!-- Schritt 2 Rückwärts (war Schritt 2 Vorwärts) -->
-        <div class="bg-white p-3 rounded-2xl border-2 border-emerald-400 text-center shadow-sm">
-          <div class="text-xs font-bold text-slate-400 font-sans-ui">Umkehrung Schritt 2</div>
-          <div class="font-math text-2xl font-black text-emerald-800">${invOp2} ${val2}</div>
-        </div>
-
-        <span class="text-3xl text-emerald-600 font-bold">◀</span>
-
-        <!-- Ausgangspunkt Rückwärts (Endwert) ganz rechts -->
-        <div class="bg-white p-4 rounded-2xl border-4 border-amber-400 text-center shadow-sm min-w-[120px]">
-          <div class="text-xs font-bold text-amber-800 font-sans-ui">START DER RÜCKRECHNUNG</div>
-          <div class="font-math text-3xl font-black text-amber-950">${endVal}</div>
-        </div>
-      `;
-
-      resultBox.innerHTML = `
-        Rechnung: <strong>${endVal} ${invOp2} ${val2} = ${step1Result}</strong> &nbsp;➔&nbsp; 
-        <strong>${step1Result} ${invOp1} ${val1} = ${finalStart}</strong>.<br>
-        Der gesuchte Startwert war genau <strong>${finalStart}</strong>!
-      `;
-
       container.classList.remove('hidden');
-      addScore(20);
-      confetti({ particleCount: 40, spread: 60 });
+
+      const expl = document.getElementById('reverse-step-explanation');
+      const stepBtn = document.getElementById('machine-step-btn');
+      const stepText = document.getElementById('machine-step-text');
+
+      if (machineSubstep === 1) {
+        playSound('rewind');
+        // Schritt 1: Startpunkt der Rückrechnung (Endwert) aufdecken
+        document.getElementById('rev-val-start').textContent = endVal;
+        const boxStart = document.getElementById('rev-box-start');
+        boxStart.classList.remove('opacity-20');
+        boxStart.classList.add('animate-pop');
+
+        expl.innerHTML = `
+          1️⃣ <strong>Startpunkt wählen:</strong> Wir beginnen am Ende der Geschichte bei <strong>${endVal}</strong>.
+        `;
+        stepText.textContent = `Schritt 2: Schritt 2 umkehren (${invOp2} ${val2})`;
+      } else if (machineSubstep === 2) {
+        playSound('step');
+        // Schritt 2: Umkehrung von Schritt 2 und Berechnung des ZWISCHENSTANDS!
+        document.getElementById('rev-arrow-4').classList.remove('opacity-20');
+        
+        document.getElementById('rev-val-op2').textContent = `${invOp2} ${val2}`;
+        const boxOp2 = document.getElementById('rev-box-op2');
+        boxOp2.classList.remove('opacity-20');
+        boxOp2.classList.add('animate-pop');
+
+        document.getElementById('rev-arrow-3').classList.remove('opacity-20');
+
+        document.getElementById('rev-val-intermediate').textContent = intermediate;
+        const boxInter = document.getElementById('rev-box-intermediate');
+        boxInter.classList.remove('opacity-20');
+        boxInter.classList.add('animate-pop', 'border-blue-600', 'bg-blue-100');
+
+        expl.innerHTML = `
+          2️⃣ <strong>Letzten Schritt umkehren:</strong> Aus <em>${op2} ${val2}</em> wird <em>${invOp2} ${val2}</em>! <br>
+          <span class="font-math font-black text-blue-700 text-2xl sm:text-3xl">${endVal} ${invOp2} ${val2} = ${intermediate} (Zwischenstand)</span>
+        `;
+        stepText.textContent = `Schritt 3: Schritt 1 umkehren (${invOp1} ${val1})`;
+      } else if (machineSubstep === 3) {
+        playSound('correct');
+        // Schritt 3: Umkehrung von Schritt 1 und Endergebnis!
+        document.getElementById('rev-arrow-2').classList.remove('opacity-20');
+
+        document.getElementById('rev-val-op1').textContent = `${invOp1} ${val1}`;
+        const boxOp1 = document.getElementById('rev-box-op1');
+        boxOp1.classList.remove('opacity-20');
+        boxOp1.classList.add('animate-pop');
+
+        document.getElementById('rev-arrow-1').classList.remove('opacity-20');
+
+        document.getElementById('rev-val-final').textContent = finalResult;
+        const boxFinal = document.getElementById('rev-box-final');
+        boxFinal.classList.remove('opacity-20');
+        boxFinal.classList.add('animate-pop', 'border-purple-600', 'bg-purple-100');
+
+        expl.innerHTML = `
+          3️⃣ <strong>Ersten Schritt umkehren:</strong> Aus <em>${op1} ${val1}</em> wird <em>${invOp1} ${val1}</em>! <br>
+          <span class="font-math font-black text-purple-700 text-2xl sm:text-3xl">${intermediate} ${invOp1} ${val1} = ${finalResult}</span><br>
+          🎉 Der gesuchte Startwert am Anfang war genau <strong>${finalResult}</strong>!
+        `;
+
+        stepText.textContent = `Vollständig gelöst ✓`;
+        stepBtn.disabled = true;
+        stepBtn.className = 'px-8 py-5 bg-slate-200 text-slate-400 font-bold text-2xl rounded-3xl cursor-not-allowed';
+        addScore(30);
+        confetti({ particleCount: 70, spread: 80 });
+      }
+    }
+
+    function revealAllMachineSteps() {
+      resetMachineSteps();
+      advanceMachineSingleStep(); // 1
+      advanceMachineSingleStep(); // 2
+      advanceMachineSingleStep(); // 3
     }
 
     // -------------------------------------------------------------
-    // PHASE 4: TAFELAUFGABE (KLEINTRANSPORTER)
+    // PHASE 4: TAFELAUFGABE (VISUELLER TRANSPORTER)
     // -------------------------------------------------------------
     let truckStep = 0;
 
     function revealNextTruckStep() {
       truckStep++;
-      playSound('click');
+      playSound('step');
+
+      const bar = document.getElementById('truck-weight-bar');
+      const kgDisplay = document.getElementById('truck-kg-display');
+
       if (truckStep === 1) {
         document.getElementById('t-step-1').classList.remove('hidden');
+        document.getElementById('cargo-box-1').classList.add('line-through', 'opacity-40', 'bg-slate-200');
+        kgDisplay.textContent = '840 kg / 950 kg';
+        bar.style.width = `${(840 / 950) * 100}%`;
+        document.getElementById('truck-step-btn').textContent = 'Schritt 2 rechnen ➔';
       } else if (truckStep === 2) {
         document.getElementById('t-step-2').classList.remove('hidden');
+        document.getElementById('cargo-box-2').classList.add('line-through', 'opacity-40', 'bg-slate-200');
+        kgDisplay.textContent = '720 kg / 950 kg';
+        bar.style.width = `${(720 / 950) * 100}%`;
+        document.getElementById('truck-step-btn').textContent = 'Schritt 3: Kisten aufteilen ➔';
       } else if (truckStep === 3) {
         document.getElementById('t-step-3').classList.remove('hidden');
         document.getElementById('truck-answer-box').classList.remove('hidden');
+        
+        // 9 Kisten visuell in die Ladefläche laden!
+        const targetArea = document.getElementById('cargo-target-boxes');
+        let boxesHtml = '';
+        for (let i = 1; i <= 9; i++) {
+          boxesHtml += `
+            <span class="px-3 py-1.5 bg-emerald-100 border-2 border-emerald-500 text-emerald-950 font-black rounded-xl text-base flex items-center gap-1 shadow-sm animate-pop">
+              📦 Kiste ${i} (80 kg)
+            </span>
+          `;
+        }
+        targetArea.innerHTML = boxesHtml;
+
+        kgDisplay.textContent = '0 kg Rest (Voll ausgelastet!)';
+        bar.style.width = '0%';
+        bar.className = 'h-full bg-emerald-500 rounded-xl transition-all duration-500';
+
         document.getElementById('truck-step-btn').textContent = 'Fertig gelöst ✓';
         document.getElementById('truck-step-btn').disabled = true;
-        document.getElementById('truck-step-btn').className = 'px-6 py-3 bg-slate-200 text-slate-400 font-bold text-lg rounded-2xl cursor-not-allowed';
+        document.getElementById('truck-step-btn').className = 'px-6 py-3.5 bg-slate-200 text-slate-400 font-bold text-lg rounded-2xl cursor-not-allowed';
+        
         playSound('correct');
-        addScore(30);
-        confetti({ particleCount: 70, spread: 70 });
+        addScore(35);
+        confetti({ particleCount: 80, spread: 80 });
       }
     }
 
+    function resetTruckDemo() {
+      truckStep = 0;
+      playSound('click');
+      document.getElementById('t-step-1').classList.add('hidden');
+      document.getElementById('t-step-2').classList.add('hidden');
+      document.getElementById('t-step-3').classList.add('hidden');
+      document.getElementById('truck-answer-box').classList.add('hidden');
+
+      const b1 = document.getElementById('cargo-box-1');
+      b1.className = 'px-4 py-2 bg-blue-100 border-2 border-blue-400 text-blue-950 font-black rounded-xl text-lg flex items-center gap-2 shadow-sm transition-all';
+      
+      const b2 = document.getElementById('cargo-box-2');
+      b2.className = 'px-4 py-2 bg-blue-100 border-2 border-blue-400 text-blue-950 font-black rounded-xl text-lg flex items-center gap-2 shadow-sm transition-all';
+
+      document.getElementById('cargo-target-boxes').innerHTML = '';
+
+      const bar = document.getElementById('truck-weight-bar');
+      bar.style.width = '100%';
+      bar.className = 'h-full bg-gradient-to-r from-emerald-500 via-blue-500 to-indigo-600 rounded-xl transition-all duration-500';
+
+      document.getElementById('truck-kg-display').textContent = '950 kg / 950 kg';
+
+      const btn = document.getElementById('truck-step-btn');
+      btn.disabled = false;
+      btn.textContent = 'Schritt 1 rechnen ➔';
+      btn.className = 'px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg sm:text-xl rounded-2xl shadow-lg transition transform active:scale-95 pulse-attention';
+    }
+
     // -------------------------------------------------------------
-    // PHASE 5: TRAININGSFÄLLE (MULTIPLE-CHOICE)
+    // PHASE 5: TRAININGSFÄLLE (MIT RECHENSCHRITTE-LUPE)
     // -------------------------------------------------------------
     const quizCases = [
       {
         title: 'Aufgabe 1: Laras Ausflugsgeld',
         badge: 'Klasse 6 • Stufe 1',
-        story: 'Lara hat am Ende ihres Ausflugs noch genau <strong>36,50 €</strong> im Geldbeutel. Zuvor kaufte sie eine Eintrittskarte für <strong>12,00 €</strong> und ein Eis für <strong>7,50 €</strong>.',
+        story: 'Lara hat am Ende ihres Ausflugs noch genau <strong class="bg-amber-100 px-2 py-0.5 rounded-lg text-amber-950">36,50 €</strong> im Geldbeutel. Zuvor kaufte sie eine Eintrittskarte für <strong class="bg-rose-100 text-rose-900 px-2 py-0.5 rounded-lg">12,00 €</strong> und ein Eis für <strong class="bg-rose-100 text-rose-900 px-2 py-0.5 rounded-lg">7,50 €</strong>.',
         question: 'Wie viel Geld hatte Lara ganz zu Beginn dabei?',
+        hint: '💡 Tipp: Lara hat zweimal Geld ausgegeben (−). Wenn wir den Film rückwärts spulen, müssen wir beide Beträge wieder dazuaddieren (+)!',
+        calculationSteps: [
+          { label: 'Startpunkt (Ende)', math: '36,50 €' },
+          { label: '1. Umkehrschritt (+ Eis 7,50 €)', math: '36,50 € + 7,50 € = 44,00 € (Zwischensumme)' },
+          { label: '2. Umkehrschritt (+ Ticket 12,00 €)', math: '44,00 € + 12,00 € = 56,00 € Startgeld!' }
+        ],
         options: [
           { text: 'A) 17,00 €', isCorrect: false, explanation: 'Achtung: Lara hatte am Anfang MEHR Geld als am Ende! Wenn Geld ausgegeben wurde (−), müssen wir es beim Rückwärtsrechnen wieder DAZURECHNEN (+).' },
           { text: 'B) 56,00 €', isCorrect: true, explanation: 'Genau! 36,50 € + 7,50 € + 12,00 € = 56,00 €. Das ausgegebene Geld legen wir schrittweise wieder dazu.' },
-          { text: 'C) 44,00 €', isCorrect: false, explanation: 'Nicht ganz: 44,00 € entsteht, wenn man nur eine der beiden Ausgaben berücksichtigt hat.' }
+          { text: 'C) 44,00 €', isCorrect: false, explanation: 'Nicht ganz: 44,00 € ist nur der Zwischenschritt nach dem Eis! Du musst auch die 12,00 € Eintritt noch dazuaddieren.' }
         ]
       },
       {
         title: 'Aufgabe 2: Die Apfel-Obstkiste',
         badge: 'Klasse 6 • Stufe 2',
-        story: 'Auf dem Wochenmarkt sind am Nachmittag in einer großen Holzkiste noch genau <strong>25 kg Äpfel</strong> übrig. Am Vormittag wurden zunächst <strong>4,5 kg</strong> und danach noch <strong>6,5 kg</strong> verkauft.',
+        story: 'Auf dem Wochenmarkt sind am Nachmittag in einer Holzkiste noch genau <strong class="bg-amber-100 px-2 py-0.5 rounded-lg text-amber-950">25 kg Äpfel</strong> übrig. Am Vormittag wurden zunächst <strong class="bg-rose-100 text-rose-900 px-2 py-0.5 rounded-lg">4,5 kg</strong> und danach noch <strong class="bg-rose-100 text-rose-900 px-2 py-0.5 rounded-lg">6,5 kg</strong> verkauft.',
         question: 'Wie viel Kilogramm Äpfel waren zu Beginn in der vollen Kiste?',
+        hint: '💡 Tipp: Verkaufte Äpfel wurden aus der Kiste herausgenommen (−). Spule zurück und lege die Äpfel der Reihe nach wieder hinein (+)!',
+        calculationSteps: [
+          { label: 'Startpunkt (Restäpfel am Ende)', math: '25 kg' },
+          { label: '1. Umkehrschritt (+ 6,5 kg)', math: '25 kg + 6,5 kg = 31,5 kg (Zwischensumme)' },
+          { label: '2. Umkehrschritt (+ 4,5 kg)', math: '31,5 kg + 4,5 kg = 36 kg Äpfel am Anfang!' }
+        ],
         options: [
           { text: 'A) 36 kg', isCorrect: true, explanation: 'Richtig! Wir spulen zurück: 25 kg + 6,5 kg + 4,5 kg = 36 kg Äpfel am Anfang.' },
           { text: 'B) 14 kg', isCorrect: false, explanation: 'Falsch: Die Kiste war zu Beginn voller, nicht leerer! Verkaufte Äpfel müssen zurück in die Kiste addiert werden.' },
@@ -1004,8 +1405,14 @@
       {
         title: 'Aufgabe 3: Max und sein Sparschwein',
         badge: 'Klasse 6 • Stufe 3 (Knobeln)',
-        story: 'Max zählt am Ende stolze <strong>48 €</strong> in seiner Spardose. Zuvor hatte er sein Taschengeld verdoppelt (<strong>· 2</strong>) und danach noch ein Geburtstagsgeld von <strong>12 €</strong> dazugelegt (<strong>+ 12 €</strong>).',
+        story: 'Max zählt am Ende stolze <strong class="bg-amber-100 px-2 py-0.5 rounded-lg text-amber-950">48 €</strong> in seiner Spardose. Zuvor hatte er sein Taschengeld verdoppelt (<strong class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded-lg">· 2</strong>) und danach noch ein Geburtstagsgeld von <strong class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded-lg">+ 12 €</strong> dazugelegt.',
         question: 'Mit welchem Betrag hat Max ganz am Anfang gestartet?',
+        hint: '💡 Tipp: Achte genau auf die Reihenfolge beim Rückspulen! Der letzte Schritt war (+ 12 €) ➔ mach diesen zuerst rückgängig (− 12 €). Danach machst du das Verdoppeln (: 2) rückgängig!',
+        calculationSteps: [
+          { label: 'Startpunkt (Endbetrag im Sparschwein)', math: '48 €' },
+          { label: '1. Umkehrschritt (Geburtstagsgeld abziehen)', math: '48 € − 12 € = 36 € (Zwischenstand vor dem Geburtstag)' },
+          { label: '2. Umkehrschritt (Verdopplung umkehren : 2)', math: '36 € : 2 = 18 € Start-Taschengeld!' }
+        ],
         options: [
           { text: 'A) 18 €', isCorrect: true, explanation: 'Klasse! Zuerst den letzten Schritt rückgängig machen: 48 € − 12 € = 36 €. Dann die Verdopplung umkehren: 36 € : 2 = 18 €!' },
           { text: 'B) 12 €', isCorrect: false, explanation: 'Vorsicht bei der Reihenfolge! Wir müssen den letzten Schritt zuerst rückgängig machen: Erst − 12 € rechnen (= 36 €), danach : 2 (= 18 €).' },
@@ -1051,9 +1458,34 @@
             ❓ Frage: ${q.question}
           </div>
 
+          <!-- Hilfeknopf für den Plenumsunterricht -->
+          <div class="flex items-center gap-3">
+            <button onclick="toggleQuizHint()" id="quiz-hint-btn" class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded-xl font-bold text-base transition flex items-center gap-2">
+              <span>💡</span> Tipp für die Klasse anzeigen
+            </button>
+            <button onclick="toggleQuizSteps()" id="quiz-steps-btn" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl font-bold text-base transition flex items-center gap-2">
+              <span>🔍</span> Rechenschritte-Lupe einblenden
+            </button>
+          </div>
+
+          <div id="quiz-hint-box" class="hidden p-4 bg-amber-50 border-2 border-amber-300 rounded-2xl text-lg font-bold text-amber-950 font-sans-ui animate-pop">
+            ${q.hint}
+          </div>
+
+          <!-- DIE RECHENSCHRITTE-LUPE (KLEINSCHRITTIGE RECHENBOXEN) -->
+          <div id="quiz-steps-box" class="hidden p-6 bg-white border-4 border-indigo-200 rounded-3xl space-y-3 font-math animate-pop">
+            <div class="text-sm font-sans-ui font-black text-indigo-800 uppercase">🔍 Schrittweise Rechenschritte:</div>
+            ${q.calculationSteps.map((s, sIdx) => `
+              <div class="p-3 bg-indigo-50/70 border-2 border-indigo-200 rounded-xl flex items-center justify-between text-lg sm:text-xl font-bold">
+                <span class="font-sans-ui text-slate-700 text-base">${s.label}:</span>
+                <span class="font-black text-indigo-900">${s.math}</span>
+              </div>
+            `).join('')}
+          </div>
+
           <div class="space-y-3 pt-2">
             <label class="block text-xl font-extrabold text-slate-900">
-              Welches Start-Ergebnis ist richtig?
+              Welches Start-Ergebnis ist richtig? (Klicke zum Abstimmen):
             </label>
             <div class="space-y-3">
               ${q.options.map((opt, oIdx) => `
@@ -1064,7 +1496,7 @@
             </div>
           </div>
 
-          <div id="quiz-feedback-box" class="hidden text-xl font-bold p-5 rounded-2xl"></div>
+          <div id="quiz-feedback-box" class="hidden text-xl font-bold p-5 rounded-2xl animate-pop"></div>
         </div>
       `;
 
@@ -1079,25 +1511,41 @@
       }
     }
 
+    function toggleQuizHint() {
+      playSound('click');
+      const box = document.getElementById('quiz-hint-box');
+      box.classList.toggle('hidden');
+    }
+
+    function toggleQuizSteps() {
+      playSound('click');
+      const box = document.getElementById('quiz-steps-box');
+      box.classList.toggle('hidden');
+    }
+
     function handleQuizAnswer(caseIdx, optIdx, btn) {
       const q = quizCases[caseIdx];
       const opt = q.options[optIdx];
       const feedback = document.getElementById('quiz-feedback-box');
+      const stepsBox = document.getElementById('quiz-steps-box');
 
       document.querySelectorAll('.quiz-option-btn').forEach(b => {
         b.className = 'quiz-option-btn w-full text-left p-5 bg-white border-4 border-slate-200 rounded-2xl text-xl font-math font-extrabold transition';
       });
 
+      // Beim Antworten automatisch auch die Rechenschritte-Lupe öffnen für maximalen Lerneffekt
+      stepsBox.classList.remove('hidden');
+
       if (opt.isCorrect) {
         btn.className = 'quiz-option-btn w-full text-left p-5 bg-emerald-100 border-4 border-emerald-500 rounded-2xl text-xl font-math font-extrabold text-emerald-950 shadow';
-        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-emerald-100 text-emerald-900 border-2 border-emerald-300 block animate-pop';
         feedback.innerHTML = `✓ ${opt.explanation}`;
         playSound('correct');
         addScore(30);
         confetti({ particleCount: 60, spread: 70 });
       } else {
         btn.className = 'quiz-option-btn w-full text-left p-5 bg-red-100 border-4 border-red-500 rounded-2xl text-xl font-math font-extrabold text-red-950';
-        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-red-100 text-red-900 border-2 border-red-300 block';
+        feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-red-100 text-red-900 border-2 border-red-300 block animate-pop';
         feedback.innerHTML = `❌ ${opt.explanation}`;
         playSound('wrong');
       }
