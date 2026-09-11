@@ -51,13 +51,18 @@ Jede App muss ganz oben in der Kopfzeile einen sichtbaren Timer besitzen:
 
 ## 4. Didaktisches Konzept (Hauptschul-Niveau)
 
+* **Maximale Kleinschrittigkeit & Zwischenschritt-Visualisierung (MANDATORY):**  
+  Niemals große Text- oder Rechenblöcke auf einmal darstellen! Jeder Gedankengang und jede Rechnung muss in kleine Teilschritte zerlegt sein:
+  - Zwischensummen und Zwischenergebnisse in leuchtenden, separaten Boxen hervorheben.
+  - Werkzeuge und Rechenketten mit **Einzelschritt-Steuerung** ausstatten (Lehrkraft deckt Schritt für Schritt auf).
+  - Visuelle Modelle (Fortschrittsbalken, Mengendarstellungen, Kisten/Objekte) zur Veranschaulichung einbinden.
 * **Sprachsensibilität:** Kurze, klare Hauptsätze. Signalwörter visuell hervorheben (Farbcodierung: Gelb = Zahlen/Einheiten, Grün = Signalwörter, Lila = Frage).
 * **Präsentationscharakter in 4 bis 5 Phasen:**
-  1. **Aktivierung / Einstieg:** Anschaulicher Impuls oder Alltagsbezug ("Keine Angst vor Textaufgaben!").
+  1. **Aktivierung / Einstieg:** Anschaulicher Impuls oder Alltagsbezug ("Keine Angst vor Textaufgaben!"), schrittweise als Film/Szene aufdeckbar.
   2. **Regelerarbeitung (Klick-Aufdecken):** Regeln dürfen nicht sofort als Textblock da stehen, sondern müssen schrittweise per Klick aufgedeckt werden, um die Aufmerksamkeit der Klasse zu lenken.
-  3. **Didaktisches Werkzeug / Radar:** Interaktive Signalwort-Tabelle, Zahlenstrahl, Schieberegler oder Modellkarten.
-  4. **Gemeinsame Fallakte / Anwendung:** Eine gemeinsame Musteraufgabe, die am Smartboard interaktiv durchgegangen wird (z. B. Farb-Textmarker).
-  5. **Gemeinsame Übungsbeispiele (3 bis 5 Fälle):** Multiple-Choice- oder Sortieraufgaben mit sofortigem visuellem Feedback (Grün für richtig, sanftes Rot mit verständlicher Erklärung bei Fehlern, kein negatives Bloßstellen).
+  3. **Didaktisches Werkzeug / Radar:** Interaktive Signalwort-Tabelle, Zahlenstrahl, Schieberegler, Wendemaschine oder Modellkarten mit Einzelschritt-Modus.
+  4. **Gemeinsame Fallakte / Anwendung:** Eine gemeinsame Musteraufgabe, die am Smartboard interaktiv durchgegangen wird (z. B. Farb-Textmarker, dynamische Ladebalken).
+  5. **Gemeinsame Übungsbeispiele (3 bis 5 Fälle):** Multiple-Choice- oder Sortieraufgaben mit Rechenschritte-Lupe, Hilfetipps und sofortigem visuellem Feedback (Grün für richtig, sanftes Rot mit verständlicher Erklärung bei Fehlern, kein negatives Bloßstellen).
 
 ---
 
