@@ -6,7 +6,7 @@
 [![Live auf Vercel](https://img.shields.io/badge/🚀_Live_App-Hier_starten-22c55e?style=for-the-badge&logo=vercel&logoColor=white)](https://lern-apps-khs.vercel.app/)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind%20CSS%20CDN-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com)
 [![Vanilla JS](https://img.shields.io/badge/Logic-Vanilla%20JS-F7DF1E?style=flat&logo=javascript)](https://developer.mozilla.org)
-[![Version](https://img.shields.io/badge/Version-1.2.1-indigo)](package.json)
+[![Version](https://img.shields.io/badge/Version-1.3.0-indigo)](package.json)
 
 > ### 🌐 **Direkter Link zur Live-App (Vercel):**  
 > 👉 **[https://lern-apps-khs.vercel.app/](https://lern-apps-khs.vercel.app/)**  
