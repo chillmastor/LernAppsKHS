@@ -6,7 +6,7 @@
 [![Vercel Deployment](https://img.shields.io/badge/Deployment-Vercel-black?style=flat&logo=vercel)](https://github.com/chillmastor/LernAppsKHS)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind%20CSS%20CDN-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com)
 [![Vanilla JS](https://img.shields.io/badge/Logic-Vanilla%20JS-F7DF1E?style=flat&logo=javascript)](https://developer.mozilla.org)
-[![Version](https://img.shields.io/badge/Version-1.0.0-indigo)](package.json)
+[![Version](https://img.shields.io/badge/Version-1.1.0-indigo)](package.json)
 
 ---
 
@@ -17,12 +17,12 @@ Die Apps in diesem Repository sind speziell für den Unterrichtsalltag an der **
 * **Nutzung im Plenum:** Die Lehrkraft (oder ein moderierendes Kind) steuert die App über das Tablet. Die Klasse interagiert mündlich (Vorlesen, Melden, Begründen, gemeinsame Lösungsfindung).
 * **Fernlesbarkeit aus der letzten Reihe:** Große Schriftgrößen (`text-3xl` bis `text-5xl` für Überschriften, min. `text-xl` bis `text-2xl` für Fließtext und Optionen).
 * **Touch-Optimierung:** Große Buttons und Klickflächen (min. `p-4`), die sich problemlos mit dem Finger oder dem Smartboard-Stift bedienen lassen.
-* **Integrierter Smartboard-Timer:** Jede App verfügt über eine fixierte Zeitanzeige mit Schnellauswahl (3 Min, 5 Min, 10 Min), Pause-Funktion und akustischem/optischem Signal bei Ablauf.
+* **Integrierter & einklappbarer Smartboard-Timer:** Jede App verfügt über eine schlanke Zeitanzeige mit Schnellauswahl (3 Min, 5 Min, 10 Min), Pause-Funktion und Signal bei Ablauf. Mit einem Klick auf `▲ Schrumpfen` lässt sich der Header auf eine Minimalleiste reduzieren, um maximalen vertikalen Platz am Smartboard zu bieten.
 * **Sprachsensibilität:** Kurze, verständliche Hauptsätze, Signalwort-Farbcodierungen und visuelle Erklärungen vor Fachbegriffen.
-* **Präsentationscharakter (4 Phasen):**
-  1. *Aktivierung / Vorwissen:* Motivierender Einstiegsimpuls.
+* **Präsentationscharakter (4–5 Phasen):**
+  1. *Aktivierung / Vorwissen:* Motivierender Einstiegsimpuls mit Alltagsbezug.
   2. *Regelerarbeitung:* Schrittweises Aufdecken von Regeln und Strategien per Klick.
-  3. *Werkzeug / Radar:* Visuelle Signalwort- oder Modellübersicht.
+  3. *Werkzeug / Radar:* Visuelle Signalwort- oder Zahlenstrahlübersicht.
   4. *Gemeinsame Übungsfälle:* 3 bis 5 interaktive Beispiele mit sofortigem visuellem Feedback (grün / sanftes rot mit Erklärung) und Feiereffekten (Konfetti).
 
 ---
@@ -33,7 +33,7 @@ Die Apps in diesem Repository sind speziell für den Unterrichtsalltag an der **
 | :--- | :--- | :--- | :--- |
 | **[`index.html`](index.html)** | Übergreifend | Alle | **Zentrales Portal / Dashboard** mit Smartboard-Timer, Fächerfiltern, Vollbildmodus und Modulkacheln. |
 | **[`textaufgaben.html`](textaufgaben.html)** | Mathematik | Klasse 6 (~20 Min) | **Textaufgaben-Detektive (4-Schritte-Methode):** Signalwort-Radar, interaktiver Farb-Textmarker (Zahlen, Signale, Frage), Rechenplan-Baukasten und 3 gemeinsame Kriminalfälle. |
-| *In Vorbereitung* | Mathematik | Klasse 5/6 | **Runden auf Zehner & Hunderter:** Zahlenstrahl-Visualisierung und Rundungsregeln. |
+| **[`runden.html`](runden.html)** | Mathematik | Klasse 5/6 (~15 Min) | **Clever Runden beim Einkaufen (Geld):** Supermarkt-Check, 0–4 & 5–9 Aufdeck-Regeln, interaktiver Euro-Zahlenstrahl mit Schieberegler, Kassen-Überschlag und 4 Trainings-Fälle. |
 | *In Vorbereitung* | Mathematik | Klasse 6 | **Brüche visualisieren:** Interaktive Pizza- und Schokomodelle für Zähler und Nenner. |
 
 ---

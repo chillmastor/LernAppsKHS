@@ -26,49 +26,53 @@
   <!-- ============================================================== -->
   <!-- SMARTBOARD-HEADER MIT INTEGRIERTEM TIMER & VOLLBILD           -->
   <!-- ============================================================== -->
-  <header class="bg-white/95 backdrop-blur border-b-2 border-slate-200 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+  <header id="smartboard-header" class="bg-white/95 backdrop-blur border-b-2 border-slate-200 sticky top-0 z-50 shadow-sm transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- Logo & Schulkennzeichnung -->
-      <div class="flex items-center gap-3.5">
-        <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md border-2 border-indigo-400">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-xl shadow-sm border border-indigo-400 shrink-0">
           🎒
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 leading-none">LernApps KHS</h1>
-            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-indigo-200">v1.0.0</span>
+            <h1 class="text-lg sm:text-2xl font-bold text-slate-900 leading-none">LernApps KHS</h1>
+            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-0.5 rounded-full border border-indigo-200">v1.1.0</span>
           </div>
-          <p class="text-xs sm:text-sm text-slate-500 font-sans-ui font-semibold mt-0.5">
-            Interaktive Smartboard- & iPad-Tools für die Hauptschule
+          <p class="text-xs text-slate-500 font-sans-ui font-semibold mt-0.5 hidden sm:block">
+            Smartboard- & iPad-Tools für die Hauptschule
           </p>
         </div>
       </div>
 
       <!-- Zentraler Smartboard-Timer -->
-      <div class="flex items-center gap-2 sm:gap-3 bg-slate-50 border-2 border-slate-200 rounded-2xl p-1.5 sm:px-3 shadow-inner">
-        <span class="text-xl">⏱️</span>
-        <div id="header-timer-display" class="font-sans-ui font-black text-slate-800 text-lg sm:text-2xl min-w-[70px] text-center tracking-wider">
+      <div class="flex items-center gap-2 sm:gap-3 bg-slate-50 border-2 border-slate-200 rounded-xl px-2.5 py-1 shadow-inner">
+        <span class="text-base sm:text-lg">⏱️</span>
+        <div id="header-timer-display" class="font-sans-ui font-black text-slate-800 text-lg sm:text-xl min-w-[58px] text-center tracking-wider">
           05:00
         </div>
         <!-- Schnellauswahl -->
-        <div class="flex items-center gap-1 border-l-2 border-slate-200 pl-2">
-          <button onclick="setGlobalTimer(180)" class="timer-quick-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition" title="3 Minuten">3m</button>
-          <button onclick="setGlobalTimer(300)" class="timer-quick-btn text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 px-2 py-1 rounded-lg transition" title="5 Minuten">5m</button>
-          <button onclick="setGlobalTimer(600)" class="timer-quick-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition" title="10 Minuten">10m</button>
+        <div id="header-timer-presets" class="flex items-center gap-1 border-l border-slate-200 pl-1.5">
+          <button onclick="setGlobalTimer(180)" class="timer-quick-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="3 Minuten">3m</button>
+          <button onclick="setGlobalTimer(300)" class="timer-quick-btn text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 px-1.5 py-0.5 rounded transition" title="5 Minuten">5m</button>
+          <button onclick="setGlobalTimer(600)" class="timer-quick-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="10 Minuten">10m</button>
         </div>
         <!-- Start / Pause / Reset -->
-        <button id="header-timer-toggle" onclick="toggleGlobalTimer()" class="text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3 py-1.5 rounded-xl shadow-sm transition">
+        <button id="header-timer-toggle" onclick="toggleGlobalTimer()" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2.5 py-1 rounded-lg shadow-sm transition">
           Start
         </button>
-        <button onclick="resetGlobalTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2 py-1.5 rounded-xl transition" title="Zurücksetzen">
+        <button onclick="resetGlobalTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-1.5 py-1 rounded-lg transition" title="Zurücksetzen">
           ↺
         </button>
       </div>
 
-      <!-- Vollbild-Modus fürs Smartboard -->
+      <!-- Vollbild & Einklapp-Modus fürs Smartboard -->
       <div class="flex items-center gap-2">
-        <button onclick="toggleFullScreen()" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-700 font-bold px-3.5 py-2 rounded-2xl transition text-sm">
+        <button onclick="toggleHeroCollapse()" id="hero-collapse-btn" class="flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-200 text-indigo-700 font-bold px-2.5 py-1.5 rounded-xl transition text-xs sm:text-sm" title="Banner ein-/ausblenden für mehr Platz">
+          <span id="hero-collapse-icon">▲</span>
+          <span class="hidden sm:inline">Banner</span>
+        </button>
+        <button onclick="toggleFullScreen()" class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition text-xs sm:text-sm">
           <span>⛶</span>
           <span class="hidden sm:inline">Vollbild</span>
         </button>
@@ -83,7 +87,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
 
     <!-- Hero / Begrüßung am Smartboard -->
-    <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+    <div id="hero-banner" class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
       <div class="space-y-3 z-10 text-center md:text-left">
         <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide uppercase">
           <span>💡</span> Frontal- & Plenumsunterricht
@@ -178,43 +182,50 @@
       </div>
 
       <!-- ============================================================ -->
-      <!-- APP 2: RUNDEN AUF ZEHNER & HUNDERTER (IN PLANUNG / VORSCHAU) -->
+      <!-- APP 2: CLEVER RUNDEN (GELDBETRÄGE) (AKTIV)                   -->
       <!-- ============================================================ -->
-      <div class="app-card module-mathe bg-white rounded-3xl border-2 border-slate-200 shadow-sm opacity-90 flex flex-col justify-between overflow-hidden">
+      <div class="app-card module-mathe bg-white rounded-3xl border-2 border-amber-200 shadow-md hover:shadow-xl transition flex flex-col justify-between overflow-hidden group">
         <div>
-          <div class="p-6 bg-slate-50 border-b-2 border-slate-200 flex items-start justify-between gap-3">
-            <div class="w-16 h-16 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-3xl shadow-sm">
-              📏
+          <div class="p-6 bg-gradient-to-br from-amber-50 to-orange-50 border-b-2 border-amber-100 flex items-start justify-between gap-3">
+            <div class="w-16 h-16 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-3xl shadow-md group-hover:scale-105 transition">
+              🪙
             </div>
             <div class="flex flex-col items-end gap-1.5">
-              <span class="bg-amber-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full">
+              <span class="bg-amber-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full shadow-sm">
                 Mathematik
               </span>
-              <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">
-                In Vorbereitung
+              <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                Klasse 5/6 • Neu
               </span>
             </div>
           </div>
 
           <div class="p-6 space-y-4">
-            <h3 class="text-2xl sm:text-3xl font-bold text-slate-900">
-              Runden auf Zehner & Hunderter
+            <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 group-hover:text-amber-600 transition">
+              Clever Runden (Geld)
             </h3>
             <p class="text-slate-600 font-sans-ui text-base sm:text-lg leading-relaxed">
-              Zahlenstrahl mit Rundungs-Bergen: Warum runden wir bei 0-4 ab und bei 5-9 auf? Anschauliche Animationen für den Plenumsunterricht.
+              „Reicht mein 50-Euro-Schein?“ – Auf- und Abrunden an der Supermarktkasse: Interaktiver Euro-Zahlenstrahl, Schieberegler und 4 Kassen-Trainingsfälle.
             </p>
-            <div class="space-y-2 pt-2 text-slate-500 font-sans-ui text-sm">
-              <div>• Interaktiver Zahlenstrahl mit Schieberegler</div>
-              <div>• Schrittweises Aufdecken der Rundungsregel</div>
-              <div>• 4 gemeinsame Schnapp-Übungen</div>
+            <div class="space-y-2 pt-2">
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> Interaktives Aufdecken der 0–4 & 5–9 Regel
+              </div>
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> Euro-Zahlenstrahl mit Schieberegler
+              </div>
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> 4 Trainings-Fälle mit Alltagsbezug
+              </div>
             </div>
           </div>
         </div>
 
         <div class="p-6 pt-0">
-          <button disabled class="w-full py-4 px-6 bg-slate-200 text-slate-500 font-bold text-lg rounded-2xl cursor-not-allowed">
-            Demnächst verfügbar
-          </button>
+          <a href="runden.html" class="w-full py-4 px-6 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-amber-300/50 flex items-center justify-center gap-3 transition transform active:scale-95 text-center">
+            <span>App starten</span>
+            <span class="text-2xl">➔</span>
+          </a>
         </div>
       </div>
 
@@ -275,7 +286,7 @@
       </div>
       <div class="flex items-center gap-4">
         <span>Repository: <code class="bg-slate-100 px-2 py-0.5 rounded text-indigo-700 font-mono">chillmastor/LernAppsKHS</code></span>
-        <span>Version: <strong class="text-slate-700">v1.0.0</strong></span>
+        <span>Version: <strong class="text-slate-700">v1.1.0</strong></span>
       </div>
     </div>
   </footer>
@@ -284,6 +295,21 @@
   <!-- JAVASCRIPT: TIMER, FILTER & FULLSCREEN                         -->
   <!-- ============================================================== -->
   <script>
+    // Einklapp-Funktion für Hero-Banner auf dem Smartboard
+    let heroCollapsed = false;
+    function toggleHeroCollapse() {
+      heroCollapsed = !heroCollapsed;
+      const banner = document.getElementById('hero-banner');
+      const icon = document.getElementById('hero-collapse-icon');
+      if (heroCollapsed) {
+        banner.classList.add('hidden');
+        icon.textContent = '▼';
+      } else {
+        banner.classList.remove('hidden');
+        icon.textContent = '▲';
+      }
+    }
+
     // Globaler Smartboard-Timer
     let timerDuration = 300; // 5 Minuten Standard
     let timerRemaining = 300;
