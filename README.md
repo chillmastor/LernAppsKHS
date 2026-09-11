@@ -3,10 +3,14 @@
 > **Interaktive Mini-Lern-Apps für den Frontal- und Plenumsunterricht an einer Hauptschule.**  
 > Optimiert für den Einsatz auf dem **Lehrkraft-iPad** mit Bildspiegelung ans **Smartboard / Whiteboard**.
 
-[![Vercel Deployment](https://img.shields.io/badge/Deployment-Vercel-black?style=flat&logo=vercel)](https://github.com/chillmastor/LernAppsKHS)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_App-Hier_starten-22c55e?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chillmastor.github.io/LernAppsKHS/)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind%20CSS%20CDN-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com)
 [![Vanilla JS](https://img.shields.io/badge/Logic-Vanilla%20JS-F7DF1E?style=flat&logo=javascript)](https://developer.mozilla.org)
 [![Version](https://img.shields.io/badge/Version-1.1.0-indigo)](package.json)
+
+> ### 🌐 **Direkter Link zur Live-App:**  
+> 👉 **[https://chillmastor.github.io/LernAppsKHS/](https://chillmastor.github.io/LernAppsKHS/)**  
+> *(Keine Installation nötig – läuft direkt auf dem Lehrkraft-Tablet, Smartboard oder PC!)*
 
 ---
 
@@ -27,13 +31,13 @@ Die Apps in diesem Repository sind speziell für den Unterrichtsalltag an der **
 
 ---
 
-## 📂 Vorhandene Lern-Apps & Module
+## 📂 Vorhandene Lern-Apps & Direktlinks
 
-| App / Datei | Fach | Klassenstufe | Kurzbeschreibung |
+| App / Datei | Fach | Klassenstufe | Live-Link & Kurzbeschreibung |
 | :--- | :--- | :--- | :--- |
-| **[`index.html`](index.html)** | Übergreifend | Alle | **Zentrales Portal / Dashboard** mit Smartboard-Timer, Fächerfiltern, Vollbildmodus und Modulkacheln. |
-| **[`textaufgaben.html`](textaufgaben.html)** | Mathematik | Klasse 6 (~20 Min) | **Textaufgaben-Detektive (4-Schritte-Methode):** Signalwort-Radar, interaktiver Farb-Textmarker (Zahlen, Signale, Frage), Rechenplan-Baukasten und 3 gemeinsame Kriminalfälle. |
-| **[`runden.html`](runden.html)** | Mathematik | Klasse 5/6 (~15 Min) | **Clever Runden beim Einkaufen (Geld):** Supermarkt-Check, 0–4 & 5–9 Aufdeck-Regeln, interaktiver Euro-Zahlenstrahl mit Schieberegler, Kassen-Überschlag und 4 Trainings-Fälle. |
+| **[`index.html`](index.html)** | Übergreifend | Alle | 🔗 **[Dashboard live öffnen](https://chillmastor.github.io/LernAppsKHS/index.html)**<br>Zentrales Portal mit Timer, Filtern, Vollbild & Modulkacheln. |
+| **[`textaufgaben.html`](textaufgaben.html)** | Mathematik | Klasse 6 (~20 Min) | 🔗 **[Textaufgaben live starten](https://chillmastor.github.io/LernAppsKHS/textaufgaben.html)**<br>4-Schritte-Methode, Signalwort-Radar, interaktiver Textmarker & 3 Kriminalfälle. |
+| **[`runden.html`](runden.html)** | Mathematik | Klasse 5/6 (~15 Min) | 🔗 **[Clever Runden live starten](https://chillmastor.github.io/LernAppsKHS/runden.html)**<br>Supermarkt-Kassensturz, 0–4 & 5–9 Regel, Euro-Zahlenstrahl mit Schieberegler & 4 Fälle. |
 | *In Vorbereitung* | Mathematik | Klasse 6 | **Brüche visualisieren:** Interaktive Pizza- und Schokomodelle für Zähler und Nenner. |
 
 ---
