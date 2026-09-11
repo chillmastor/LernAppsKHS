@@ -813,9 +813,113 @@
           <button onclick="prevQuizCase()" id="quiz-prev-btn" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg rounded-2xl border-2 border-slate-300 transition">
             ← Vorherige Aufgabe
           </button>
+          
+          <button onclick="toggleHeftaufschrieb()" id="heftaufschrieb-btn" class="px-6 py-3.5 bg-purple-100 hover:bg-purple-200 text-purple-900 border-2 border-purple-300 font-extrabold text-lg rounded-2xl transition flex items-center gap-2">
+            <span>📖</span>
+            <span id="heftaufschrieb-btn-text">Muster-Heftaufschrieb anzeigen</span>
+          </button>
+
           <button onclick="nextQuizCase()" id="quiz-next-btn" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-lg rounded-2xl transition shadow-md">
             Nächste Aufgabe ➔
           </button>
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- MUSTER-HEFTAUFSCHRIEB (KARIERTES MATHE-HEFT LOOK & FEEL)    -->
+        <!-- ========================================================== -->
+        <div id="muster-heftaufschrieb-section" class="hidden pt-6 border-t-4 border-dashed border-purple-200 space-y-4 animate-pop">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-3xl">📐</span>
+              <h4 class="text-2xl sm:text-3xl font-black text-slate-900">
+                Muster-Heftseite: So gehört es sauber ins Mathe-Heft!
+              </h4>
+            </div>
+            <span class="bg-purple-100 text-purple-900 border border-purple-300 font-bold px-3 py-1 rounded-full text-sm">
+              Schulheft-Vorlage Klasse 6
+            </span>
+          </div>
+
+          <!-- KARIERTES HEFT-BLATT (CSS GRID) -->
+          <div class="relative bg-white rounded-3xl border-4 border-slate-300 shadow-2xl p-6 sm:p-10 font-math text-slate-900 text-xl sm:text-2xl leading-relaxed" style="background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px); background-size: 26px 26px;">
+            
+            <!-- Roter Rand links wie im echten Schulheft -->
+            <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-rose-300 pointer-events-none hidden sm:block"></div>
+
+            <div class="sm:pl-8 space-y-6">
+              
+              <!-- Datum & Fach -->
+              <div class="flex items-center justify-between border-b-2 border-slate-300 pb-2">
+                <span class="font-sans-ui text-base sm:text-lg font-bold text-slate-500">Mathematik • Klasse 6</span>
+                <span class="font-sans-ui text-base sm:text-lg font-bold text-slate-500">Datum: <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+              </div>
+
+              <!-- Überschrift (mit Lineal unterstrichen) -->
+              <div>
+                <h5 class="text-2xl sm:text-3xl font-black text-indigo-950 inline-block border-b-4 border-indigo-600 pb-1">
+                  Textaufgaben: Rückwärtsrechnen (Probe & Umkehrung)
+                </h5>
+              </div>
+
+              <!-- Beispielaufgabe -->
+              <div class="bg-white/90 p-4 rounded-xl border-2 border-slate-300 shadow-sm space-y-2">
+                <div class="font-bold text-purple-900 font-sans-ui text-lg">Aufgabe 1 (Laras Ausflugsgeld):</div>
+                <div class="font-sans-ui text-lg sm:text-xl text-slate-700 italic">
+                  „Lara hat am Ende 36,50 € im Geldbeutel. Zuvor kaufte sie ein Eis für 7,50 € und eine Eintrittskarte für 12,00 €. Wie viel Geld hatte sie am Anfang?“
+                </div>
+              </div>
+
+              <!-- Gegeben & Gesucht Block -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white/90 p-4 rounded-xl border border-slate-200">
+                <div>
+                  <strong class="text-indigo-800">Gegeben:</strong><br>
+                  • Endbetrag = 36,50 €<br>
+                  • Eis = 7,50 €<br>
+                  • Eintrittskarte = 12,00 €
+                </div>
+                <div>
+                  <strong class="text-purple-800">Gesucht:</strong><br>
+                  • Startbetrag zu Beginn
+                </div>
+              </div>
+
+              <!-- Rechnung mit Zwischenschritten -->
+              <div class="bg-white/90 p-5 rounded-2xl border-2 border-slate-300 space-y-3">
+                <div class="font-bold text-slate-800 underline">Rechnung (Rückwärts):</div>
+                <div class="space-y-1.5 pl-2 sm:pl-4 font-black">
+                  <div>1. Schritt (Eis zurücklegen): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;36,50 € + 7,50 € = 44,00 € <span class="text-sm font-sans-ui text-slate-500 font-normal">(Zwischensumme)</span></div>
+                  <div>2. Schritt (Eintritt zurückholen): &nbsp;&nbsp;44,00 € + 12,00 € = <span class="inline-block border-b-4 border-double border-emerald-600 text-emerald-800 px-1">56,00 €</span></div>
+                </div>
+              </div>
+
+              <!-- Vorwärts-Probe -->
+              <div class="bg-white/90 p-5 rounded-2xl border-2 border-slate-300 space-y-2">
+                <div class="font-bold text-slate-800 underline">Probe (Vorwärts):</div>
+                <div class="pl-2 sm:pl-4 font-black text-indigo-900">
+                  56,00 € − 12,00 € − 7,50 € = <strong>36,50 €</strong> &nbsp;<span class="text-emerald-600 font-bold">✓ (Stimmt genau mit dem Text überein!)</span>
+                </div>
+              </div>
+
+              <!-- Antwortsatz -->
+              <div class="bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-400 font-sans-ui text-xl sm:text-2xl font-extrabold text-emerald-950">
+                <u>Antwort:</u> Lara hatte zu Beginn ihres Ausflugs genau <strong>56,00 Euro</strong> in ihrem Geldbeutel.
+              </div>
+
+              <!-- Heft-Tipps am Rand -->
+              <div class="flex flex-wrap gap-4 pt-2 text-sm font-sans-ui font-bold text-slate-600">
+                <span class="flex items-center gap-1.5 bg-amber-100 px-3 py-1.5 rounded-lg border border-amber-300 text-amber-900">
+                  <span>📏</span> Immer mit Lineal unterstreichen!
+                </span>
+                <span class="flex items-center gap-1.5 bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-300 text-blue-900">
+                  <span>💶</span> Einheiten (€, kg, m) nie vergessen!
+                </span>
+                <span class="flex items-center gap-1.5 bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-300 text-emerald-900">
+                  <span>═</span> Endergebnis immer doppelt unterstreichen!
+                </span>
+              </div>
+
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1685,6 +1789,21 @@
         feedback.className = 'text-xl font-bold p-5 rounded-2xl bg-red-100 text-red-900 border-2 border-red-300 block animate-pop';
         feedback.innerHTML = `❌ ${opt.explanation}`;
         playSound('wrong');
+      }
+    }
+
+    function toggleHeftaufschrieb() {
+      playSound('click');
+      const section = document.getElementById('muster-heftaufschrieb-section');
+      const text = document.getElementById('heftaufschrieb-btn-text');
+      if (section.classList.contains('hidden')) {
+        section.classList.remove('hidden');
+        text.textContent = 'Muster-Heftseite einklappen ▲';
+        addScore(20);
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        section.classList.add('hidden');
+        text.textContent = 'Muster-Heftaufschrieb anzeigen';
       }
     }
 

@@ -57,12 +57,16 @@ Jede App muss ganz oben in der Kopfzeile einen sichtbaren Timer besitzen:
   - Werkzeuge und Rechenketten mit **Einzelschritt-Steuerung** ausstatten (Lehrkraft deckt Schritt für Schritt auf).
   - Visuelle Modelle (Fortschrittsbalken, Mengendarstellungen, Kisten/Objekte) zur Veranschaulichung einbinden.
 * **Sprachsensibilität:** Kurze, klare Hauptsätze. Signalwörter visuell hervorheben (Farbcodierung: Gelb = Zahlen/Einheiten, Grün = Signalwörter, Lila = Frage).
+* **Muster-Heftaufschrieb für das Schülerheft (MANDATORY):**  
+  Jede App muss am Ende eine visualisierte **Heft-Ansicht (kariertes Papier im Schulheft-Stil)** enthalten:
+  - Zeigt eine Beispielaufgabe vollständig durchgerechnet.
+  - Demonstriert saubere Heftführung: Datum, Überschrift, geg./ges., sauber untereinander stehende Rechenschritte, Einheiten, doppelter Unterstrich mit Lineal und ein vollständiger Antwortsatz.
 * **Präsentationscharakter in 4 bis 5 Phasen:**
   1. **Aktivierung / Einstieg:** Anschaulicher Impuls oder Alltagsbezug ("Keine Angst vor Textaufgaben!"), schrittweise als Film/Szene aufdeckbar.
   2. **Regelerarbeitung (Klick-Aufdecken):** Regeln dürfen nicht sofort als Textblock da stehen, sondern müssen schrittweise per Klick aufgedeckt werden, um die Aufmerksamkeit der Klasse zu lenken.
   3. **Didaktisches Werkzeug / Radar:** Interaktive Signalwort-Tabelle, Zahlenstrahl, Schieberegler, Wendemaschine oder Modellkarten mit Einzelschritt-Modus.
   4. **Gemeinsame Fallakte / Anwendung:** Eine gemeinsame Musteraufgabe, die am Smartboard interaktiv durchgegangen wird (z. B. Farb-Textmarker, dynamische Ladebalken).
-  5. **Gemeinsame Übungsbeispiele (3 bis 5 Fälle):** Multiple-Choice- oder Sortieraufgaben mit Rechenschritte-Lupe, Hilfetipps und sofortigem visuellem Feedback (Grün für richtig, sanftes Rot mit verständlicher Erklärung bei Fehlern, kein negatives Bloßstellen).
+  5. **Gemeinsame Übungsbeispiele (3 bis 5 Fälle) & Heft-Übertrag:** Multiple-Choice- oder Sortieraufgaben mit Rechenschritte-Lupe, Hilfetipps, sofortigem Feedback und die abschließende **Muster-Heftseite** zum sauberen Abschreiben ins Heft.
 
 ---
 
