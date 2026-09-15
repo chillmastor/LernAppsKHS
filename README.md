@@ -6,7 +6,7 @@
 [![Live auf Vercel](https://img.shields.io/badge/🚀_Live_App-Hier_starten-22c55e?style=for-the-badge&logo=vercel&logoColor=white)](https://lern-apps-khs.vercel.app/)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind%20CSS%20CDN-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com)
 [![Vanilla JS](https://img.shields.io/badge/Logic-Vanilla%20JS-F7DF1E?style=flat&logo=javascript)](https://developer.mozilla.org)
-[![Version](https://img.shields.io/badge/Version-1.3.0-indigo)](package.json)
+[![Version](https://img.shields.io/badge/Version-1.4.0-indigo)](package.json)
 
 > ### 🌐 **Direkter Link zur Live-App (Vercel):**  
 > 👉 **[https://lern-apps-khs.vercel.app/](https://lern-apps-khs.vercel.app/)**  
@@ -36,6 +36,7 @@ Die Apps in diesem Repository sind speziell für den Unterrichtsalltag an der **
 | App / Datei | Fach | Klassenstufe | Live-Link & Kurzbeschreibung |
 | :--- | :--- | :--- | :--- |
 | **[`index.html`](index.html)** | Übergreifend | Alle | 🔗 **[Dashboard live öffnen](https://lern-apps-khs.vercel.app/)**<br>Zentrales Portal mit Timer, Filtern, Vollbild & Modulkacheln. |
+| **[`w_fragen.html`](w_fragen.html)** | Deutsch | Klasse 5/6 (~20 Min) | 🔗 **[W-Fragen in Berichten live starten](https://lern-apps-khs.vercel.app/w_fragen.html)**<br>7 W-Fragen, 3-Zonen-Aufbau, interaktiver Radar-Scanner, Baukasten & Deutsch-Musterheft. |
 | **[`textaufgaben.html`](textaufgaben.html)** | Mathematik | Klasse 6 (~20 Min) | 🔗 **[Textaufgaben live starten](https://lern-apps-khs.vercel.app/textaufgaben.html)**<br>4-Schritte-Methode, Signalwort-Radar, interaktiver Textmarker & 3 Kriminalfälle. |
 | **[`runden.html`](runden.html)** | Mathematik | Klasse 5/6 (~15 Min) | 🔗 **[Clever Runden live starten](https://lern-apps-khs.vercel.app/runden.html)**<br>Supermarkt-Kassensturz, 0–4 & 5–9 Regel, Euro-Zahlenstrahl mit Schieberegler & 4 Fälle. |
 | **[`rueckwaertsrechnen.html`](rueckwaertsrechnen.html)** | Mathematik | Klasse 6 (~20 Min) | 🔗 **[Rückwärtsrechnen live starten](https://lern-apps-khs.vercel.app/rueckwaertsrechnen.html)**<br>„Rückspultaste“, 4 goldene Schritte, interaktive Wendemaschine mit Sound & 3 Trainingsfälle. |

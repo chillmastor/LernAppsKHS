@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="version" content="1.0.0">
+  <meta name="version" content="1.4.0">
   <title>LernApps KHS | Interaktive Mini-Lern-Apps für das Smartboard</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -37,7 +37,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-lg sm:text-2xl font-bold text-slate-900 leading-none">LernApps KHS</h1>
-            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-0.5 rounded-full border border-indigo-200">v1.3.0</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-0.5 rounded-full border border-indigo-200">v1.4.0</span>
           </div>
           <p class="text-xs text-slate-500 font-sans-ui font-semibold mt-0.5 hidden sm:block">
             Smartboard- & iPad-Tools für die Hauptschule
@@ -278,6 +278,54 @@
       </div>
 
       <!-- ============================================================ -->
+      <!-- APP 4: W-FRAGEN IN BERICHTEN (NEU V1.4.0 - DEUTSCH)          -->
+      <!-- ============================================================ -->
+      <div class="app-card module-deutsch bg-white rounded-3xl border-2 border-emerald-200 shadow-md hover:shadow-xl transition flex flex-col justify-between overflow-hidden group">
+        <div>
+          <div class="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-b-2 border-emerald-100 flex items-start justify-between gap-3">
+            <div class="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-3xl shadow-md group-hover:scale-105 transition">
+              📰
+            </div>
+            <div class="flex flex-col items-end gap-1.5">
+              <span class="bg-emerald-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full shadow-sm">
+                Deutsch
+              </span>
+              <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                Klasse 5/6 • Neu v1.4.0
+              </span>
+            </div>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 group-hover:text-emerald-600 transition">
+              W-Fragen in Berichten
+            </h3>
+            <p class="text-slate-600 font-sans-ui text-base sm:text-lg leading-relaxed">
+              „Was ist wirklich passiert?“ – Keine Gerüchte, sondern reine Fakten: 7 W-Fragen, 3-Zonen-Berichtsaufbau, W-Fragen-Radar mit Farbmatrix & Einleitungssatz-Baukasten.
+            </p>
+            <div class="space-y-2 pt-2">
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> Interaktiver Reporter-Szenen-Einstieg
+              </div>
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> W-Fragen-Radar & Fakten-Filter
+              </div>
+              <div class="flex items-center gap-2 text-sm font-sans-ui font-semibold text-slate-700">
+                <span class="text-emerald-500">✓</span> Authentischer Deutsch-Heftaufschrieb
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 pt-0">
+          <a href="w_fragen.html" class="w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-emerald-300/50 flex items-center justify-center gap-3 transition transform active:scale-95 text-center">
+            <span>App starten</span>
+            <span class="text-2xl">➔</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
       <!-- APP 3: BRUCHRECHNEN VERSTEHEN (IN PLANUNG / VORSCHAU)        -->
       <!-- ============================================================ -->
       <div class="app-card module-mathe bg-white rounded-3xl border-2 border-slate-200 shadow-sm opacity-90 flex flex-col justify-between overflow-hidden">
@@ -334,7 +382,7 @@
       </div>
       <div class="flex items-center gap-4">
         <span>Repository: <code class="bg-slate-100 px-2 py-0.5 rounded text-indigo-700 font-mono">chillmastor/LernAppsKHS</code></span>
-        <span>Version: <strong class="text-slate-700">v1.3.0</strong></span>
+        <span>Version: <strong class="text-slate-700">v1.4.0</strong></span>
       </div>
     </div>
   </footer>
@@ -455,6 +503,8 @@
           card.style.display = 'flex';
         } else if (category === 'mathe') {
           card.style.display = card.classList.contains('module-mathe') ? 'flex' : 'none';
+        } else if (category === 'deutsch') {
+          card.style.display = card.classList.contains('module-deutsch') ? 'flex' : 'none';
         } else {
           card.style.display = 'none';
         }

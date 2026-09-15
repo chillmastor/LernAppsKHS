@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="version" content="1.4.0">
+  <title>W-Fragen in Berichten | Deutsch Klasse 5/6 | LernApps KHS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js für Schulsounds -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Schulfreundliche Schriftarten: Fredoka & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Fredoka', 'Inter', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .font-sans-ui {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-heft {
+      font-family: 'Inter', sans-serif;
+    }
+    #smartboard-header {
+      transition: all 0.25s ease-in-out;
+    }
+    @keyframes pulse-highlight {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    .pulse-attention {
+      animation: pulse-highlight 1.5s ease-in-out infinite;
+    }
+    @keyframes pop-in {
+      0% { transform: scale(0.8); opacity: 0; }
+      70% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: pop-in 0.3s ease-out forwards;
+    }
+
+    /* Linierter Schulheft-Hintergrund für das Deutschheft */
+    .heft-linien {
+      background-color: #fffdf9;
+      background-image: linear-gradient(#93c5fd 1px, transparent 1px);
+      background-size: 100% 34px;
+      line-height: 34px;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col selection:bg-indigo-200">
+
+  <!-- ============================================================== -->
+  <!-- SMARTBOARD-HEADER MIT TIMER, PUNKTE & SCHRUMPF-MODUS           -->
+  <!-- ============================================================== -->
+  <header id="smartboard-header" class="bg-white/95 backdrop-blur border-b-2 border-slate-200 sticky top-0 z-50 shadow-sm transition-all duration-200">
+    
+    <!-- Obere Zeile -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-2 sm:gap-4">
+      
+      <!-- Linke Seite: Dashboard-Link & App-Titel -->
+      <div class="flex items-center gap-2.5">
+        <a href="index.html" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl text-slate-700 font-bold flex items-center gap-1.5 transition text-sm sm:text-base" title="Zurück zum LernApps Dashboard">
+          <span>←</span>
+          <span class="hidden md:inline">Dashboard</span>
+        </a>
+
+        <div class="w-9 h-9 bg-emerald-600 text-white rounded-xl flex items-center justify-center font-bold text-xl shadow-sm border border-emerald-400 shrink-0">
+          📰
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-2xl font-extrabold text-slate-900 leading-tight">
+            W-Fragen in Berichten
+          </h1>
+          <p class="text-xs text-slate-500 font-sans-ui font-semibold hidden sm:block">
+            Deutsch Klasse 5/6 • Unfall- & Vorfallberichte sachlich verfassen
+          </p>
+        </div>
+      </div>
+
+      <!-- Rechte Seite: Timer, Punkte & Einklapp-Schalter -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Timer Widget -->
+        <div class="flex items-center bg-slate-50 border-2 border-slate-200 rounded-xl px-2.5 py-1 gap-1.5 shadow-inner">
+          <span class="text-base sm:text-lg cursor-pointer hover:scale-110 transition" onclick="openTimerModal()" title="Timer frei einstellen">⏱️</span>
+          <div id="smartboard-timer-display" onclick="openTimerModal()" class="cursor-pointer hover:bg-emerald-50 hover:text-emerald-700 rounded-lg px-1.5 py-0.5 font-sans-ui font-black text-slate-800 text-lg sm:text-xl min-w-[58px] text-center tracking-wider transition border border-transparent hover:border-emerald-200" title="Klicken, um die Zeit frei einzustellen">
+            05:00
+          </div>
+          
+          <!-- Schnellauswahl & Anpassung -->
+          <div id="header-timer-presets" class="flex items-center gap-1 border-l border-slate-200 pl-1.5">
+            <button onclick="setTimerDuration(180)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="3 Minuten">3m</button>
+            <button onclick="setTimerDuration(300)" class="timer-btn text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.5 rounded transition" title="5 Minuten">5m</button>
+            <button onclick="setTimerDuration(600)" class="timer-btn text-xs font-bold bg-white hover:bg-slate-200 border border-slate-300 px-1.5 py-0.5 rounded transition" title="10 Minuten">10m</button>
+            <button onclick="adjustTimerSeconds(60)" class="timer-btn text-xs font-bold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-300 px-1.5 py-0.5 rounded transition" title="+1 Minute">+1m</button>
+            <button onclick="adjustTimerSeconds(-60)" class="timer-btn text-xs font-bold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-300 px-1.5 py-0.5 rounded transition" title="-1 Minute">-1m</button>
+            <button onclick="openTimerModal()" class="timer-btn text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 px-1.5 py-0.5 rounded transition flex items-center gap-1" title="Timer frei einstellen">
+              <span>⚙️</span><span class="hidden xl:inline">Stellen</span>
+            </button>
+          </div>
+
+          <!-- Controls -->
+          <button id="timer-toggle-btn" onclick="toggleSmartboardTimer()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm">
+            Start
+          </button>
+          <button onclick="resetSmartboardTimer()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-1.5 py-1 rounded-lg transition" title="Zurücksetzen">
+            ↺
+          </button>
+        </div>
+
+        <!-- Punkteanzeige -->
+        <div class="bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm text-amber-900 font-bold text-xs sm:text-sm">
+          <span>⭐</span>
+          <span id="score-display">0 Punkte</span>
+        </div>
+
+        <!-- Audio Toggle Button -->
+        <button id="audio-btn" onclick="toggleAudio()" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl border border-slate-300 text-slate-700 text-base transition" title="Ton ein/aus">
+          <span id="audio-icon">🔊</span>
+        </button>
+
+        <!-- Einklapp-Button fürs Smartboard -->
+        <button onclick="toggleHeaderCollapse()" id="header-collapse-btn" class="flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 text-emerald-700 font-bold px-3 py-1 rounded-xl transition text-xs sm:text-sm" title="Header einklappen für maximalen Platz am Smartboard">
+          <span id="collapse-icon">▲</span>
+          <span id="collapse-text" class="hidden sm:inline">Schrumpfen</span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Phasen-Navigation für den Frontalunterricht am Smartboard -->
+    <div id="header-phase-nav" class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-2 border-t border-slate-100 overflow-x-auto py-2 transition-all">
+      <button onclick="switchPhase('einstieg')" id="nav-phase-einstieg" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-emerald-600 text-white shadow flex items-center gap-2 whitespace-nowrap">
+        <span>🎬</span> 1. Reporter-Einsatz
+      </button>
+      <button onclick="switchPhase('regeln')" id="nav-phase-regeln" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🧭</span> 2. Die 7 W-Fragen
+      </button>
+      <button onclick="switchPhase('scanner')" id="nav-phase-scanner" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🔍</span> 3. W-Fragen-Radar
+      </button>
+      <button onclick="switchPhase('tafel')" id="nav-phase-tafel" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>📋</span> 4. Gemeinsame Fallakte
+      </button>
+      <button onclick="switchPhase('training')" id="nav-phase-training" class="phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <span>🎯</span> 5. Übung & Musterheft
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- HAUPTINHALT: DIE 5 UNTERRICHTS-PHASEN                          -->
+  <!-- ============================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+    <!-- ============================================================ -->
+    <!-- PHASE 1: EINSTIEG & REPORTER-EINSATZ                         -->
+    <!-- ============================================================ -->
+    <section id="phase-einstieg" class="phase-container space-y-8">
+      
+      <!-- Einstiegs-Banner -->
+      <div class="bg-gradient-to-r from-teal-700 via-emerald-700 to-cyan-800 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-4 text-center md:text-left">
+          <span class="inline-block bg-white/20 text-white text-sm font-black px-4 py-1.5 rounded-full uppercase tracking-wider">
+            Deutsch Klasse 5/6 • Zeitung & Polizei-Berichte
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black tracking-tight">
+            Blaulicht am Schultor: Was ist wirklich passiert? 🚨
+          </h2>
+          <p class="text-emerald-100 text-xl sm:text-2xl font-sans-ui max-w-3xl leading-relaxed">
+            Ein Unfall auf dem Schulweg! Alle reden durcheinander. Die Schulleitung und die Polizei rufen: 
+            <strong>„Stopp! Wir brauchen keine Gefühle, sondern reine Fakten!“</strong>
+          </p>
+        </div>
+        <div class="text-7xl sm:text-8xl p-6 bg-white/10 rounded-3xl backdrop-blur shrink-0">
+          🎙️
+        </div>
+      </div>
+
+      <!-- Schrittweiser Szenen-Ablauf per Klick -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+        <div class="flex items-center justify-between flex-wrap gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Szenen-Player: Der Vorfall am Fahrradständer
+            </h3>
+            <p class="text-slate-500 font-sans-ui text-lg mt-1">
+              Decke Szene für Szene mit der Klasse auf und vergleiche die Aussagen!
+            </p>
+          </div>
+          <button onclick="revealNextScene()" id="scene-next-btn" class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-lg sm:text-xl rounded-2xl shadow-lg transition transform active:scale-95 flex items-center gap-2">
+            <span>Nächste Szene aufdecken</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+        <!-- Die 3 Szenen-Karten -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Szene 1 -->
+          <div id="scene-card-1" class="border-2 border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-3 transition-all duration-300">
+            <div class="flex items-center justify-between">
+              <span class="bg-slate-200 text-slate-700 font-black px-3 py-1 rounded-xl text-sm">Szene 1</span>
+              <span class="text-3xl">⏰</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              07:45 Uhr: Chaos am Schultor
+            </h4>
+            <p class="text-slate-600 font-sans-ui text-lg leading-relaxed">
+              Es regnet leicht. Viele Schüler strömen auf den Hof. Plötzlich quietscht ein Reifen und es scheppert laut am Fahrradständer!
+            </p>
+          </div>
+
+          <!-- Szene 2 -->
+          <div id="scene-card-2" class="border-2 border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-3 opacity-40 transition-all duration-300">
+            <div class="flex items-center justify-between">
+              <span class="bg-rose-100 text-rose-800 font-black px-3 py-1 rounded-xl text-sm">Szene 2</span>
+              <span class="text-3xl">🗣️</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              Der aufgeregte Augenzeuge
+            </h4>
+            <div class="bg-rose-50 border-2 border-rose-200 p-4 rounded-xl text-rose-950 font-sans-ui text-lg italic leading-relaxed">
+              „Boah ey, voll krass! Der blöde Tim ist voll gerast wie ein Bekloppter! Das war megagemein und er hat voll geheult!“
+            </div>
+            <div class="text-rose-700 font-bold text-sm flex items-center gap-1">
+              <span>⚠️</span> Voller Gefühle, Schimpfwörter & Übertreibungen!
+            </div>
+          </div>
+
+          <!-- Szene 3 -->
+          <div id="scene-card-3" class="border-2 border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-3 opacity-40 transition-all duration-300">
+            <div class="flex items-center justify-between">
+              <span class="bg-emerald-100 text-emerald-800 font-black px-3 py-1 rounded-xl text-sm">Szene 3</span>
+              <span class="text-3xl">👮</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              Der sachliche Reporter
+            </h4>
+            <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-xl text-emerald-950 font-sans-ui text-lg leading-relaxed">
+              „Am Dienstag um 07:45 Uhr stürzte der 12-jährige Schüler Tim mit seinem Fahrrad vor dem Schultor auf nassem Laub.“
+            </div>
+            <div class="text-emerald-700 font-bold text-sm flex items-center gap-1">
+              <span>✅</span> Sachlich, genau, wahr und ohne Beleidigungen!
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Interaktive Plenums-Frage -->
+        <div id="scene-question-box" class="hidden mt-6 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 p-6 rounded-2xl space-y-4 animate-pop">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">💡</span>
+            <h4 class="text-2xl sm:text-3xl font-black text-amber-950">
+              Plenums-Frage: Was unterscheidet den Bericht vom Gefühls-Gequatsche?
+            </h4>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <button onclick="checkEinstiegAnswer(false, this)" class="p-4 bg-white hover:bg-rose-50 border-2 border-slate-200 hover:border-rose-400 rounded-2xl text-left font-sans-ui text-xl font-bold text-slate-800 transition transform active:scale-95">
+              ❌ Im Bericht darf man ruhig übertreiben und sagen, wen man blöd findet.
+            </button>
+            <button onclick="checkEinstiegAnswer(true, this)" class="p-4 bg-white hover:bg-emerald-50 border-2 border-slate-200 hover:border-emerald-400 rounded-2xl text-left font-sans-ui text-xl font-bold text-slate-800 transition transform active:scale-95">
+              ✅ Ein Bericht beantwortet nur die genauen Fakten sachlich mit den W-Fragen!
+            </button>
+          </div>
+          <div id="einstieg-feedback" class="hidden font-sans-ui text-xl font-bold p-4 rounded-xl"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 2: DIE 7 W-FRAGEN & BERICHTSAUFBAU                    -->
+    <!-- ============================================================ -->
+    <section id="phase-regeln" class="phase-container hidden space-y-8">
+      
+      <!-- Phasen-Titel -->
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <span class="text-sm font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase">
+            Das Handwerkszeug des Reporters
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1">
+            Die 7 W-Fragen & der 3-teilige Berichtsaufbau
+          </h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="revealAllWQuestions()" class="px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-base sm:text-lg rounded-2xl transition">
+            Alle aufdecken 👀
+          </button>
+          <button onclick="resetWQuestions()" class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-base sm:text-lg rounded-2xl transition">
+            ↺ Zurücksetzen
+          </button>
+        </div>
+      </div>
+
+      <!-- Die 7 W-Fragen Karten (Klick-Aufdecken) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        
+        <!-- 1. WER? -->
+        <div id="w-card-1" onclick="revealSingleW(1)" class="cursor-pointer bg-white rounded-2xl border-2 border-blue-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-blue-100">
+            <span class="text-xs font-black bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full uppercase">Einleitung</span>
+            <span class="text-2xl">👤</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-blue-600">WER?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Wer war beteiligt? Wer handelt?</p>
+          </div>
+          <div id="w-content-1" class="hidden mt-2 p-3 bg-blue-50 rounded-xl border border-blue-200 text-blue-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Zwei Schüler der Klasse 6a, Herr Müller (Hausmeister)</em>
+          </div>
+        </div>
+
+        <!-- 2. WAS? -->
+        <div id="w-card-2" onclick="revealSingleW(2)" class="cursor-pointer bg-white rounded-2xl border-2 border-rose-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+            <span class="text-xs font-black bg-rose-100 text-rose-800 px-2.5 py-0.5 rounded-full uppercase">Einleitung</span>
+            <span class="text-2xl">💥</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-rose-600">WAS?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Was ist genau geschehen?</p>
+          </div>
+          <div id="w-content-2" class="hidden mt-2 p-3 bg-rose-50 rounded-xl border border-rose-200 text-rose-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Fahrradunfall, Sturz auf nassem Laub</em>
+          </div>
+        </div>
+
+        <!-- 3. WANN? -->
+        <div id="w-card-3" onclick="revealSingleW(3)" class="cursor-pointer bg-white rounded-2xl border-2 border-emerald-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-emerald-100">
+            <span class="text-xs font-black bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full uppercase">Einleitung</span>
+            <span class="text-2xl">📅</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-emerald-600">WANN?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Wochentag, Datum, Uhrzeit</p>
+          </div>
+          <div id="w-content-3" class="hidden mt-2 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Am Dienstag, den 15. September, um 07:45 Uhr</em>
+          </div>
+        </div>
+
+        <!-- 4. WO? -->
+        <div id="w-card-4" onclick="revealSingleW(4)" class="cursor-pointer bg-white rounded-2xl border-2 border-amber-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-amber-100">
+            <span class="text-xs font-black bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full uppercase">Einleitung</span>
+            <span class="text-2xl">📍</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-amber-600">WO?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Genauer Ort des Geschehens</p>
+          </div>
+          <div id="w-content-4" class="hidden mt-2 p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Vor dem Haupttor der Schule, am Fahrradständer</em>
+          </div>
+        </div>
+
+        <!-- 5. WIE? -->
+        <div id="w-card-5" onclick="revealSingleW(5)" class="cursor-pointer bg-white rounded-2xl border-2 border-purple-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-purple-100">
+            <span class="text-xs font-black bg-purple-100 text-purple-800 px-2.5 py-0.5 rounded-full uppercase">Hauptteil</span>
+            <span class="text-2xl">🔄</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-purple-600">WIE?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Genauer Ablauf / Hergang</p>
+          </div>
+          <div id="w-content-5" class="hidden mt-2 p-3 bg-purple-50 rounded-xl border border-purple-200 text-purple-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Fahrrad kam ins Rutschen, kippte zur Seite, Fahrer stürzte</em>
+          </div>
+        </div>
+
+        <!-- 6. WARUM? -->
+        <div id="w-card-6" onclick="revealSingleW(6)" class="cursor-pointer bg-white rounded-2xl border-2 border-yellow-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1">
+          <div class="flex items-center justify-between pb-2 border-b border-yellow-100">
+            <span class="text-xs font-black bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full uppercase">Hauptteil</span>
+            <span class="text-2xl">❓</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-yellow-600">WARUM?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Ursache / Grund des Unfalls</p>
+          </div>
+          <div id="w-content-6" class="hidden mt-2 p-3 bg-yellow-50 rounded-xl border border-yellow-200 text-yellow-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Zu schnelles Fahren und nasses Herbstlaub auf dem Asphalt</em>
+          </div>
+        </div>
+
+        <!-- 7. WELCHE FOLGEN? -->
+        <div id="w-card-7" onclick="revealSingleW(7)" class="cursor-pointer bg-white rounded-2xl border-2 border-pink-200 shadow-sm hover:shadow-md p-5 transition transform hover:-translate-y-1 md:col-span-2">
+          <div class="flex items-center justify-between pb-2 border-b border-pink-100">
+            <span class="text-xs font-black bg-pink-100 text-pink-800 px-2.5 py-0.5 rounded-full uppercase">Schlussteil</span>
+            <span class="text-2xl">🩹</span>
+          </div>
+          <div class="py-3">
+            <h4 class="text-3xl sm:text-4xl font-black text-pink-600">WELCHE FOLGEN?</h4>
+            <p class="text-slate-500 font-sans-ui text-sm mt-1">Schäden, Verletzungen, Rettung, Hilfe</p>
+          </div>
+          <div id="w-content-7" class="hidden mt-2 p-3 bg-pink-50 rounded-xl border border-pink-200 text-pink-950 font-sans-ui text-base font-bold animate-pop">
+            Beispiel: <em>Schürfwunde am Knie (vom Sanitäter versorgt), verbogene Felge</em>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Didaktisches Schaubild: Der 3-Zonen-Berichtsaufbau -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+        <h3 class="text-2xl sm:text-3xl font-black text-slate-900">
+          Der 3-Zonen-Aufbau eines Berichts (Wo steht was?)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Zone 1: Einleitung -->
+          <div class="bg-blue-50 border-2 border-blue-300 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xl sm:text-2xl font-black text-blue-900">1. Einleitung</h4>
+              <span class="text-2xl">⚡</span>
+            </div>
+            <p class="text-blue-800 font-sans-ui text-base">
+              Der <strong>Blitz-Überblick</strong> im ersten Satz. Der Leser erfährt sofort das Wichtigste!
+            </p>
+            <div class="space-y-1.5 pt-2">
+              <span class="inline-block bg-blue-200 text-blue-900 font-bold px-2 py-0.5 rounded text-sm mr-1">WER?</span>
+              <span class="inline-block bg-rose-200 text-rose-900 font-bold px-2 py-0.5 rounded text-sm mr-1">WAS?</span>
+              <span class="inline-block bg-emerald-200 text-emerald-900 font-bold px-2 py-0.5 rounded text-sm mr-1">WANN?</span>
+              <span class="inline-block bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded text-sm">WO?</span>
+            </div>
+          </div>
+
+          <!-- Zone 2: Hauptteil -->
+          <div class="bg-purple-50 border-2 border-purple-300 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xl sm:text-2xl font-black text-purple-900">2. Hauptteil</h4>
+              <span class="text-2xl">🎬</span>
+            </div>
+            <p class="text-purple-800 font-sans-ui text-base">
+              Der <strong>genaue Film</strong> in zeitlicher Reihenfolge (Chronologisch: <em>Zuerst... Dann... Schließlich</em>).
+            </p>
+            <div class="space-y-1.5 pt-2">
+              <span class="inline-block bg-purple-200 text-purple-900 font-bold px-2 py-0.5 rounded text-sm mr-1">WIE?</span>
+              <span class="inline-block bg-yellow-200 text-yellow-900 font-bold px-2 py-0.5 rounded text-sm">WARUM?</span>
+            </div>
+          </div>
+
+          <!-- Zone 3: Schluss -->
+          <div class="bg-pink-50 border-2 border-pink-300 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xl sm:text-2xl font-black text-pink-900">3. Schlussteil</h4>
+              <span class="text-2xl">🏁</span>
+            </div>
+            <p class="text-pink-800 font-sans-ui text-base">
+              Das <strong>Ergebnis</strong> des Vorfalls: Wer half? Welche Schäden gab es?
+            </p>
+            <div class="space-y-1.5 pt-2">
+              <span class="inline-block bg-pink-200 text-pink-900 font-bold px-2 py-0.5 rounded text-sm">WELCHE FOLGEN?</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Die 3 goldenen Reporter-Regeln -->
+        <div class="bg-slate-50 border-2 border-slate-300 rounded-2xl p-6 space-y-3">
+          <h4 class="text-xl sm:text-2xl font-black text-slate-800 flex items-center gap-2">
+            <span>🛡️</span> Die 3 goldenen Reporter-Regeln (Pflicht!)
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 font-sans-ui">
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-emerald-600 font-bold text-lg">1. Sachlich bleiben!</span>
+              <p class="text-slate-600 text-base mt-1">Keine Gefühle ("Ich hatte Angst"), keine Beleidigungen ("der Depp"), nur überprüfbare Tatsachen.</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-indigo-600 font-bold text-lg">2. Präteritum nutzen!</span>
+              <p class="text-slate-600 text-base mt-1">Vergangenheit: <em>fuhr, bremste, stürzte, half, verständigte</em> (nicht: <em>ist gefahren</em>).</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+              <span class="text-amber-600 font-bold text-lg">3. Richtige Reihenfolge!</span>
+              <p class="text-slate-600 text-base mt-1">Alles der Reihe nach erzählen, wie es passiert ist (zeitliche Signalwörter: <em>Zunächst, Anschließend</em>).</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 3: DIDAKTISCHES WERKZEUG: W-FRAGEN-RADAR & SCANNER     -->
+    <!-- ============================================================ -->
+    <section id="phase-scanner" class="phase-container hidden space-y-8">
+      
+      <!-- Phasen-Kopfzeile -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">📡</span>
+            <div>
+              <h2 class="text-3xl sm:text-4xl font-black text-white">
+                Der interaktive W-Fragen-Radar
+              </h2>
+              <p class="text-indigo-200 font-sans-ui text-lg">
+                Scanne den Zeugenbericht! Klicke eine W-Frage an, um die Information im Text aufzudecken.
+              </p>
+            </div>
+          </div>
+          <button onclick="resetRadarScanner()" class="px-4 py-2 bg-indigo-800 hover:bg-indigo-700 text-white font-bold rounded-xl text-base transition">
+            ↺ Scanner zurücksetzen
+          </button>
+        </div>
+
+        <!-- 7 Radar-Buttons mit Signalfarben -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 pt-2">
+          <button onclick="triggerRadar('wer')" id="radar-btn-wer" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-blue-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WER? 👤
+          </button>
+          <button onclick="triggerRadar('was')" id="radar-btn-was" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-rose-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WAS? 💥
+          </button>
+          <button onclick="triggerRadar('wann')" id="radar-btn-wann" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-emerald-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WANN? 📅
+          </button>
+          <button onclick="triggerRadar('wo')" id="radar-btn-wo" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-amber-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WO? 📍
+          </button>
+          <button onclick="triggerRadar('wie')" id="radar-btn-wie" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-purple-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WIE? 🔄
+          </button>
+          <button onclick="triggerRadar('warum')" id="radar-btn-warum" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-yellow-600 text-white shadow hover:scale-105 active:scale-95 text-center">
+            WARUM? ❓
+          </button>
+          <button onclick="triggerRadar('folgen')" id="radar-btn-folgen" class="radar-btn p-3 rounded-xl font-black text-base sm:text-lg transition bg-pink-600 text-white shadow hover:scale-105 active:scale-95 text-center col-span-2 sm:col-span-1">
+            FOLGEN? 🩹
+          </button>
+        </div>
+      </div>
+
+      <!-- Der Text-Monitor zum Scannen -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border-2 border-slate-300 shadow-lg space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="font-sans-ui text-sm font-bold text-slate-500 uppercase tracking-wider">Fallakte: Roller-Unfall an der Schulrampe</span>
+          </div>
+          <span id="radar-status" class="font-sans-ui text-base font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full">
+            Tippe oben eine W-Frage an
+          </span>
+        </div>
+
+        <!-- Der eigentliche Text mit dynamischen Highlight-Spans -->
+        <div class="text-xl sm:text-3xl font-sans-ui text-slate-800 leading-relaxed sm:leading-loose">
+          <span id="scan-wann" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">Am Donnerstag, dem 18. September 2026, gegen 13:15 Uhr</span>, 
+          ereignete sich <span id="scan-wo" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">auf der Rampe vor der Schulturnhalle</span> 
+          ein <span id="scan-was" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">Unfall mit einem Tretroller</span>. 
+          Beteiligt war <span id="scan-wer" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">der elfjährige Schüler Jonas K. aus der Klasse 5b</span>. 
+          <br class="hidden sm:block"><br class="hidden sm:block">
+          <span id="scan-wie" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">Der Junge fuhr die steile Rampe hinab, verlor dabei die Kontrolle über den Lenker und prallte gegen das Geländer</span>. 
+          Ursache des Sturzes war <span id="scan-warum" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">eine nasse Pfütze sowie eine defekte Handbremse am Roller</span>. 
+          <br class="hidden sm:block"><br class="hidden sm:block">
+          <span id="scan-folgen" class="transition-all duration-300 px-1.5 py-0.5 rounded-lg">Jonas zog sich eine Prellung am rechten Ellenbogen zu. Er wurde von der Schulsanitäterin erstversorgt und von seiner Mutter abgeholt</span>.
+        </div>
+
+        <!-- Detail-Kasten für das gescannte W -->
+        <div id="radar-detail-box" class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-between transition-all">
+          <div class="flex items-center gap-3">
+            <span id="radar-detail-icon" class="text-3xl">🔍</span>
+            <div>
+              <div id="radar-detail-title" class="font-black text-lg text-slate-900">Noch keine Frage ausgewählt</div>
+              <div id="radar-detail-desc" class="font-sans-ui text-slate-600 text-base">Klicke oben auf einen der 7 bunten W-Fragen-Knöpfe!</div>
+            </div>
+          </div>
+          <button onclick="revealAllRadar()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base rounded-xl transition shrink-0">
+            Alle markieren ✨
+          </button>
+        </div>
+      </div>
+
+      <!-- ZUSATZ-TOOL: Der "Fakten-Filter" (Unsachliche Wörter wegzaubern) -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-md space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">🧹</span>
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-black text-amber-950">
+              Der Fakten-Filter: Finde & entferne die 3 unsachlichen Wörter!
+            </h3>
+            <p class="text-amber-800 font-sans-ui text-base sm:text-lg">
+              Tippe auf dem Smartboard die 3 Wörter an, die in einem sachlichen Bericht <strong>streng verboten</strong> sind!
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border-2 border-amber-300 text-xl sm:text-2xl font-sans-ui leading-relaxed">
+          „Der <button onclick="filterWord(this, true)" class="filter-word px-2 py-1 bg-amber-100 hover:bg-rose-200 rounded-lg font-bold text-amber-950 border border-amber-300 transition">blöde</button> 
+          Schüler raste mit seinem 
+          <button onclick="filterWord(this, false)" class="filter-word px-2 py-1 hover:bg-slate-100 rounded-lg">Fahrrad</button> 
+          <button onclick="filterWord(this, true)" class="filter-word px-2 py-1 bg-amber-100 hover:bg-rose-200 rounded-lg font-bold text-amber-950 border border-amber-300 transition">wie ein Bekloppter</button> 
+          über den Hof und stürzte 
+          <button onclick="filterWord(this, true)" class="filter-word px-2 py-1 bg-amber-100 hover:bg-rose-200 rounded-lg font-bold text-amber-950 border border-amber-300 transition">zum Totlachen</button> 
+          auf das Pflaster.“
+        </div>
+
+        <div id="filter-feedback" class="hidden p-4 rounded-xl font-sans-ui font-bold text-lg bg-emerald-100 text-emerald-900 border border-emerald-300 animate-pop">
+          🎉 Hervorragend! Alle 3 unsachlichen Ausdrücke entlarvt. Der sachliche Satz lautet: <br>
+          <span class="text-emerald-950 font-black">„Der Schüler fuhr mit hoher Geschwindigkeit mit seinem Fahrrad über den Hof und stürzte auf das Pflaster.“</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 4: GEMEINSAME TAFELAUFGABE: DER EINLEITUNGSSATZ-BAUKASTEN -->
+    <!-- ============================================================ -->
+    <section id="phase-tafel" class="phase-container hidden space-y-8">
+      
+      <!-- Banner -->
+      <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-800 text-white p-6 sm:p-8 rounded-3xl shadow-xl flex items-center justify-between gap-4">
+        <div>
+          <span class="text-sm font-black bg-white/20 px-3 py-1 rounded-full uppercase">
+            Gemeinsam am Smartboard
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black mt-2">
+            Fallakte 2: Unfall am Zebrastreifen 🚸
+          </h2>
+          <p class="text-blue-100 font-sans-ui text-xl max-w-2xl mt-1">
+            Wir erarbeiten den perfekten Einleitungssatz und Hauptteil Schritt für Schritt!
+          </p>
+        </div>
+        <div class="text-6xl sm:text-7xl p-4 bg-white/10 rounded-2xl hidden md:block">
+          📋
+        </div>
+      </div>
+
+      <!-- Schritt 1: Die Zeugenaussage & W-Fragen-Tabelle -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-3">
+          <h3 class="text-2xl sm:text-3xl font-black text-slate-900">
+            Schritt 1: Zeugenaussage analysieren
+          </h3>
+          <span class="text-slate-500 font-sans-ui font-bold text-sm">Plenums-Aufgabe</span>
+        </div>
+
+        <div class="p-5 bg-slate-50 border-2 border-slate-200 rounded-2xl text-xl sm:text-2xl font-sans-ui text-slate-800 italic leading-relaxed">
+          „Ich stand am Montag um kurz vor acht an der Ampel vor der Schule. Da kam ein roter Kleinwagen und hat plötzlich gebremst, weil ein Junge mit Mütze über den Zebrastreifen lief. Der Wagen ist dann ins Rutschen gekommen und gegen den Pfosten gekracht.“
+        </div>
+
+        <!-- Klickbare W-Fragen Tabelle -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- WANN -->
+          <div onclick="revealTafelStep('wann')" class="cursor-pointer p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/50 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-emerald-700 text-lg">WANN? 📅</span>
+              <span id="tafel-tag-wann" class="text-xs font-bold bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded">Aufdecken</span>
+            </div>
+            <div id="tafel-text-wann" class="hidden text-xl font-bold font-sans-ui text-slate-900 mt-2 animate-pop">
+              Am Montag, dem 22. September, um ca. 07:55 Uhr
+            </div>
+          </div>
+
+          <!-- WO -->
+          <div onclick="revealTafelStep('wo')" class="cursor-pointer p-4 rounded-2xl border-2 border-amber-200 bg-amber-50/50 hover:bg-amber-100/50 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-amber-700 text-lg">WO? 📍</span>
+              <span id="tafel-tag-wo" class="text-xs font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">Aufdecken</span>
+            </div>
+            <div id="tafel-text-wo" class="hidden text-xl font-bold font-sans-ui text-slate-900 mt-2 animate-pop">
+              Am Zebrastreifen vor dem Schulzentrum (Schulstraße)
+            </div>
+          </div>
+
+          <!-- WER -->
+          <div onclick="revealTafelStep('wer')" class="cursor-pointer p-4 rounded-2xl border-2 border-blue-200 bg-blue-50/50 hover:bg-blue-100/50 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-blue-700 text-lg">WER? 👤</span>
+              <span id="tafel-tag-wer" class="text-xs font-bold bg-blue-200 text-blue-900 px-2 py-0.5 rounded">Aufdecken</span>
+            </div>
+            <div id="tafel-text-wer" class="hidden text-xl font-bold font-sans-ui text-slate-900 mt-2 animate-pop">
+              Ein Autofahrer im roten Kleinwagen & ein Grundschüler
+            </div>
+          </div>
+
+          <!-- WAS -->
+          <div onclick="revealTafelStep('was')" class="cursor-pointer p-4 rounded-2xl border-2 border-rose-200 bg-rose-50/50 hover:bg-rose-100/50 transition">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-rose-700 text-lg">WAS? 💥</span>
+              <span id="tafel-tag-was" class="text-xs font-bold bg-rose-200 text-rose-900 px-2 py-0.5 rounded">Aufdecken</span>
+            </div>
+            <div id="tafel-text-was" class="hidden text-xl font-bold font-sans-ui text-slate-900 mt-2 animate-pop">
+              Verkehrsunfall / Pkw prallte gegen Ampelpfosten
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Schritt 2: Der interaktive Einleitungssatz-Baukasten -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-3">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">
+              Schritt 2: Der Einleitungssatz-Baukasten 🧩
+            </h3>
+            <p class="text-slate-500 font-sans-ui text-lg">
+              Setze die 4 Bausteine per Fingertipp in der richtigen Reihenfolge zusammen!
+            </p>
+          </div>
+          <button onclick="resetBaukasten()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
+            ↺ Neu anordnen
+          </button>
+        </div>
+
+        <!-- Verfügbare Bausteine -->
+        <div class="space-y-3">
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Verfügbare Bausteine (Antippen zum Einsetzen):</span>
+          <div id="baukasten-pool" class="flex flex-wrap gap-3">
+            <button onclick="useBlock(this, 'wann')" class="bau-block p-4 rounded-2xl bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-950 font-black text-lg sm:text-xl transition active:scale-95">
+              📅 Am Montagmorgen um 07:55 Uhr
+            </button>
+            <button onclick="useBlock(this, 'wo')" class="bau-block p-4 rounded-2xl bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-950 font-black text-lg sm:text-xl transition active:scale-95">
+              📍 an der Schulstraße
+            </button>
+            <button onclick="useBlock(this, 'wer')" class="bau-block p-4 rounded-2xl bg-blue-100 hover:bg-blue-200 border-2 border-blue-300 text-blue-950 font-black text-lg sm:text-xl transition active:scale-95">
+              👤 ein roter Kleinwagen
+            </button>
+            <button onclick="useBlock(this, 'was')" class="bau-block p-4 rounded-2xl bg-rose-100 hover:bg-rose-200 border-2 border-rose-300 text-rose-950 font-black text-lg sm:text-xl transition active:scale-95">
+              💥 gegen einen Ampelpfosten.
+            </button>
+          </div>
+        </div>
+
+        <!-- Das Ergebnis-Band -->
+        <div class="space-y-2 pt-2">
+          <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Zusammengesetzter Einleitungssatz:</span>
+          <div id="baukasten-result" class="min-h-[70px] p-4 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-wrap items-center gap-2 text-xl sm:text-2xl font-sans-ui text-slate-900 font-bold">
+            <span id="baukasten-placeholder" class="text-slate-400 font-normal italic">Tippe die Bausteine oben der Reihe nach an...</span>
+          </div>
+        </div>
+
+        <div id="baukasten-check-box" class="hidden pt-2 animate-pop">
+          <button onclick="checkBaukasten()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xl rounded-2xl shadow-lg transition">
+            Fertigen Einleitungssatz überprüfen! ✔️
+          </button>
+        </div>
+
+        <div id="baukasten-feedback" class="hidden p-4 rounded-2xl font-sans-ui text-xl font-bold"></div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 5: ÜBUNGEN & MUSTER-HEFTAUFSCHRIEB                     -->
+    <!-- ============================================================ -->
+    <section id="phase-training" class="phase-container hidden space-y-8">
+      
+      <!-- Phasen-Kopfzeile -->
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <span class="text-sm font-black text-purple-700 bg-purple-100 px-3 py-1 rounded-full uppercase">
+            Plenums-Training & Transfer
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-1">
+            3 Trainingsfälle & der saubere Heftaufschrieb
+          </h2>
+        </div>
+        <button onclick="toggleHeftaufschrieb()" id="heftaufschrieb-btn" class="px-6 py-3.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border-2 border-emerald-300 font-black text-lg sm:text-xl rounded-2xl transition flex items-center gap-2 shadow-sm">
+          <span>📖</span>
+          <span id="heftaufschrieb-btn-text">Muster-Heftaufschrieb anzeigen</span>
+        </button>
+      </div>
+
+      <!-- DIE 3 TRAININGSFÄLLE -->
+      <div class="space-y-6">
+        
+        <!-- FALL 1 -->
+        <div id="train-card-1" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="bg-indigo-100 text-indigo-800 font-black px-3 py-1 rounded-xl text-base">Fall 1</span>
+              <h3 class="text-2xl sm:text-3xl font-black text-slate-900">Der zerbrochene Blumentopf im Flur</h3>
+            </div>
+            <span class="text-2xl">🪴</span>
+          </div>
+
+          <p class="text-xl sm:text-2xl font-sans-ui text-slate-800 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <em>„Gestern stieß der Schüler Leo mit seinem Rucksack versehentlich gegen den großen Blumentopf, sodass dieser in Scherben fiel.“</em>
+          </p>
+
+          <div class="space-y-3">
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              Frage für die Klasse: Welche wichtige W-Frage fehlt in diesem Berichtssatz völlig?
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans-ui">
+              <button onclick="checkTraining(1, 'a', false, this)" class="t-btn-1 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                A) WER? (Beteiligte Person)
+              </button>
+              <button onclick="checkTraining(1, 'b', true, this)" class="t-btn-1 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                B) WO? (Der genaue Ort)
+              </button>
+              <button onclick="checkTraining(1, 'c', false, this)" class="t-btn-1 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                C) WAS? (Das Geschehen)
+              </button>
+            </div>
+            <div id="train-feedback-1" class="hidden p-4 rounded-xl font-sans-ui font-bold text-lg animate-pop"></div>
+          </div>
+        </div>
+
+        <!-- FALL 2 -->
+        <div id="train-card-2" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="bg-indigo-100 text-indigo-800 font-black px-3 py-1 rounded-xl text-base">Fall 2</span>
+              <h3 class="text-2xl sm:text-3xl font-black text-slate-900">Die richtige Zeitform</h3>
+            </div>
+            <span class="text-2xl">⏳</span>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              Welcher Satz ist im korrekten PRÄTERITUM (Vergangenheit) für einen Bericht formuliert?
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans-ui">
+              <button onclick="checkTraining(2, 'a', false, this)" class="t-btn-2 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                A) Der Hausmeister hat die Feuerwehr gerufen. (Perfekt)
+              </button>
+              <button onclick="checkTraining(2, 'b', true, this)" class="t-btn-2 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                B) Der Hausmeister verständigte die Feuerwehr. (Präteritum)
+              </button>
+              <button onclick="checkTraining(2, 'c', false, this)" class="t-btn-2 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                C) Der Hausmeister ruft sofort die Feuerwehr. (Präsens)
+              </button>
+            </div>
+            <div id="train-feedback-2" class="hidden p-4 rounded-xl font-sans-ui font-bold text-lg animate-pop"></div>
+          </div>
+        </div>
+
+        <!-- FALL 3 -->
+        <div id="train-card-3" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="bg-indigo-100 text-indigo-800 font-black px-3 py-1 rounded-xl text-base">Fall 3</span>
+              <h3 class="text-2xl sm:text-3xl font-black text-slate-900">Sachlichkeit entlarven</h3>
+            </div>
+            <span class="text-2xl">🎯</span>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xl sm:text-2xl font-black text-slate-800">
+              Welcher Einleitungssatz gehört so in die Schülerzeitung / Polizei-Akte?
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-sans-ui">
+              <button onclick="checkTraining(3, 'a', false, this)" class="t-btn-3 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                A) Am Mittwoch gab es einen voll peinlichen Crash, weil Felix zu doof zum Lenken war.
+              </button>
+              <button onclick="checkTraining(3, 'b', true, this)" class="t-btn-3 p-4 bg-white hover:bg-slate-100 border-2 border-slate-200 rounded-2xl text-left text-lg sm:text-xl font-bold transition active:scale-95">
+                B) Am Mittwoch, dem 10. Mai, stieß der Schüler Felix M. auf dem Schulhof mit einem Skateboard zusammen.
+              </button>
+            </div>
+            <div id="train-feedback-3" class="hidden p-4 rounded-xl font-sans-ui font-bold text-lg animate-pop"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- MUSTER-HEFTAUFSCHRIEB (LINIERTES DEUTSCH-SCHULHEFT LOOK)    -->
+      <!-- STRIKT PUR: NUR ECHTER SCHÜLER-AUFSCHRIEB!                  -->
+      <!-- ============================================================ -->
+      <div id="muster-heftaufschrieb-section" class="hidden pt-6 border-t-4 border-dashed border-emerald-200 space-y-4 animate-pop">
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl">📐</span>
+            <h4 class="text-2xl sm:text-3xl font-black text-slate-900">
+              Muster-Heftseite: So gehört es sauber ins Deutsch-Heft!
+            </h4>
+          </div>
+          <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold px-3 py-1 rounded-full text-sm">
+            Schulheft-Vorlage Klasse 5/6
+          </span>
+        </div>
+
+        <!-- LINIERTES HEFT-BLATT (REIN & AUTHENTISCH WIE IM SCHÜLERHEFT) -->
+        <div class="relative bg-white rounded-3xl border-4 border-slate-300 shadow-2xl p-6 sm:p-12 font-heft text-slate-900 text-xl sm:text-2xl leading-relaxed heft-linien">
+          
+          <!-- Roter Rand links wie im echten Schulheft -->
+          <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-rose-400 pointer-events-none hidden sm:block"></div>
+
+          <div class="sm:pl-10 space-y-6 text-blue-950 font-semibold tracking-normal">
+            
+            <!-- Datum & Fach (Kopfzeile) -->
+            <div class="flex items-center justify-between pb-1 border-b border-slate-400/60">
+              <span class="font-sans-ui text-lg text-slate-700">Deutsch</span>
+              <span class="font-sans-ui text-lg text-slate-700">15.09.2026</span>
+            </div>
+
+            <!-- Überschrift (mit Lineal unterstrichen) -->
+            <div>
+              <span class="text-2xl sm:text-3xl font-black text-blue-950 border-b-2 border-blue-950 pb-0.5 inline-block">
+                Einen Unfallbericht verfassen – Die 7 W-Fragen
+              </span>
+            </div>
+
+            <!-- 1. Stichpunkte / Vorbereitung -->
+            <div class="space-y-2">
+              <div class="text-xl sm:text-2xl font-black text-blue-950"><u>1. Notizen zu den 7 W-Fragen:</u></div>
+              <div class="pl-4 sm:pl-6 space-y-1 text-xl sm:text-2xl">
+                <div><strong>Wer?</strong> Tim (12 Jahre, Schüler)</div>
+                <div><strong>Was?</strong> Fahrradsturz</div>
+                <div><strong>Wann?</strong> Dienstag, 15.09.2026, 07:45 Uhr</div>
+                <div><strong>Wo?</strong> Vor dem Schultor (Fahrradständer)</div>
+                <div><strong>Wie?</strong> Fahrrad rutschte auf nassem Laub weg, Tim fiel zu Boden</div>
+                <div><strong>Warum?</strong> Zu hohes Tempo auf rutschigem Untergrund</div>
+                <div><strong>Welche Folgen?</strong> Schürfwunde am linken Knie, verbogene Fahrradklingel</div>
+              </div>
+            </div>
+
+            <!-- 2. Der fertige Bericht -->
+            <div class="space-y-3 pt-2">
+              <div class="text-xl sm:text-2xl font-black text-blue-950"><u>2. Unfallbericht:</u></div>
+              
+              <div class="pl-4 sm:pl-6 space-y-4 text-xl sm:text-2xl text-justify leading-relaxed">
+                <!-- Einleitung -->
+                <p>
+                  Am Dienstag, dem 15. September 2026, ereignete sich gegen 07:45 Uhr vor dem Schultor der Gesamtschule ein Fahrradunfall. Beteiligt war der zwölfjährige Schüler Tim.
+                </p>
+
+                <!-- Hauptteil -->
+                <p>
+                  Der Schüler fuhr mit dem Fahrrad in Richtung der Fahrradständer. Aufgrund von feuchtem Herbstlaub auf dem Asphalt verlor er bei einem Bremsmanöver die Kontrolle über das Vorderrad. Das Rad rutschte zur Seite weg und der Junge stürzte auf den Boden.
+                </p>
+
+                <!-- Schluss -->
+                <p>
+                  Tim zog sich eine leichte Schürfwunde am linken Knie zu, die im Sekretariat mit einem Verband versorgt wurde. Am Fahrrad entstand ein geringer Sachschaden an der Klingel.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: TIMER FREI EINSTELLEN (SMARTBOARD-POPUP)               -->
+  <!-- ============================================================== -->
+  <div id="timer-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border-2 border-slate-200 space-y-6 animate-pop">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="text-2xl font-black text-slate-900 flex items-center gap-2">
+          <span>⏱️</span> Timer einstellen
+        </h3>
+        <button onclick="closeTimerModal()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xl flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <label class="block text-slate-700 font-bold text-lg">Minuten wählen:</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button onclick="setCustomTimer(1)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">1 Min</button>
+          <button onclick="setCustomTimer(3)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">3 Min</button>
+          <button onclick="setCustomTimer(5)" class="p-3 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-emerald-900 font-bold text-lg">5 Min</button>
+          <button onclick="setCustomTimer(10)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">10 Min</button>
+          <button onclick="setCustomTimer(15)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">15 Min</button>
+          <button onclick="setCustomTimer(20)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">20 Min</button>
+          <button onclick="setCustomTimer(30)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">30 Min</button>
+          <button onclick="setCustomTimer(45)" class="p-3 bg-slate-100 hover:bg-emerald-100 border border-slate-300 rounded-xl font-bold text-lg">45 Min</button>
+        </div>
+      </div>
+
+      <button onclick="closeTimerModal()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-lg transition">
+        Übernehmen & Schließen
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT: LOGIK, AUDIO, TIMER & INTERAKTIONEN                -->
+  <!-- ============================================================== -->
+  <script>
+    // -------------------------------------------------------------
+    // AUDIO ENGINE (Tone.js mit robuster Fallback-Behandlung)
+    // -------------------------------------------------------------
+    let audioEnabled = true;
+    let synth = null;
+    let alertSynth = null;
+
+    function initAudio() {
+      if (synth) return;
+      try {
+        if (typeof Tone !== 'undefined') {
+          synth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.02, decay: 0.1, sustain: 0.2, release: 0.3 }
+          }).toDestination();
+
+          alertSynth = new Tone.MembraneSynth().toDestination();
+        }
+      } catch (e) {
+        console.warn("Audio initialisation fallback", e);
+      }
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('audio-icon');
+      if (audioEnabled) {
+        icon.textContent = '🔊';
+        playSound('click');
+      } else {
+        icon.textContent = '🔇';
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      try {
+        if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') {
+          Tone.start();
+        }
+        initAudio();
+        const now = Tone.now();
+
+        if (type === 'click') {
+          if (synth) synth.triggerAttackRelease("C5", "32n", now, 0.2);
+        } else if (type === 'correct') {
+          if (synth) {
+            synth.triggerAttackRelease(["C5", "E5", "G5"], "16n", now, 0.4);
+            setTimeout(() => {
+              if (synth) synth.triggerAttackRelease(["C6"], "8n");
+            }, 120);
+          }
+        } else if (type === 'wrong') {
+          if (synth) {
+            synth.triggerAttackRelease(["F3", "B2"], "8n", now, 0.3);
+          }
+        } else if (type === 'alert') {
+          if (alertSynth) {
+            alertSynth.triggerAttackRelease("C2", "4n", now, 0.8);
+          }
+        }
+      } catch (e) {
+        // Silent catch for autoplay block
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PUNKTE-SYSTEM & KONFETTI
+    // -------------------------------------------------------------
+    let totalScore = 0;
+    function addScore(points) {
+      totalScore += points;
+      const display = document.getElementById('score-display');
+      display.textContent = `${totalScore} Punkte`;
+      display.parentElement.classList.add('scale-110', 'bg-amber-200');
+      setTimeout(() => {
+        display.parentElement.classList.remove('scale-110', 'bg-amber-200');
+      }, 300);
+    }
+
+    function fireConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // SMARTBOARD-TIMER
+    // -------------------------------------------------------------
+    let timerDuration = 300; // Standard 5 Min
+    let timerRemaining = 300;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimerDisplay() {
+      const display = document.getElementById('smartboard-timer-display');
+      display.textContent = formatTime(timerRemaining);
+
+      if (timerRemaining <= 30 && timerRunning) {
+        display.classList.add('text-rose-600', 'animate-pulse');
+      } else {
+        display.classList.remove('text-rose-600', 'animate-pulse');
+      }
+    }
+
+    function toggleSmartboardTimer() {
+      initAudio();
+      playSound('click');
+      const btn = document.getElementById('timer-toggle-btn');
+
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Start';
+        btn.className = 'text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+      } else {
+        timerRunning = true;
+        btn.textContent = 'Pause';
+        btn.className = 'text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+        timerInterval = setInterval(() => {
+          if (timerRemaining > 0) {
+            timerRemaining--;
+            updateTimerDisplay();
+            if (timerRemaining === 10 || timerRemaining === 5 || timerRemaining === 0) {
+              playSound('alert');
+            }
+            if (timerRemaining === 0) {
+              clearInterval(timerInterval);
+              timerRunning = false;
+              btn.textContent = 'Start';
+              btn.className = 'text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+              fireConfetti();
+            }
+          }
+        }, 1000);
+      }
+    }
+
+    function resetSmartboardTimer() {
+      playSound('click');
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = timerDuration;
+      const btn = document.getElementById('timer-toggle-btn');
+      btn.textContent = 'Start';
+      btn.className = 'text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-lg transition shadow-sm';
+      updateTimerDisplay();
+    }
+
+    function setTimerDuration(seconds) {
+      playSound('click');
+      timerDuration = seconds;
+      resetSmartboardTimer();
+    }
+
+    function adjustTimerSeconds(amount) {
+      playSound('click');
+      timerRemaining = Math.max(10, timerRemaining + amount);
+      updateTimerDisplay();
+    }
+
+    function openTimerModal() {
+      playSound('click');
+      document.getElementById('timer-modal').classList.remove('hidden');
+    }
+
+    function closeTimerModal() {
+      playSound('click');
+      document.getElementById('timer-modal').classList.add('hidden');
+    }
+
+    function setCustomTimer(mins) {
+      setTimerDuration(mins * 60);
+      closeTimerModal();
+    }
+
+    // -------------------------------------------------------------
+    // HEADER-SCHRUMPF-FUNKTION FÜR SMARTBOARD-VOLLBILD
+    // -------------------------------------------------------------
+    let headerCollapsed = false;
+    function toggleHeaderCollapse() {
+      playSound('click');
+      headerCollapsed = !headerCollapsed;
+      const nav = document.getElementById('header-phase-nav');
+      const presets = document.getElementById('header-timer-presets');
+      const icon = document.getElementById('collapse-icon');
+      const text = document.getElementById('collapse-text');
+
+      if (headerCollapsed) {
+        nav.classList.add('hidden');
+        presets.classList.add('hidden');
+        icon.textContent = '▼';
+        text.textContent = 'Erweitern';
+      } else {
+        nav.classList.remove('hidden');
+        presets.classList.remove('hidden');
+        icon.textContent = '▲';
+        text.textContent = 'Schrumpfen';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASEN-NAVIGATION
+    // -------------------------------------------------------------
+    function switchPhase(phaseId) {
+      playSound('click');
+      document.querySelectorAll('.phase-container').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.phase-nav-btn').forEach(btn => {
+        btn.className = 'phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-white text-slate-700 hover:bg-slate-200 border border-slate-200 flex items-center gap-2 whitespace-nowrap';
+      });
+
+      const targetSection = document.getElementById(`phase-${phaseId}`);
+      if (targetSection) targetSection.classList.remove('hidden');
+
+      const targetBtn = document.getElementById(`nav-phase-${phaseId}`);
+      if (targetBtn) {
+        targetBtn.className = 'phase-nav-btn px-4 py-2 rounded-xl text-sm sm:text-base font-bold transition bg-emerald-600 text-white shadow flex items-center gap-2 whitespace-nowrap';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 1: SZENEN-PLAYER LOGIK
+    // -------------------------------------------------------------
+    let currentScene = 1;
+    function revealNextScene() {
+      playSound('click');
+      currentScene++;
+      if (currentScene === 2) {
+        const card2 = document.getElementById('scene-card-2');
+        card2.classList.remove('opacity-40');
+        card2.classList.add('animate-pop', 'ring-2', 'ring-rose-400');
+      } else if (currentScene === 3) {
+        const card3 = document.getElementById('scene-card-3');
+        card3.classList.remove('opacity-40');
+        card3.classList.add('animate-pop', 'ring-2', 'ring-emerald-400');
+        document.getElementById('scene-question-box').classList.remove('hidden');
+        document.getElementById('scene-next-btn').classList.add('hidden');
+        addScore(10);
+      }
+    }
+
+    function checkEinstiegAnswer(isCorrect, btn) {
+      const box = document.getElementById('einstieg-feedback');
+      box.classList.remove('hidden');
+      if (isCorrect) {
+        playSound('correct');
+        fireConfetti();
+        addScore(20);
+        box.className = 'font-sans-ui text-xl font-bold p-4 rounded-xl bg-emerald-100 text-emerald-950 border-2 border-emerald-300 animate-pop';
+        box.innerHTML = '🎉 Vollkommen richtig! Im Bericht gibt es keine Beleidigungen oder Übertreibungen. Ein Bericht hält sich sachlich, knapp und genau an die Fakten der W-Fragen.';
+        btn.classList.add('bg-emerald-100', 'border-emerald-500');
+      } else {
+        playSound('wrong');
+        box.className = 'font-sans-ui text-xl font-bold p-4 rounded-xl bg-rose-100 text-rose-950 border-2 border-rose-300 animate-pop';
+        box.innerHTML = '❌ Vorsicht! Gefühle und Beschimpfungen haben in einem sachlichen Bericht nichts zu suchen. Versuche es noch einmal!';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 2: W-FRAGEN AUFDECKEN
+    // -------------------------------------------------------------
+    function revealSingleW(id) {
+      playSound('click');
+      const content = document.getElementById(`w-content-${id}`);
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        addScore(5);
+      } else {
+        content.classList.add('hidden');
+      }
+    }
+
+    function revealAllWQuestions() {
+      playSound('correct');
+      for (let i = 1; i <= 7; i++) {
+        const content = document.getElementById(`w-content-${i}`);
+        if (content) content.classList.remove('hidden');
+      }
+      addScore(25);
+    }
+
+    function resetWQuestions() {
+      playSound('click');
+      for (let i = 1; i <= 7; i++) {
+        const content = document.getElementById(`w-content-${i}`);
+        if (content) content.classList.add('hidden');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 3: W-FRAGEN-RADAR & SCANNER
+    // -------------------------------------------------------------
+    const radarData = {
+      'wer': {
+        elemId: 'scan-wer',
+        title: 'WER? (Beteiligte Person)',
+        desc: 'Der elfjährige Schüler Jonas K. aus der Klasse 5b',
+        colorClass: 'bg-blue-200 text-blue-950 ring-2 ring-blue-500 font-bold'
+      },
+      'was': {
+        elemId: 'scan-was',
+        title: 'WAS? (Das Geschehen)',
+        desc: 'Unfall mit einem Tretroller',
+        colorClass: 'bg-rose-200 text-rose-950 ring-2 ring-rose-500 font-bold'
+      },
+      'wann': {
+        elemId: 'scan-wann',
+        title: 'WANN? (Zeitpunkt & Datum)',
+        desc: 'Am Donnerstag, dem 18. September 2026, gegen 13:15 Uhr',
+        colorClass: 'bg-emerald-200 text-emerald-950 ring-2 ring-emerald-500 font-bold'
+      },
+      'wo': {
+        elemId: 'scan-wo',
+        title: 'WO? (Ort)',
+        desc: 'Auf der Rampe vor der Schulturnhalle',
+        colorClass: 'bg-amber-200 text-amber-950 ring-2 ring-amber-500 font-bold'
+      },
+      'wie': {
+        elemId: 'scan-wie',
+        title: 'WIE? (Hergang & Ablauf)',
+        desc: 'Fuhr Rampe hinab, verlor Kontrolle über Lenker, prallte gegen Geländer',
+        colorClass: 'bg-purple-200 text-purple-950 ring-2 ring-purple-500 font-bold'
+      },
+      'warum': {
+        elemId: 'scan-warum',
+        title: 'WARUM? (Ursache / Grund)',
+        desc: 'Nasse Pfütze sowie defekte Handbremse am Roller',
+        colorClass: 'bg-yellow-200 text-yellow-950 ring-2 ring-yellow-500 font-bold'
+      },
+      'folgen': {
+        elemId: 'scan-folgen',
+        title: 'WELCHE FOLGEN? (Schäden & Hilfe)',
+        desc: 'Prellung am rechten Ellenbogen, Erstversorgung durch Schulsanitäterin',
+        colorClass: 'bg-pink-200 text-pink-950 ring-2 ring-pink-500 font-bold'
+      }
+    };
+
+    function triggerRadar(key) {
+      playSound('click');
+      const item = radarData[key];
+      if (!item) return;
+
+      const span = document.getElementById(item.elemId);
+      const title = document.getElementById('radar-detail-title');
+      const desc = document.getElementById('radar-detail-desc');
+      const status = document.getElementById('radar-status');
+
+      // Toggle Highlight
+      if (span.classList.contains('ring-2')) {
+        span.className = 'transition-all duration-300 px-1.5 py-0.5 rounded-lg';
+      } else {
+        span.className = `transition-all duration-300 px-1.5 py-0.5 rounded-lg animate-pop ${item.colorClass}`;
+        title.textContent = item.title;
+        desc.textContent = item.desc;
+        status.textContent = `Erkannt: ${key.toUpperCase()}`;
+        addScore(10);
+      }
+    }
+
+    function revealAllRadar() {
+      playSound('correct');
+      Object.keys(radarData).forEach(key => {
+        const item = radarData[key];
+        const span = document.getElementById(item.elemId);
+        span.className = `transition-all duration-300 px-1.5 py-0.5 rounded-lg ${item.colorClass}`;
+      });
+      document.getElementById('radar-status').textContent = 'Alle 7 W-Fragen gescannt!';
+      document.getElementById('radar-detail-title').textContent = 'Kompletter Scanner-Scan aktiv';
+      document.getElementById('radar-detail-desc').textContent = 'Alle W-Informationen sind farblich markiert.';
+      addScore(35);
+      fireConfetti();
+    }
+
+    function resetRadarScanner() {
+      playSound('click');
+      Object.keys(radarData).forEach(key => {
+        const item = radarData[key];
+        const span = document.getElementById(item.elemId);
+        span.className = 'transition-all duration-300 px-1.5 py-0.5 rounded-lg';
+      });
+      document.getElementById('radar-status').textContent = 'Tippe oben eine W-Frage an';
+      document.getElementById('radar-detail-title').textContent = 'Noch keine Frage ausgewählt';
+      document.getElementById('radar-detail-desc').textContent = 'Klicke oben auf einen der 7 bunten W-Fragen-Knöpfe!';
+    }
+
+    // Fakten-Filter
+    let filteredBadWords = 0;
+    function filterWord(btn, isBad) {
+      if (isBad) {
+        playSound('correct');
+        btn.classList.add('line-through', 'bg-rose-200', 'text-rose-900', 'pointer-events-none');
+        filteredBadWords++;
+        addScore(15);
+        if (filteredBadWords === 3) {
+          fireConfetti();
+          document.getElementById('filter-feedback').classList.remove('hidden');
+        }
+      } else {
+        playSound('wrong');
+        btn.classList.add('bg-slate-200');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 4: GEMEINSAME TAFELAUFGABE & BAUKASTEN
+    // -------------------------------------------------------------
+    function revealTafelStep(step) {
+      playSound('click');
+      const text = document.getElementById(`tafel-text-${step}`);
+      const tag = document.getElementById(`tafel-tag-${step}`);
+      if (text.classList.contains('hidden')) {
+        text.classList.remove('hidden');
+        tag.textContent = 'Aufgedeckt ✔️';
+        tag.className = 'text-xs font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded';
+        addScore(10);
+      }
+    }
+
+    let baukastenSequence = [];
+    function useBlock(btn, type) {
+      playSound('click');
+      btn.classList.add('opacity-30', 'pointer-events-none');
+      baukastenSequence.push({ type, text: btn.textContent.trim() });
+
+      renderBaukasten();
+    }
+
+    function renderBaukasten() {
+      const res = document.getElementById('baukasten-result');
+      const checkBtn = document.getElementById('baukasten-check-box');
+
+      if (baukastenSequence.length === 0) {
+        res.innerHTML = '<span id="baukasten-placeholder" class="text-slate-400 font-normal italic">Tippe die Bausteine oben der Reihe nach an...</span>';
+        checkBtn.classList.add('hidden');
+        return;
+      }
+
+      res.innerHTML = '';
+      baukastenSequence.forEach(item => {
+        const span = document.createElement('span');
+        span.className = 'px-3 py-1.5 rounded-xl bg-white border border-slate-300 shadow-sm animate-pop';
+        span.textContent = item.text;
+        res.appendChild(span);
+      });
+
+      if (baukastenSequence.length === 4) {
+        checkBtn.classList.remove('hidden');
+      } else {
+        checkBtn.classList.add('hidden');
+      }
+    }
+
+    function resetBaukasten() {
+      playSound('click');
+      baukastenSequence = [];
+      document.querySelectorAll('.bau-block').forEach(b => {
+        b.classList.remove('opacity-30', 'pointer-events-none');
+      });
+      document.getElementById('baukasten-feedback').classList.add('hidden');
+      renderBaukasten();
+    }
+
+    function checkBaukasten() {
+      const feedback = document.getElementById('baukasten-feedback');
+      feedback.classList.remove('hidden');
+
+      // Einleitungssatz: WANN oder WO zuerst, gefolgt von WAS / WER
+      const first = baukastenSequence[0].type;
+      const last = baukastenSequence[3].type;
+
+      if ((first === 'wann' || first === 'wo') && last === 'was') {
+        playSound('correct');
+        fireConfetti();
+        addScore(30);
+        feedback.className = 'p-4 rounded-2xl font-sans-ui text-xl font-bold bg-emerald-100 text-emerald-950 border-2 border-emerald-300 animate-pop';
+        feedback.innerHTML = '🌟 Ausgezeichnet! Der Satz beantwortet sofort Wann, Wo, Wer und Was im ersten Satz. Genau so gehört ein starker Einleitungssatz!';
+      } else {
+        playSound('wrong');
+        feedback.className = 'p-4 rounded-2xl font-sans-ui text-xl font-bold bg-amber-100 text-amber-950 border-2 border-amber-300 animate-pop';
+        feedback.innerHTML = '💡 Tipp: Am besten beginnt die Einleitung mit <strong>Wann</strong> (<em>Am Montagmorgen um 07:55 Uhr...</em>) oder <strong>Wo</strong> (<em>An der Schulstraße...</em>) und endet mit dem Geschehen!';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // PHASE 5: ÜBUNGEN & HEFTAUFSCHRIEB
+    // -------------------------------------------------------------
+    function checkTraining(caseNum, opt, isCorrect, btn) {
+      const box = document.getElementById(`train-feedback-${caseNum}`);
+      box.classList.remove('hidden');
+
+      document.querySelectorAll(`.t-btn-${caseNum}`).forEach(b => {
+        b.classList.remove('ring-4', 'ring-emerald-500', 'ring-rose-400');
+      });
+
+      if (isCorrect) {
+        playSound('correct');
+        fireConfetti();
+        addScore(25);
+        btn.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50');
+        box.className = 'p-4 rounded-xl font-sans-ui font-bold text-lg bg-emerald-100 text-emerald-950 border-2 border-emerald-300 animate-pop';
+        
+        if (caseNum === 1) {
+          box.innerHTML = '🎉 Richtig! Es wird überhaupt nicht gesagt, <strong>WO</strong> der Unfall passierte (in welchem Flur, in welchem Stockwerk?). Das ist eine entscheidende Lücke!';
+        } else if (caseNum === 2) {
+          box.innerHTML = '🎉 Super erkannt! <em>„verständigte“</em> ist das Präteritum (einfache Vergangenheit). Im Bericht verwenden wir immer das Präteritum!';
+        } else if (caseNum === 3) {
+          box.innerHTML = '🎉 Perfekt! Satz B nennt nüchtern und sachlich Zeit, Ort, Person und Geschehen – ohne abwertende Wörter.';
+        }
+      } else {
+        playSound('wrong');
+        btn.classList.add('ring-4', 'ring-rose-400', 'bg-rose-50');
+        box.className = 'p-4 rounded-xl font-sans-ui font-bold text-lg bg-rose-100 text-rose-950 border-2 border-rose-300 animate-pop';
+        box.innerHTML = '❌ Leider nicht ganz richtig. Überlege noch einmal gemeinsam mit deiner Klasse!';
+      }
+    }
+
+    function toggleHeftaufschrieb() {
+      playSound('click');
+      const section = document.getElementById('muster-heftaufschrieb-section');
+      const text = document.getElementById('heftaufschrieb-btn-text');
+      
+      if (section.classList.contains('hidden')) {
+        section.classList.remove('hidden');
+        text.textContent = 'Muster-Heftseite einklappen ▲';
+        addScore(15);
+        section.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        section.classList.add('hidden');
+        text.textContent = 'Muster-Heftaufschrieb anzeigen';
+      }
+    }
+
+    // Initialisierung
+    updateTimerDisplay();
+  </script>
+</body>
+</html>
